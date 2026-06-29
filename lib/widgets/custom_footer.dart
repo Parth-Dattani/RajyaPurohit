@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../constant/app_colors.dart';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constant/app_colors.dart';
 
@@ -12,7 +18,7 @@ class CustomFooter extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      color: const Color(0xFF4A0E17), // સ્ક્રીનશોટ મુજબ ઘાટો ડાર્ક મરૂન કલર
+      color: AppColors.footerBackground, // ✅ અપડેટેડ: ગ્લોબલ ફૂટર ડાર્ક બેકગ્રાઉન્ડ
       padding: EdgeInsets.symmetric(
         horizontal: isWeb ? screenWidth * 0.08 : 24.0,
         vertical: 60.0,
@@ -48,14 +54,14 @@ class CustomFooter extends StatelessWidget {
         ),
         const SizedBox(width: 40),
 
-        // コલમ ૩: ગૂગલ મેપ પ્લેસહોલ્ડર
+        // કોલમ ૩: ગૂગલ મેપ પ્લેસહોલ્ડર
         Expanded(
           flex: 5,
           child: _buildMapColumn(),
         ),
         const SizedBox(width: 40),
 
-        // કોલમ ૪: યેલો એડ્રેસ કાર્ડ (૧૦૦% કટોકટ લુક)
+        // કોલમ ૪: યેલો એડ્રેસ કાર્ડ
         Expanded(
           flex: 6,
           child: _buildAddressCard(),
@@ -91,7 +97,7 @@ class CustomFooter extends StatelessWidget {
             textStyle: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: AppColors.footerHeading, // ✅ અપડેટેડ
             ),
           ),
         ),
@@ -101,7 +107,7 @@ class CustomFooter extends StatelessWidget {
           style: GoogleFonts.notoSansGujarati(
             textStyle: TextStyle(
               fontSize: 14,
-              color: Colors.white.withOpacity(0.6),
+              color: AppColors.footerText, // ✅ અપડેટેડ
               height: 1.5,
             ),
           ),
@@ -133,7 +139,7 @@ class CustomFooter extends StatelessWidget {
           shape: BoxShape.circle,
           border: Border.all(color: Colors.white24),
         ),
-        child: Icon(icon, color: Colors.white70, size: 18),
+        child:  Icon(icon, color: AppColors.footerIcon, size: 18), // ✅ અપડેટેડ
       ),
     );
   }
@@ -165,11 +171,25 @@ class CustomFooter extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          if (title == 'હોમ') {
+            Get.offAllNamed('/HomeScreen');
+          } else if (title == 'અમારા વિષે') {
+            Get.toNamed('/AboutScreen');
+          } else if (title == 'મેમ્બરશીપ') {
+            Get.toNamed('/MembershipScreen');
+          } else if (title == 'અમારો ઉદ્દેશ') {
+            Get.toNamed('/MissionScreen');
+          } else if (title == 'અમારી ટીમ') {
+            Get.toNamed('/TeamScreen');
+          } else if (title == 'સંપર્ક') {
+            Get.toNamed('/ContactScreen');
+          }
+        },
         child: Text(
           title,
           style: GoogleFonts.notoSansGujarati(
-            textStyle: TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.7)),
+            textStyle: TextStyle(fontSize: 14, color: AppColors.footerText.withOpacity(0.8)), // ✅ અપડેટેડ
           ),
         ),
       ),
@@ -193,16 +213,16 @@ class CustomFooter extends StatelessWidget {
           child: Container(
             height: 180,
             width: double.infinity,
-            color: Colors.white70,
+            color: Colors.white.withOpacity(0.1), // ✅ અપડેટેડ: ડાર્ક થીમ અનુકૂળ પ્લેસહોલ્ડર
             alignment: Alignment.center,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 Icon(Icons.map, color: Colors.white70, size: 40),
+                const Icon(Icons.map, color: AppColors.footerIcon, size: 40), // ✅ અપડેટેડ
                 const SizedBox(height: 10),
                 Text(
                   'Open in Maps',
-                  style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 13),
+                  style: TextStyle(color: AppColors.footerText.withOpacity(0.7), fontSize: 13), // ✅ અપડેટેડ
                 )
               ],
             ),
@@ -212,24 +232,24 @@ class CustomFooter extends StatelessWidget {
     );
   }
 
-  // 🔹 કોલમ ૪: પીળું સરનામું કાર્ડ
+  // 🔹 કોલમ ૪: ગોલ્ડન સરનામું કાર્ડ
   Widget _buildAddressCard() {
     return Container(
       padding: const EdgeInsets.all(24.0),
       decoration: BoxDecoration(
-        color: AppColors.btnYellow, // ગ્લોબલ યેલો/ગોલ્ડન કલર
+        color: AppColors.buttonSecondary, // ✅ અપડેટેડ: ગ્લોબલ સેકન્ડરી ગોલ્ડન/પીળો
         borderRadius: BorderRadius.circular(4),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'ગુજરાત રાજ્યપુરોહિત સમાજ',
+            'ગુજરાતamp; રાજ્યપુરોહિત સમાજ',
             style: GoogleFonts.notoSansGujarati(
               textStyle: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: AppColors.textMaroon,
+                color: AppColors.primary, // ✅ અપડેટેડ: ડાર્ક પ્રાઈમરી ટેક્સ્ટ
               ),
             ),
           ),
@@ -238,7 +258,7 @@ class CustomFooter extends StatelessWidget {
           _buildAddressRow(Icons.email, 'info@rayapurohitonline.in'),
           _buildAddressRow(
             Icons.location_on,
-            'ગુજરાત રાજ્યપુરોહિત સમાજ,\nજામનગર - 361006. ગુજરાત. ઇન્ડિયા.',
+            'ગુજરાત રાજ્યપુરોહિત સમાજ,\nમહાજન વાડી, પંચેશ્વર ટાવર,\nજામનગર - ૩૬૧૦૦૧. ગુજરાત. ઇન્ડિયા.',
           ),
         ],
       ),
@@ -251,7 +271,7 @@ class CustomFooter extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 16, color: AppColors.textMaroon),
+          Icon(icon, size: 16, color: AppColors.primary), // ✅ અપડેટેડ
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -260,7 +280,7 @@ class CustomFooter extends StatelessWidget {
                 textStyle: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textMaroon,
+                  color: AppColors.primary, // ✅ અપડેટેડ
                   height: 1.4,
                 ),
               ),
@@ -274,7 +294,7 @@ class CustomFooter extends StatelessWidget {
   // 🔹 બોટમ કોપીરાઈટ અને ક્રાફ્ટેડ બાય લીંક
   Widget _buildBottomBar(bool isWeb) {
     final textStyle = GoogleFonts.notoSansGujarati(
-      textStyle: TextStyle(fontSize: 13, color: Colors.white.withOpacity(0.4)),
+      textStyle: TextStyle(fontSize: 13, color: AppColors.footerText.withOpacity(0.4)), // ✅ અપડેટેડ
     );
 
     final content = [
@@ -285,7 +305,7 @@ class CustomFooter extends StatelessWidget {
       if (isWeb) const Spacer(),
       if (!isWeb) const SizedBox(height: 10),
       Text(
-        'Crafted by iNTELLIGENT tECH', // તમારા નવા બ્રાન્ડ નેમ સાથે પ્રોફેશનલ ટચ
+        'Crafted by iNTELLIGENT tECH',
         style: textStyle,
       ),
     ];

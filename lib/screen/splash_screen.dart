@@ -5,6 +5,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart'; // ગૂગલ ફોન્ટ્સ
 import '../controllers/splash_controller.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'dart:math' as math; // ➔ ✅ મેથ એનિમેશન માટે જરૂરી ઈમ્પોર્ટ ઉમેર્યું ભાઈ
+import '../constant/app_colors.dart';
+
 class SplashScreen extends GetView<SplashController> {
   static const pageId = "/SplashScreen";
   const SplashScreen({super.key});
@@ -33,7 +40,7 @@ class SplashScreen extends GetView<SplashController> {
       child: Scaffold(
         body: Container(
           decoration: const BoxDecoration(
-            color: Color(0xFFF9F6EE), // Premium Cream background
+            color: AppColors.background, // ➔ ✅ અપડેટેડ: ગ્લોબલ સરફેસ બેકગ્રાઉન્ડ
           ),
           child: Center(
             child: Stack(
@@ -41,12 +48,12 @@ class SplashScreen extends GetView<SplashController> {
               children: [
                 // --- LAYER 1: BASE OUTLINE TEXT ---
                 Text(
-                  'RAJYAPUROHIT', // ✅ બદલાયેલું નામ
+                  'RAJYAPUROHIT',
                   style: textStyle.copyWith(
                     foreground: Paint()
                       ..style = PaintingStyle.stroke
                       ..strokeWidth = 1.5 // Sharp clean outline
-                      ..color = const Color(0xFFFF4500), // Orange-Red
+                      ..color = AppColors.accent, // ➔ ✅ અપડેટેડ: ગ્લોબલ એક્સેન્ટ ગોલ્ડન/ઓરેન્જ
                   ),
                 ),
 
@@ -60,9 +67,9 @@ class SplashScreen extends GetView<SplashController> {
                         shiftValue: controller.waveShiftAnimation.value,
                       ),
                       child: Text(
-                        'RAJYAPUROHIT', // ✅ બદલાયેલું નામ
+                        'RAJYAPUROHIT',
                         style: textStyle.copyWith(
-                          color: const Color(0xFFFF4500), // Solid Fill inside text
+                          color: AppColors.accent, // ➔ ✅ અપડેટેડ: ગ્લોબલ એક્સેન્ટ સોલિડ ફિલ
                         ),
                       ),
                     );

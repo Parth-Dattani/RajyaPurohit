@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rajya_purohit/screen/screen.dart';
 import '../controllers/home_controller.dart';
 import '../constant/app_colors.dart';
 import '../widgets/widgets.dart'; // ✅ ગ્લોબલ કલર્સ ફાઈલ ઈમ્પોર્ટ કરી
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../constant/app_colors.dart';
+import '../widgets/custom_app_bar.dart';
+import '../widgets/custom_footer.dart';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../constant/app_colors.dart';
+import '../widgets/custom_app_bar.dart';
+import '../widgets/custom_footer.dart';
 
 class HomeScreen extends GetView<HomeController> {
   static const pageId = "/HomeScreen";
@@ -15,69 +30,19 @@ class HomeScreen extends GetView<HomeController> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: AppColors.bgCream, // ✅ ગ્લોબલ કલર યુઝ કર્યો
-      appBar: _buildAppBar(isWeb),
+      backgroundColor: AppColors.background, // ✅ અપડેટેડ: ગ્લોબલ સરફેસ બેકગ્રાઉન્ડ
+      appBar: const CustomAppBar(),
+      drawer: !isWeb ? const CustomMobileDrawer() : null,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildHeroSection(isWeb),       // ================== SECTION 1 ==================
-            _buildSolutionsSection(isWeb, screenWidth), // ================== SECTION 2 ==================
-            _buildMissionSection(isWeb),
-            _buildStepsSection(isWeb, screenWidth),
-            _buildFaqSection(isWeb, screenWidth),
+            _buildHeroSection(isWeb),                       // ================== SECTION 1 ==================
+            _buildSolutionsSection(isWeb, screenWidth),     // ================== SECTION 2 ==================
+            _buildMissionSection(isWeb),                    // ================== SECTION 3 ==================
+            _buildStepsSection(isWeb, screenWidth),         // ================== SECTION 4 ==================
+            _buildFaqSection(isWeb, screenWidth),           // ================== SECTION 5 ==================
             const CustomFooter(),
           ],
-        ),
-      ),
-    );
-  }
-
-  // ==========================================
-  // APP BAR MODULE
-  // ==========================================
-  PreferredSizeWidget _buildAppBar(bool isWeb) {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0.5,
-      title: Text(
-        'RAJYAPUROHITONLINE.IN',
-        style: GoogleFonts.cinzel(
-          textStyle: const TextStyle(
-            color: AppColors.textOrange, // ✅ ગ્લોબલ કલર
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
-      ),
-      actions: isWeb
-          ? [
-        _buildHeaderMenu('હોમ'),
-        _buildHeaderMenu('અમારા વિષે'),
-        _buildHeaderMenu('મેમ્બરશીપ'),
-        _buildHeaderMenu('અમારી ટીમ'),
-        _buildHeaderMenu('સંપર્ક'),
-        const SizedBox(width: 20),
-      ]
-          : null,
-    );
-  }
-
-  Widget _buildHeaderMenu(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      child: Center(
-        child: GestureDetector(
-          onTap: () => controller.changeMenu(title),
-          child: Obx(() => Text(
-            title,
-            style: TextStyle(
-              color: controller.selectedMenu.value == title
-                  ? AppColors.textOrange  // ✅ ગ્લોબલ કલર
-                  : AppColors.textMaroon, // ✅ ગ્લોબલ કલર
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
-            ),
-          )),
         ),
       ),
     );
@@ -88,14 +53,13 @@ class HomeScreen extends GetView<HomeController> {
   // ==========================================
   Widget _buildHeroSection(bool isWeb) {
     return Container(
-      color: AppColors.bgCream,
+      color: AppColors.background, // ✅ અપડેટેડ
       child: isWeb ? _buildHeroWebLayout() : _buildHeroMobileLayout(),
     );
   }
 
   Widget _buildHeroWebLayout() {
     return Container(
-      // ✅ મોટી સ્ક્રીન પર લાઈનિંગ ખરાબ ન થાય એટલે લિમિટેડ મિનિમમ હાઇટ સેટ કરી (No Text Drop)
       constraints: const BoxConstraints(
         minHeight: 650,
         maxHeight: 750,
@@ -103,24 +67,21 @@ class HomeScreen extends GetView<HomeController> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Left Side Text Block - (૧૧ flex નો બેસ્ટ વિડ્થ રેશિયો)
           Expanded(
             flex: 11,
             child: Container(
-              alignment: Alignment.center, // ✅ આ આખા ડાબી બાજુના બ્લોકને હંમેશા મિડલમાં રાખશે
+              alignment: Alignment.center,
               padding: const EdgeInsets.only(left: 80.0, top: 40.0, bottom: 40.0, right: 40.0),
               child: _buildHeroLeftContentWeb(),
             ),
           ),
-
-          // Right Side Image Container - (૯ flex નો રેશિયો અને ઇમેજ પ્રોપર ફિટ)
           Expanded(
             flex: 9,
             child: Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.bgCream,
+                    AppColors.background, // ✅ અપડેટેડ
                     Color(0xFFF5A65B),
                     Color(0xFFD46A13),
                   ],
@@ -128,7 +89,7 @@ class HomeScreen extends GetView<HomeController> {
                   end: Alignment.centerRight,
                 ),
               ),
-              child: _buildHeroRightImage(BoxFit.cover, Alignment.topCenter), // ફોટો આખો કવર કરશે
+              child: _buildHeroRightImage(BoxFit.cover, Alignment.topCenter),
             ),
           ),
         ],
@@ -163,7 +124,7 @@ class HomeScreen extends GetView<HomeController> {
           height: 480,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [AppColors.bgCream, Color(0xFFF5A65B)], // ગ્રેડિએન્ટ સ્ટાર્ટ ક્રીમ થી
+              colors: [AppColors.background, Color(0xFFF5A65B)], // ✅ અપડેટેડ
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -177,8 +138,8 @@ class HomeScreen extends GetView<HomeController> {
   Widget _buildHeroLeftContentWeb() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center, // બધું લખાણ એક સાથે પ્રોપર સેન્ટરમાં લોક થશે
-      mainAxisSize: MainAxisSize.min, // વધારાની સ્પેસ રોકશે નહીં
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           'ગુજરાત રાજ્યપુરોહિત સમાજમાં',
@@ -186,7 +147,7 @@ class HomeScreen extends GetView<HomeController> {
             textStyle: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
-              color: AppColors.textMaroon, // ✅ ગ્લોબલ કલર
+              color: AppColors.heading, // ✅ અપડેટેડ
               letterSpacing: 0.5,
             ),
           ),
@@ -205,28 +166,28 @@ class HomeScreen extends GetView<HomeController> {
             children: const [
               TextSpan(
                 text: 'તમારી\n',
-                style: TextStyle(color: AppColors.textMaroon), // ✅ ગ્લોબલ કલર
+                style: TextStyle(color: AppColors.heading), // ✅ અપડેટેડ
               ),
               TextSpan(
                 text: 'ઈ-મેમ્બરશીપ\n',
-                style: TextStyle(color: AppColors.textOrange), // ✅ ગ્લોબલ કલર
+                style: TextStyle(color: AppColors.accent), // ✅ અપડેટેડ: ગોલ્ડન એક્સેન્ટ કલર
               ),
               TextSpan(
                 text: 'એક્ટીવેટ કરો.',
-                style: TextStyle(color: AppColors.textMaroon), // ✅ ગ્લોબલ કલર
+                style: TextStyle(color: AppColors.heading), // ✅ અપડેટેડ
               ),
             ],
           ),
         ),
 
-        const SizedBox(height: 60), // જલારામ બાપાવાળી ઓરિજિનલ સાઇટ જેવો પ્રોપર ગેપ
+        const SizedBox(height: 60),
 
         Text(
           'ગુજરાત રાજ્યપુરોહિત સમાજનું એકીકરણ અને વિકાસ માટે જોડાઓ. તમારી માહિતી નોંધાવી સમાજની ડિજિટલ ઓળખ બનાવી શકશો.',
           style: GoogleFonts.baloo2(
             textStyle: const TextStyle(
               fontSize: 16,
-              color: AppColors.textMaroon, // ✅ ગ્લોબલ કલર
+              color: AppColors.body, // ✅ અપડેટેડ: બોડી ટેક્સ્ટ કલર
               fontWeight: FontWeight.w500,
               height: 1.4,
             ),
@@ -248,7 +209,7 @@ class HomeScreen extends GetView<HomeController> {
             textStyle: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: AppColors.textMaroon, // ✅ ગ્લોબલ કલર
+              color: AppColors.heading, // ✅ અપડેટેડ
             ),
           ),
         ),
@@ -265,26 +226,26 @@ class HomeScreen extends GetView<HomeController> {
             children: const [
               TextSpan(
                 text: 'તમારી\n',
-                style: TextStyle(color: AppColors.textMaroon), // ✅ ગ્રાન્ડ મરૂન
+                style: TextStyle(color: AppColors.heading), // ✅ અપડેટેડ
               ),
               TextSpan(
                 text: 'ઈ-મેમ્બરશીપ\n',
-                style: TextStyle(color: AppColors.textOrange), // ✅ ઓરેન્જ
+                style: TextStyle(color: AppColors.accent), // ✅ અપડેટેડ
               ),
               TextSpan(
                 text: 'એક્ટીવેટ કરો.',
-                style: TextStyle(color: AppColors.textMaroon), // ✅ મરૂન
+                style: TextStyle(color: AppColors.heading), // ✅ અપડેટેડ
               ),
             ],
           ),
         ),
         const SizedBox(height: 25),
         Text(
-          'ગુજરાત રાજ્યપુરોહિત સમાજનું એકીકરણ અને વિકાસ માટે જોડાઓ. તમારી માહિતી નોંધાવી સમાજની ડિજિટલ ઓળખ બનાવી શકશો.',
+          'ગુજરાત રાજ્યપુરોહિત સમાજનું એકીકરણ અને વિકાસ માટે જોડાઓ. તમારી માહિતી નોંધાવી સમાજની ડિજिटल ઓળખ બનાવી શકશો.',
           style: GoogleFonts.baloo2(
             textStyle: const TextStyle(
               fontSize: 14,
-              color: AppColors.textMaroon, // ✅ ગ્લોબલ કલર
+              color: AppColors.body, // ✅ અપડેટેડ
               fontWeight: FontWeight.w500,
               height: 1.4,
             ),
@@ -301,7 +262,7 @@ class HomeScreen extends GetView<HomeController> {
       children: [
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.textOrange, // ✅ ગ્લોબલ કલર
+            backgroundColor: AppColors.textOrange, // ✅ અપડેટેડ: બટન એક્સેન્ટ
             padding: EdgeInsets.symmetric(
                 horizontal: isMobile ? 20 : 28,
                 vertical: isMobile ? 14 : 16
@@ -309,16 +270,18 @@ class HomeScreen extends GetView<HomeController> {
             elevation: 0,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Get.toNamed(MembershipScreen.pageId);
+          },
           child: Text(
               'મેમ્બરશીપ  ➔',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: isMobile ? 13 : 14)
+              style: TextStyle(color: AppColors.whiteText, fontWeight: FontWeight.bold, fontSize: isMobile ? 13 : 14) // ✅ અપડેટેડ
           ),
         ),
         SizedBox(width: isMobile ? 15 : 20),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.btnYellow, // ✅ ગ્લોબલ કલર
+            backgroundColor: AppColors.buttonSecondary, // ✅ અપડેટેડ: સેકન્ડરી પીળો/ગોલ્ડન
             padding: EdgeInsets.symmetric(
                 horizontal: isMobile ? 20 : 28,
                 vertical: isMobile ? 14 : 16
@@ -326,10 +289,12 @@ class HomeScreen extends GetView<HomeController> {
             elevation: 0,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Get.toNamed(ContactScreen.pageId);
+          },
           child: Text(
               'સંપર્ક  ➔',
-              style: TextStyle(color: AppColors.textMaroon, fontWeight: FontWeight.bold, fontSize: isMobile ? 13 : 14) // ✅ ગ્લોબલ ટેક્સ્ટ કલર
+              style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold, fontSize: isMobile ? 13 : 14) // ✅ અપડેટેડ
           ),
         ),
       ],
@@ -341,7 +306,7 @@ class HomeScreen extends GetView<HomeController> {
   // ==========================================
   Widget _buildSolutionsSection(bool isWeb, double screenWidth) {
     return Container(
-      color: AppColors.sectionMaroon,
+      color: AppColors.primary, // ✅ અપડેટેડ: ડાર્ક બ્રાન્ડ બ્લુ સેક્શન
       width: double.infinity,
       padding: EdgeInsets.symmetric(
         horizontal: isWeb ? screenWidth * 0.06 : 24.0,
@@ -351,9 +316,7 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- વેબ વ્યુ લેઆઉટ ---
   Widget _buildSolutionsWebLayout() {
-    // હોવર સ્ટેટ ટ્રેક કરવા માટે ઓન-ધ-ફ્લાય રીએક્ટિવ વેલ્યુ
     final RxInt hoveredIndex = (-1).obs;
 
     return Row(
@@ -427,7 +390,6 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- મોબાઇલ વ્યુ લેઆઉટ ---
   Widget _buildSolutionsMobileLayout() {
     final RxInt hoveredIndex = (-1).obs;
 
@@ -455,7 +417,6 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- ડાયનેમિક હોવર કંટ્રોલ કરતું રીયુઝેબલ કાર્ડ વિજેટ ---
   Widget _buildHoverableSolutionCard({
     required int index,
     required int hoveredIndex,
@@ -464,7 +425,6 @@ class HomeScreen extends GetView<HomeController> {
     required IconData iconData,
     required Function(bool) onHover,
   }) {
-    // શું માઉસ આ કાર્ડ પર છે?
     final isHovered = hoveredIndex == index;
 
     return MouseRegion(
@@ -473,15 +433,13 @@ class HomeScreen extends GetView<HomeController> {
       cursor: SystemMouseCursors.click,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        // ✅ કાર્ડની અંદર પૂરતી જગ્યા આપવા માટે પરફેક્ટ પેડિંગ સેટ કર્યું
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 35.0),
         decoration: BoxDecoration(
           color: isHovered ? Colors.white.withOpacity(0.09) : Colors.white.withOpacity(0.06),
           borderRadius: BorderRadius.circular(4),
-          // ✅ જ્યારે હોવર થાય ત્યારે જ નીચે ગોલ્ડન બોર્ડર લાઈન હાઈલાઈટ થશે
           border: Border(
             bottom: BorderSide(
-              color: isHovered ? AppColors.btnYellow : Colors.transparent,
+              color: isHovered ? AppColors.accent : Colors.transparent, // ✅ અપડેટેડ
               width: 3.0,
             ),
           ),
@@ -490,15 +448,13 @@ class HomeScreen extends GetView<HomeController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // આઈકોન
             Icon(
               iconData,
               size: 28,
-              color: isHovered ? AppColors.btnYellow : Colors.white60,
+              color: isHovered ? AppColors.accent : Colors.white60, // ✅ અપડેટેડ
             ),
             const SizedBox(height: 25),
 
-            // મુખ્ય ટાઇટલ
             Text(
               title,
               style: GoogleFonts.baloo2(
@@ -511,7 +467,6 @@ class HomeScreen extends GetView<HomeController> {
             ),
             const SizedBox(height: 12),
 
-            // ✅ સબ કન્ટેન્ટ (ડિસ્ક્રિપ્શન લખાણ) - જે ઓરિજિનલ સાઇટમાં દેખાય છે એ જ બેઠું સેટ કર્યું
             Text(
               description,
               style: GoogleFonts.baloo2(
@@ -524,7 +479,6 @@ class HomeScreen extends GetView<HomeController> {
               ),
             ),
 
-            // ✅ જો હોવર થાય ત્યારે જ "વધુ જાણો ➔" વાળી લિંક સ્મૂથલી એનિમેટ થઈને નીચે દેખાશે
             AnimatedOpacity(
               duration: const Duration(milliseconds: 200),
               opacity: isHovered ? 1.0 : 0.0,
@@ -561,7 +515,6 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- હેડિંગ મોડ્યુલ ---
   Widget _buildSolutionsHeader() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -572,7 +525,7 @@ class HomeScreen extends GetView<HomeController> {
             textStyle: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: AppColors.btnYellow,
+              color: AppColors.accent, // ✅ અપડેટેડ
               letterSpacing: 0.5,
             ),
           ),
@@ -593,7 +546,6 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- ડાબી બાજુની ઈમેજ મેથડ ---
   Widget _buildMaroonSectionImage() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(4),
@@ -613,14 +565,13 @@ class HomeScreen extends GetView<HomeController> {
   // ==========================================
   Widget _buildMissionSection(bool isWeb) {
     return Container(
-      color: AppColors.bgCream, // ગ્લોબલ ક્રીમ બેકગ્રાઉન્ડ
+      color: AppColors.background, // ✅ અપડેટેડ
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 80.0),
       child: isWeb ? _buildMissionWebLayout() : _buildMissionMobileLayout(),
     );
   }
 
-  // --- વેબ વ્યુ લેઆઉટ (બટન હોવર અને લાઈવ એનિમેટેડ પ્રોફાઈલ્સ સાથે) ---
   Widget _buildMissionWebLayout() {
     final RxBool isBtnHovered = false.obs;
 
@@ -630,11 +581,10 @@ class HomeScreen extends GetView<HomeController> {
     final RxBool isP4Hovered = false.obs;
 
     return SizedBox(
-      height: 600, // ➔ ✅ ફિક્સ હાઇટ આપી દીધી, હવે ચારેય માણસોના ફોટા ૧૦૦% કટોકટ દેખાશે!
+      height: 600,
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // 🔹 ૧. આજુબાજુ ગોઠવાયેલી ૪ હોવર એનિમેટેડ પ્રોફાઈલ ઈમેજીસ
           Positioned(
             left: 40,
             top: 40,
@@ -676,7 +626,6 @@ class HomeScreen extends GetView<HomeController> {
             )),
           ),
 
-          // 🔹 ૨. સેન્ટરનું મુખ્ય લખાણ અને કાઉન્ટર
           Container(
             constraints: const BoxConstraints(maxWidth: 850),
             padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -691,7 +640,7 @@ class HomeScreen extends GetView<HomeController> {
                     textStyle: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textOrange,
+                      color: AppColors.accent, // ✅ અપડેટેડ
                       letterSpacing: 0.5,
                     ),
                   ),
@@ -704,7 +653,7 @@ class HomeScreen extends GetView<HomeController> {
                     textStyle: const TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textMaroon,
+                      color: AppColors.heading, // ✅ અપડેટેડ
                       height: 1.3,
                     ),
                   ),
@@ -718,7 +667,7 @@ class HomeScreen extends GetView<HomeController> {
                     textStyle: const TextStyle(
                       fontSize: 110,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.textOrange,
+                      color: AppColors.accent, // ✅ અપડેટેડ
                       height: 1.0,
                     ),
                   ),
@@ -731,13 +680,12 @@ class HomeScreen extends GetView<HomeController> {
                     textStyle: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: Colors.black54,
+                      color: AppColors.subtitle, // ✅ અપડેટેડ: સબટાઇટલ ગ્રે
                     ),
                   ),
                 ),
                 const SizedBox(height: 40),
 
-                // ✅ "વધુ જાણો" બટન ઓરિજિનલ સ્ટાઇલમાં (હોવર થાય ત્યારે જ મરૂન થશે)
                 MouseRegion(
                   onEnter: (_) => isBtnHovered.value = true,
                   onExit: (_) => isBtnHovered.value = false,
@@ -747,12 +695,10 @@ class HomeScreen extends GetView<HomeController> {
                     width: 280,
                     height: 54,
                     decoration: BoxDecoration(
-                      // ➔ ✅ નોર્મલ વખતે કલર ટ્રાન્સપરન્ટ, હોવર થાય ત્યારે જ સોલિડ મરૂન થશે!
-                      color: isBtnHovered.value ? AppColors.textMaroon : Colors.transparent,
+                      color: isBtnHovered.value ? AppColors.primary : Colors.transparent, // ✅ અપડેટેડ
                       borderRadius: BorderRadius.circular(4),
-                      // નોર્મલ વખતે પાતળી બોર્ડર, હોવર વખતે બોર્ડર પણ મરૂન થઈ જશે
                       border: Border.all(
-                        color: isBtnHovered.value ? AppColors.textMaroon : Colors.black12,
+                        color: isBtnHovered.value ? AppColors.primary : AppColors.cardBorder, // ✅ અપડેટેડ
                         width: 1,
                       ),
                     ),
@@ -767,8 +713,7 @@ class HomeScreen extends GetView<HomeController> {
                             style: GoogleFonts.baloo2(
                               textStyle: TextStyle(
                                 fontSize: 15,
-                                // ➔ ✅ નોર્મલ વખતે મરૂન ટેક્સ્ટ, હોવર થાય ત્યારે વ્હાઇટ (સફેદ) ટેક્સ્ટ થશે!
-                                color: isBtnHovered.value ? Colors.white : AppColors.textMaroon,
+                                color: isBtnHovered.value ? Colors.white : AppColors.primary, // ✅ અપડેટેડ
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -777,8 +722,7 @@ class HomeScreen extends GetView<HomeController> {
                           Icon(
                             Icons.arrow_forward,
                             size: 16,
-                            // ➔ ✅ આઇકોન પણ હોવર પ્રમાણે કલર બદલશે
-                            color: isBtnHovered.value ? Colors.white : AppColors.textMaroon,
+                            color: isBtnHovered.value ? Colors.white : AppColors.primary, // ✅ અપડેટેડ
                           ),
                         ],
                       ),
@@ -793,14 +737,13 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- મોબાઇલ વ્યુ લેઆઉટ ---
   Widget _buildMissionMobileLayout() {
     return Column(
       children: [
         Text(
           'અમારું મિશન',
           style: GoogleFonts.baloo2(
-            textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.textOrange),
+            textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.accent), // ✅ અપડેટેડ
           ),
         ),
         const SizedBox(height: 10),
@@ -810,7 +753,7 @@ class HomeScreen extends GetView<HomeController> {
             'ગુજરાત રાજ્યપુરોહિત સમાજની ઈ-મેમ્બરશીપમાં જોડાઓ અને સમાજના સકારાત્મક બદલાવમાં ભાગ બનો.',
             textAlign: TextAlign.center,
             style: GoogleFonts.baloo2(
-              textStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.textMaroon, height: 1.3),
+              textStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.heading, height: 1.3), // ✅ અપડેટેડ
             ),
           ),
         ),
@@ -818,13 +761,13 @@ class HomeScreen extends GetView<HomeController> {
         Text(
           '1,00,000+',
           style: GoogleFonts.baloo2(
-            textStyle: const TextStyle(fontSize: 70, fontWeight: FontWeight.w800, color: AppColors.textOrange),
+            textStyle: const TextStyle(fontSize: 70, fontWeight: FontWeight.w800, color: AppColors.accent), // ✅ અપડેટેડ
           ),
         ),
         Text(
           'પરિવારોનું લક્ષ્ય (ઈ-મેમ્બરશીપ)',
           style: GoogleFonts.baloo2(
-            textStyle: const TextStyle(fontSize: 13, color: Colors.black54, fontWeight: FontWeight.w500),
+            textStyle: const TextStyle(fontSize: 13, color: AppColors.subtitle, fontWeight: FontWeight.w500), // ✅ અપડેટેડ
           ),
         ),
         const SizedBox(height: 35),
@@ -848,16 +791,16 @@ class HomeScreen extends GetView<HomeController> {
           height: 48,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: Colors.black12),
+            border: Border.all(color: AppColors.cardBorder), // ✅ અપડેટેડ
           ),
           child: InkWell(
             onTap: () {},
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('વધુ જાણો', style: GoogleFonts.baloo2(textStyle: const TextStyle(fontSize: 14, color: AppColors.textMaroon, fontWeight: FontWeight.bold))),
+                Text('વધુ જાણો', style: GoogleFonts.baloo2(textStyle: const TextStyle(fontSize: 14, color: AppColors.primary, fontWeight: FontWeight.bold))), // ✅ અપડેટેડ
                 const SizedBox(width: 8),
-                const Icon(Icons.arrow_forward, size: 14, color: AppColors.textMaroon),
+                const Icon(Icons.arrow_forward, size: 14, color: AppColors.primary), // ✅ અપડેટેડ
               ],
             ),
           ),
@@ -866,7 +809,6 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- નવું એનિમેટેડ પ્રોફાઇલ વિજેટ મોડ્યુલ (માઉસ કર્સર હોવર માટે) ---
   Widget _buildAnimatedProfile({
     required String imagePath,
     required double size,
@@ -880,7 +822,6 @@ class HomeScreen extends GetView<HomeController> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         curve: Curves.easeOutBack,
-        // ✅ માઉસ આવે ત્યારે ફોટો સહેજ ઉપરની તરફ ખેંચાશે અને સ્કેલ મોટો થશે
         transform: Matrix4.identity()
           ..translate(0.0, isHovered ? -8.0 : 0.0)
           ..scale(isHovered ? 1.06 : 1.0),
@@ -904,8 +845,8 @@ class HomeScreen extends GetView<HomeController> {
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return Container(
-                  color: AppColors.textMaroon.withOpacity(0.2),
-                  child: const Icon(Icons.person, color: AppColors.textMaroon),
+                  color: AppColors.primary.withOpacity(0.2), // ✅ અપડેટેડ
+                  child: const Icon(Icons.person, color: AppColors.primary),
                 );
               },
             ),
@@ -915,7 +856,6 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- ગોળાકાર પ્રોફાઇલ વિજેટ મોડ્યુલ ---
   Widget _buildCircularProfile(String imagePath, double size) {
     return Container(
       width: size,
@@ -936,10 +876,9 @@ class HomeScreen extends GetView<HomeController> {
           imagePath,
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) {
-            // જો ઈમેજ ન મળે તો ગ્રે સર્કલ પ્લેસહોલ્ડર
             return Container(
-              color: AppColors.textMaroon.withOpacity(0.2),
-              child: const Icon(Icons.person, color: AppColors.textMaroon),
+              color: AppColors.primary.withOpacity(0.2), // ✅ અપડેટેડ
+              child: const Icon(Icons.person, color: AppColors.primary),
             );
           },
         ),
@@ -948,12 +887,11 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   // ==========================================
-  // SECTION 4: PROCESS STEPS MODULE (૧૦૦% રેસ્પોન્સિવ)
+  // SECTION 4: PROCESS STEPS MODULE
   // ==========================================
-
   Widget _buildStepsSection(bool isWeb, double screenWidth) {
     return Container(
-      color: AppColors.sectionMaroon,
+      color: AppColors.primary, // ✅ અપડેટેડ: ડાર્ક બ્રાન્ડ સેક્શન
       width: double.infinity,
       padding: EdgeInsets.symmetric(
         horizontal: isWeb ? screenWidth * 0.06 : 24.0,
@@ -971,7 +909,6 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- હેડર મોડ્યુલ ---
   Widget _buildStepsHeader() {
     return Column(
       children: [
@@ -982,7 +919,7 @@ class HomeScreen extends GetView<HomeController> {
             textStyle: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: AppColors.btnYellow,
+              color: AppColors.accent, // ✅ અપડેટેડ: ગોલ્ડન એક્સેન્ટ
               letterSpacing: 0.5,
             ),
           ),
@@ -1004,9 +941,7 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- વેબ વ્યુ લેઆઉટ (રીએક્ટિવ હોવર સ્ટેટ સાથે) ---
   Widget _buildStepsWebLayout() {
-    // કયું વર્તુળ હોવર થાય છે તેને ટ્રેક કરવા માટે ઓન-ધ-ફ્લાય સ્ટેટ
     final RxInt hoveredStep = (-1).obs;
 
     return Row(
@@ -1027,7 +962,7 @@ class HomeScreen extends GetView<HomeController> {
           child: Obx(() => _buildHoverableStepItem(
             stepNumber: '02',
             title: 'વ્યક્તિગત વિગતો દાખલ કરો',
-            description: 'Commercial મુખ્ય માહિતી, સરનામું, જન્મતારીખ વગેરે ચોક્સાઈથી ભરો.',
+            description: ' Commercial મુખ્ય માહિતી, સરનામું, જન્મતારીખ વગેરે ચોક્સાઈથી ભરો.',
             index: 1,
             hoveredStep: hoveredStep.value,
             onHover: (isHovered) => hoveredStep.value = isHovered ? 1 : -1,
@@ -1059,7 +994,6 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- મોબાઇલ વ્યુ લેઆઉટ ---
   Widget _buildStepsMobileLayout() {
     final RxInt hoveredStep = (-1).obs;
 
@@ -1067,7 +1001,6 @@ class HomeScreen extends GetView<HomeController> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         children: [
-          // ✅ સ્ટેપ ૦૧: સાચો વિજેટ કૉલ
           Obx(() => _buildHoverableStepItem(
               index: 0,
               hoveredStep: hoveredStep.value,
@@ -1076,9 +1009,8 @@ class HomeScreen extends GetView<HomeController> {
               title: 'મોબાઈલ OTP વેરીફિકેશન',
               description: 'તમારા મોબાઈલ નંબર પર OTP મેળવો અને સફળતાપૂર્વક ચકાસણી કરો.'
           )),
-          const SizedBox(height: 40), // બે સ્ટેપ વચ્ચે પ્રોપર ગેપ
+          const SizedBox(height: 40),
 
-          // ✅ સ્ટેપ ૦૨: સાચો વિજેટ કૉલ
           Obx(() => _buildHoverableStepItem(
               index: 1,
               hoveredStep: hoveredStep.value,
@@ -1089,7 +1021,6 @@ class HomeScreen extends GetView<HomeController> {
           )),
           const SizedBox(height: 40),
 
-          // ✅ સ્ટેપ ૦૩: (અહીંયા પહેલા ભૂલથી મોટું કાર્ડ કૉલ થતું હતું, જે હવે ૧૦૦% ફિક્સ કરી દીધું છે)
           Obx(() => _buildHoverableStepItem(
               index: 2,
               hoveredStep: hoveredStep.value,
@@ -1100,13 +1031,12 @@ class HomeScreen extends GetView<HomeController> {
           )),
           const SizedBox(height: 40),
 
-          // ✅ સ્ટેપ ૦૪: સાચો વિજેટ કૉલ
           Obx(() => _buildHoverableStepItem(
               index: 3,
               hoveredStep: hoveredStep.value,
               onHover: (v) => hoveredStep.value = v ? 3 : -1,
               stepNumber: '04',
-              title: 'મેમ્બરશીપ કાર્ડ ડાઉનલોડ કરો',
+              title: 'મેમ્બરશીપ કૉર્ડ ડાઉનલોડ કરો',
               description: 'અરજી મંજૂર થયા પછી તમારું e-Card ડાઉનલોડ કરો અને શેર કરો.'
           )),
         ],
@@ -1114,7 +1044,6 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- ડાયનેમિક હોવર કંટ્રોલ કરતું સ્ટેપ આઇટમ વિજેટ (સર્કલ વ્હાઇટ ઇફેક્ટ સાથે) ---
   Widget _buildHoverableStepItem({
     required String stepNumber,
     required String title,
@@ -1123,7 +1052,6 @@ class HomeScreen extends GetView<HomeController> {
     required int hoveredStep,
     required Function(bool) onHover,
   }) {
-    // ચેક કરો કે કર્સર આ સ્ટેપ પર છે કે નહિ
     final isCircleHovered = hoveredStep == index;
 
     return MouseRegion(
@@ -1131,14 +1059,12 @@ class HomeScreen extends GetView<HomeController> {
       onExit: (_) => onHover(false),
       child: Column(
         children: [
-          // ગોળ નંબર બોક્સ (હોવર એનિમેશન સાથે)
           AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             width: 70,
             height: 70,
             decoration: BoxDecoration(
-              // ➔ ✅ માઉસ ઉપર હોય ત્યારે કલર એકદમ શુદ્ધ વ્હાઇટ (સફેદ) થશે, બાકી નોર્મલ વખતે ગોલ્ડન-પીળો
-              color: isCircleHovered ? Colors.white : AppColors.btnYellow,
+              color: isCircleHovered ? Colors.white : AppColors.accent, // ✅ અપડેટેડ: એક્સેન્ટ કલર
               shape: BoxShape.circle,
               boxShadow: isCircleHovered ? [
                 BoxShadow(
@@ -1155,7 +1081,7 @@ class HomeScreen extends GetView<HomeController> {
                 textStyle: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textMaroon, // નંબર હંમેશા મરૂન રહેશે
+                  color: AppColors.primary, // ✅ અપડેટેડ: નંબર માટે બ્રાન્ડ કલર
                 ),
               ),
             ),
@@ -1195,7 +1121,6 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- કનેક્ટિંગ એરો વિજેટ (`>>`) ---
   Widget _buildStepArrow() {
     return const Padding(
       padding: EdgeInsets.only(top: 24.0, left: 8.0, right: 8.0),
@@ -1204,14 +1129,13 @@ class HomeScreen extends GetView<HomeController> {
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          color: AppColors.btnYellow,
+          color: AppColors.accent, // ✅ અપડેટેડ
           letterSpacing: -2,
         ),
       ),
     );
   }
 
-  // --- બોટમ કન્ફોર્મેશન ટેક્સ્ટ મોડ્યુલ ---
   Widget _buildStepsFooterText() {
     return TextButton(
       onPressed: () {},
@@ -1228,12 +1152,12 @@ class HomeScreen extends GetView<HomeController> {
           children: const [
             TextSpan(
               text: 'હવે જોડાઓ અને સમાજની ડિજિટલ ઓળખ બનાવો. ',
-              style: TextStyle(color: AppColors.btnYellow),
+              style: TextStyle(color: AppColors.accent), // ✅ અપડેટેડ
             ),
             TextSpan(
               text: 'અરજી કરો',
               style: TextStyle(
-                color: AppColors.btnYellow,
+                color: AppColors.accent, // ✅ અપડેટેડ
                 decoration: TextDecoration.underline,
                 fontWeight: FontWeight.bold,
               ),
@@ -1245,14 +1169,13 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   // ==========================================
-  // SECTION 5: FAQ ACCORDION MODULE (૧૦૦% એનિમેટેડ)
+  // SECTION 5: FAQ ACCORDION MODULE
   // ==========================================
   Widget _buildFaqSection(bool isWeb, double screenWidth) {
-    // કયો પ્રશ્ન અત્યારે ખુલ્લો છે તેને ટ્રેક કરવા માટે ઓન-ધ-ફ્લાય રીએક્ટિવ વેલ્યુ
-    final RxInt expandedIndex = 0.obs; // બાય-ડિફોલ્ટ પહેલો પ્રશ્ન ખુલ્લો રાખ્યો છે (સ્ક્રીનશોટ ૧ મુજબ)
+    final RxInt expandedIndex = 0.obs;
 
     return Container(
-      color: AppColors.bgCream, // ગ્લોબલ ક્રીમ બેકગ્રાઉન્ડ
+      color: AppColors.background, // ✅ અપડેટેડ
       width: double.infinity,
       padding: EdgeInsets.symmetric(
         horizontal: isWeb ? screenWidth * 0.08 : 24.0,
@@ -1262,13 +1185,11 @@ class HomeScreen extends GetView<HomeController> {
           ? Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ડાબી બાજુનું હેડિંગ બોક્સ
           Expanded(
             flex: 7,
             child: _buildFaqLeftHeader(),
           ),
           const SizedBox(width: 60),
-          // જમણી બાજુનું એકોર્ડિયન લિસ્ટ
           Expanded(
             flex: 13,
             child: _buildFaqList(expandedIndex),
@@ -1286,18 +1207,17 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- ડાબી બાજુનું હેડિંગ મોડ્યુલ ---
   Widget _buildFaqLeftHeader() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "FAQ's વિભાગ",
-          style: GoogleFonts.notoSansGujarati( // ➔ ✅ ક્લીન ગુજરાતી ફોન્ટ
+          style: GoogleFonts.notoSansGujarati(
             textStyle: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: AppColors.textOrange,
+              color: AppColors.accent, // ✅ અપડેટેડ
               letterSpacing: 0.5,
             ),
           ),
@@ -1305,11 +1225,11 @@ class HomeScreen extends GetView<HomeController> {
         const SizedBox(height: 12),
         Text(
           'વારંવાર\nપૂછાતા પ્રશ્નો',
-          style: GoogleFonts.notoSansGujarati( // ➔ ✅ ઓરિજિનલ જેવો જ ઘાટો લુક લાવવા માટે
+          style: GoogleFonts.notoSansGujarati(
             textStyle: const TextStyle(
               fontSize: 44,
-              fontWeight: FontWeight.w900, // ➔ ✅ અલ્ટ્રા બોલ્ડ (ઘાટો) લુક
-              color: AppColors.textMaroon,
+              fontWeight: FontWeight.w900,
+              color: AppColors.heading, // ✅ અપડેટેડ
               height: 1.15,
             ),
           ),
@@ -1318,7 +1238,6 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- જમણી બાજુનું આખું લિસ્ટ મોડ્યુલ ---
   Widget _buildFaqList(RxInt expandedIndex) {
     return Column(
       children: [
@@ -1334,7 +1253,7 @@ class HomeScreen extends GetView<HomeController> {
           index: 1,
           expandedIndex: expandedIndex.value,
           stepNumber: '02',
-          question: 'નોંધણી માટે કોઈ ફી અથવા ચાર્જ છે?',
+          question: 'નૉંધણી માટે કોઈ ફી અથવા ચાર્જ છે?',
           answer: 'નોંધણી સંપૂર્ણપણે મુક્ત છે - કોઈ ફી/ચાર્જ લેવામાં આવતો નથી. વધુ માહિતી માટે નોંધણી પેજ જુઓ અથવા જરૂરી હોય તો અમારો સંપર્ક કરો.',
           onTap: (idx) => expandedIndex.value = expandedIndex.value == idx ? -1 : idx,
         )),
@@ -1366,8 +1285,6 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  // --- એનિમેટેડ એકોર્ડિયન સિંગલ આઇટમ વિજેટ (૧૦૦% કટોકટ મેચ) ---
-  // --- એનિમેટેડ એકોર્ડિયન સિંગલ આઇટમ વિજેટ (ફોન્ટ મિસમેચ ફિક્સ) ---
   Widget _buildFaqAccordionItem({
     required int index,
     required int expandedIndex,
@@ -1394,68 +1311,64 @@ class HomeScreen extends GetView<HomeController> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // ૧. આંકડો
                   SizedBox(
                     width: 40,
                     child: Text(
                       stepNumber,
-                      style: GoogleFonts.notoSansGujarati( // ➔ ✅ ફોન્ટ યુનિફોર્મિટી
+                      style: GoogleFonts.notoSansGujarati(
                         textStyle: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textMaroon,
+                          color: AppColors.heading, // ✅ અપડેટેડ
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(width: 15),
 
-                  // ૨. પ્રશ્ન ટેક્સ્ટ (Baloo ૨ કાઢીને Noto Sans Gujarati કર્યું જેથી સેમ લુક આવે)
                   Expanded(
                     child: Text(
                       question,
-                      style: GoogleFonts.notoSansGujarati( // ➔ ✅ પ્રશ્નોનો શેપ હવે બેઠો મેચ થશે
+                      style: GoogleFonts.notoSansGujarati(
                         textStyle: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: isOpen ? AppColors.textOrange : AppColors.textMaroon,
+                          color: isOpen ? AppColors.accent : AppColors.heading, // ✅ એક્સેન્ટ અથવા હેડિંગ બ્લુ
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(width: 20),
 
-                  // ૩. પ્લસ/માઇનસ બટન
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     width: 36,
                     height: 36,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: isOpen ? AppColors.textOrange : Colors.transparent,
+                      color: isOpen ? AppColors.accent : Colors.transparent, // ✅ અપડેટેડ
                       border: isOpen ? null : Border.all(color: Colors.black12, width: 1.5),
                     ),
                     alignment: Alignment.center,
                     child: Icon(
                       isOpen ? Icons.remove : Icons.add,
                       size: 18,
-                      color: isOpen ? Colors.white : AppColors.textOrange,
+                      color: isOpen ? Colors.white : AppColors.accent, // ✅ અપડેટેડ
                     ),
                   ),
                 ],
               ),
 
-              // ૪. ઉત્તર એનિમેશન
               AnimatedCrossFade(
                 firstChild: const SizedBox.shrink(),
                 secondChild: Padding(
                   padding: const EdgeInsets.only(left: 55.0, top: 16.0, right: 40.0),
                   child: Text(
                     answer,
-                    style: GoogleFonts.notoSansGujarati( // ➔ ✅ કન્ટેન્ટ ફોન્ટ ફિક્સ
+                    style: GoogleFonts.notoSansGujarati(
                       textStyle: TextStyle(
                         fontSize: 15,
-                        color: Colors.black.withOpacity(0.65),
+                        color: AppColors.body.withOpacity(0.85), // ✅ અપડેટેડ
                         fontWeight: FontWeight.w500,
                         height: 1.5,
                       ),
