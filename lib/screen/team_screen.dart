@@ -23,7 +23,7 @@ class TeamScreen extends GetView<TeamController> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: AppColors.background, // ✅ અપડેટેડ: ગ્લોબલ સરફેસ
+      backgroundColor: AppColors.background,
       appBar: const CustomAppBar(),
       drawer: !isWeb ? const CustomMobileDrawer() : null,
       body: SingleChildScrollView(
@@ -39,14 +39,14 @@ class TeamScreen extends GetView<TeamController> {
   }
 
   // ==========================================
-  // 🔹 ૧. TEAM HEADER BANNER
+  // 🔹 ૧. TEAM HEADER BANNER (કોમ્પેક્ટ સાઈઝ)
   // ==========================================
   Widget _buildTeamHeaderBanner(bool isWeb) {
     return Container(
       width: double.infinity,
-      height: isWeb ? 300 : 200,
+      height: isWeb ? 220 : 180, // ✅ અપડેટેડ: વેબ માટે હાઈટ 300 થી ઘટાડીને 220 કરી ભાઈ
       decoration: const BoxDecoration(
-        color: AppColors.primary, // ✅ અપડેટેડ: મેઈન ડાર્ક બ્રાન્ડ બ્લુ
+        color: AppColors.primary,
         image: DecorationImage(
           image: AssetImage('assets/images/team_bg.jpg'),
           fit: BoxFit.cover,
@@ -59,35 +59,32 @@ class TeamScreen extends GetView<TeamController> {
         children: [
           Text(
             'અમારી ટીમ',
-            style: GoogleFonts.notoSansGujarati(
-              textStyle: TextStyle(
-                fontSize: isWeb ? 54 : 36,
+            style:  TextStyle(
+                fontSize: isWeb ? 44 : 32, // ✅ સેહજ ફોન્ટ સાઈઝ પણ બેલેન્સ કરી
                 fontWeight: FontWeight.w900,
                 color: Colors.white,
                 letterSpacing: 1,
               ),
             ),
-          ),
-          const SizedBox(height: 12),
+
+          const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 'હોમ',
-                style: GoogleFonts.notoSansGujarati(
-                  textStyle: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 14, fontWeight: FontWeight.w500),
+                style:  TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 14, fontWeight: FontWeight.w500),
                 ),
-              ),
+
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text('/', style: TextStyle(color: AppColors.accent, fontSize: 14)), // ✅ અપડેટેડ
+                child: Text('/', style: TextStyle(color: AppColors.accent, fontSize: 14)),
               ),
               Text(
                 'અમારી ટીમ',
-                style: GoogleFonts.notoSansGujarati(
-                  textStyle: const TextStyle(color: AppColors.accent, fontSize: 14, fontWeight: FontWeight.bold), // ✅ અપડેટેડ
+                style:const TextStyle(color: AppColors.accent, fontSize: 14, fontWeight: FontWeight.bold),
                 ),
-              ),
+
             ],
           )
         ],
@@ -101,15 +98,14 @@ class TeamScreen extends GetView<TeamController> {
   Widget _buildTeamFilterSection(bool isWeb, double screenWidth) {
     return Container(
       width: double.infinity,
-      color: AppColors.background, // ✅ અપડેટેડ
+      color: AppColors.background,
       padding: EdgeInsets.symmetric(
         horizontal: isWeb ? screenWidth * 0.08 : 16.0,
-        vertical: 40.0,
+        vertical: isWeb ? 25.0 : 30.0, // ✅ વેબ માટે વર્ટિકલ સ્પેસ થોડી ઓછી કરી
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // હોરિઝોન્ટલ સ્ક્રોલેબલ ફિલ્ટર ચિપ્સ
           SizedBox(
             height: 46,
             child: ListView.builder(
@@ -131,20 +127,19 @@ class TeamScreen extends GetView<TeamController> {
                           duration: const Duration(milliseconds: 150),
                           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                           decoration: BoxDecoration(
-                            color: isSelected ? AppColors.primary : Colors.white, // ✅ અપડેટેડ
+                            color: isSelected ? AppColors.primary : Colors.white,
                             borderRadius: BorderRadius.circular(25),
                             border: Border.all(
-                              color: isSelected ? AppColors.primary : AppColors.heading.withOpacity(0.15), // ✅ અપડેટેડ
+                              color: isSelected ? AppColors.primary : AppColors.heading.withOpacity(0.15),
                               width: 1,
                             ),
                           ),
                           child: Center(
                             child: Text(
                               cat,
-                              style: GoogleFonts.notoSansGujarati(
-                                textStyle: TextStyle(
+                              style: TextStyle(
                                   fontSize: 13.5,
-                                  color: isSelected ? Colors.white : AppColors.heading, // ✅ અપડેટેડ
+                                  color: isSelected ? Colors.white : AppColors.heading,
                                   fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
                                 ),
                               ),
@@ -152,24 +147,23 @@ class TeamScreen extends GetView<TeamController> {
                           ),
                         ),
                       ),
-                    ),
-                  );
+                    );
+
                 });
               },
             ),
           ),
 
-          const SizedBox(height: 40),
+          SizedBox(height: isWeb ? 25 : 35), // ✅ ફિલ્ટર ચિપ્સ પછીનું સ્પેસિંગ ઘટાડ્યું
 
-          // ડાયનેમિક કેટેગરીવાઇઝ સેક્શન્સ
           _buildCategorizedTeamList(isWeb),
         ],
       ),
     );
   }
 
-  // ==========================================
-  // 🔹 ૩. CATEGORIZED TEAM LIST
+// ==========================================
+  // 🔹 ૩. CATEGORIZED TEAM LIST (સ્માર્ટ સિંગલ/મલ્ટીપલ સભ્ય કન્ડીશન)
   // ==========================================
   Widget _buildCategorizedTeamList(bool isWeb) {
     return Obx(() {
@@ -178,15 +172,67 @@ class TeamScreen extends GetView<TeamController> {
       if (currentFilter == 'બધા') {
         final activeCategories = controller.categories.where((cat) => cat != 'બધા').toList();
 
-        return Column(
-          children: activeCategories.map((category) {
-            final categoryMembers = controller.teamMembers.where((m) => m.role == category).toList();
+        if (isWeb) {
+          // ૧. પ્રમુખ સેક્શન હંમેશા ટોપ પર સેન્ટર જ રહેશે
+          final pramukhCategory = activeCategories.firstWhereOrNull((cat) => cat == 'પ્રમુખ');
 
-            if (categoryMembers.isEmpty) return const SizedBox.shrink();
+          // ૨. બાકીની કેટેગરીઝમાંથી સિંગલ અને મલ્ટીપલ સભ્યોને અલગ પાડીએ ભાઈ
+          final otherCategories = activeCategories.where((cat) => cat != 'પ્રમુખ').toList();
 
-            return _buildCategoryGroup(category, categoryMembers, isWeb);
-          }).toList(),
-        );
+          final singleMemberCategories = <String>[];
+          final multiMemberCategories = <String>[];
+
+          for (var cat in otherCategories) {
+            final count = controller.teamMembers.where((m) => m.role == cat).length;
+            if (count == 1) {
+              singleMemberCategories.add(cat);
+            } else if (count > 1) {
+              multiMemberCategories.add(cat);
+            }
+          }
+
+          return Column(
+            children: [
+              // 👑 પ્રમુખ સેક્શન
+              if (pramukhCategory != null) ...[
+                (() {
+                  final members = controller.teamMembers.where((m) => m.role == pramukhCategory).toList();
+                  if (members.isEmpty) return const SizedBox.shrink();
+                  return _buildCategoryGroup(pramukhCategory, members, isWeb);
+                }()),
+              ],
+
+              // 🤝 ૧ જ સભ્ય ધરાવતા હોદ્દાઓ (ઉપપ્રમુખ, મંત્રી વગેરે બાજુ-બાજુમાં ગોઠવાશે ભાઈ)
+              if (singleMemberCategories.isNotEmpty)
+                Wrap(
+                  spacing: 35.0,
+                  runSpacing: 25.0,
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.start,
+                  children: singleMemberCategories.map((category) {
+                    final members = controller.teamMembers.where((m) => m.role == category).toList();
+                    return _buildCategoryGroup(category, members, isWeb, isFlexMode: true);
+                  }).toList(),
+                ),
+
+              // 👥 ૧ થી વધુ સભ્યો ધરાવતા હોદ્દાઓ (સમિતિ ચેરમેન, કારોબારી સભ્ય માટે ફૂલ વિડ્થ સેક્શન)
+              if (multiMemberCategories.isNotEmpty)
+                ...multiMemberCategories.map((category) {
+                  final members = controller.teamMembers.where((m) => m.role == category).toList();
+                  return _buildCategoryGroup(category, members, isWeb, isFlexMode: false);
+                }).toList(),
+            ],
+          );
+        } else {
+          // મોબાઈલ માટે નોર્મલ વ્યુ
+          return Column(
+            children: activeCategories.map((category) {
+              final categoryMembers = controller.teamMembers.where((m) => m.role == category).toList();
+              if (categoryMembers.isEmpty) return const SizedBox.shrink();
+              return _buildCategoryGroup(category, categoryMembers, isWeb);
+            }).toList(),
+          );
+        }
       } else {
         final selectedMembers = controller.filteredMembers;
         return _buildCategoryGroup(currentFilter, selectedMembers, isWeb);
@@ -194,51 +240,66 @@ class TeamScreen extends GetView<TeamController> {
     });
   }
 
-  // --- હેલ્પર મોડ્યુલ: સિંગલ કેટેગરી બ્લોક ---
-  Widget _buildCategoryGroup(String title, List<dynamic> members, bool isWeb) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 25.0),
+  // --- હેલ્પર મોડ્યુલ: સિંગલ કેટેગરી બ્લોક (ડાયનેમિક પહોળાઈ) ---
+  Widget _buildCategoryGroup(String title, List<dynamic> members, bool isWeb, {bool isFlexMode = false}) {
+    // જો સિંગલ મેમ્બર હોય તો જ બોક્સ સાઈઝ નાની કરવાની, મલ્ટીપલ સભ્યો હોય તો આખી લાઈન વાપરશે ભાઈ
+    final double? blockWidth = (isWeb && isFlexMode) ? 260.0 : null;
+
+    return Container(
+      width: blockWidth,
+      padding: EdgeInsets.symmetric(
+        vertical: isWeb ? 20.0 : 24.0,
+      ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             title,
-            style: GoogleFonts.notoSansGujarati(
-              textStyle: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: AppColors.heading), // ✅ અપડેટેડ
+            style:  TextStyle(
+                  fontSize: (isWeb && !isFlexMode && title != 'પ્રમુખ') ? 24 : 20, // મલ્ટીપલ સભ્યો વાળા હેડિંગ મોટા દેખાશે
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.heading
+              ),
             ),
-          ),
+
           const SizedBox(height: 4),
           Container(
-            width: 45,
+            width: (isWeb && !isFlexMode && title != 'પ્રમુખ') ? 50 : 35, // હેડિંગ પ્રમાણે નીચેની લાઈન સેટ કરી
             height: 3,
             decoration: BoxDecoration(
-              color: AppColors.accent, // ✅ અપડેટેડ
+              color: AppColors.accent,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: isWeb ? 20 : 24),
 
+          // સભ્યોને ગોઠવવાનું ગ્રીડ/રેપ લોજિક
           Wrap(
             spacing: 24.0,
             runSpacing: 24.0,
             alignment: WrapAlignment.center,
             children: members.map((member) => _buildMemberCard(member, isWeb)).toList(),
           ),
-          const SizedBox(height: 20),
         ],
       ),
     );
   }
 
-  // --- હેલ્પર વિજેટ: સિંગલ ટીમ મેમ્બરカード ---
+
+
+  // --- હેલ્પર વિજેટ: સિંગલ ટીમ મેમ્બર કાર્ડ ---
   Widget _buildMemberCard(dynamic member, bool isWeb) {
-    final double cardWidth = isWeb ? 270 : double.infinity;
+    final double cardWidth = isWeb ? 240 : double.infinity; // ✅ વેબ કાર્ડની વિડ્થ 270 થી 240 કરી જેથી પ્રોપર ફિટ થાય
 
     return Container(
       width: cardWidth,
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 30.0),
+      padding: EdgeInsets.symmetric(
+          horizontal: 14.0,
+          vertical: isWeb ? 22.0 : 26.0 // ✅ કાર્ડની અંદરનું પેડિંગ પણ કોમ્પેક્ટ કર્યું ભાઈ
+      ),
       decoration: BoxDecoration(
-        color: AppColors.cardBorder.withOpacity(0.2), // ✅ અપડેટેડ: થીમ મેચ સોફ્ટ કલર
+        color: AppColors.cardBorder.withOpacity(0.2),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Column(
@@ -246,59 +307,65 @@ class TeamScreen extends GetView<TeamController> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 130,
-            height: 130,
+            width: isWeb ? 110 : 120, // ✅ ઇમેજ સાઈઝ વેબ માટે થોડી નાની કરી
+            height: isWeb ? 110 : 120,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,
               boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 10, offset: const Offset(0, 4))
+                BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 8, offset: const Offset(0, 3))
               ],
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(65),
+              borderRadius: BorderRadius.circular(60),
               child: member.imageUrl != null
                   ? Image.asset(member.imageUrl!, fit: BoxFit.cover)
                   : Container(
-                color: AppColors.primary.withOpacity(0.1), // ✅ અપડેટેડ
+                color: AppColors.primary.withOpacity(0.1),
                 alignment: Alignment.center,
                 child: Text(
                   member.name.replaceAll('શ્રી ', '').replaceAll('શ્રીમતી ', '')[0],
-                  style: GoogleFonts.notoSansGujarati(
-                    textStyle: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: AppColors.primary), // ✅ અપડેટેડ
+                  style:  TextStyle(
+                        fontSize: isWeb ? 28 : 32,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 20),
+
+          SizedBox(height: isWeb ? 14 : 18),
 
           Text(
             member.role,
-            style: GoogleFonts.notoSansGujarati(
-              textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.body.withOpacity(0.65)), // ✅ અપડેટેડ
+            style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w600, color: AppColors.body.withOpacity(0.65)),
             ),
-          ),
-          const SizedBox(height: 8),
+
+          const SizedBox(height: 6),
 
           Text(
             member.name,
             textAlign: TextAlign.center,
-            style: GoogleFonts.notoSansGujarati(
-              textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: AppColors.heading, height: 1.3), // ✅ અપડેટેડ
+            style: TextStyle(
+                  fontSize: isWeb ? 15 : 16,
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.heading,
+                  height: 1.25
+              ),
             ),
-          ),
-          const SizedBox(height: 12),
+
+          SizedBox(height: isWeb ? 10 : 12),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.phone_android_rounded, size: 13, color: AppColors.accent.withOpacity(0.8)), // ✅ અપડેટેડ
+              Icon(Icons.phone_android_rounded, size: 12, color: AppColors.accent.withOpacity(0.8)),
               const SizedBox(width: 4),
               Text(
                 member.phone,
                 style: GoogleFonts.poppins(
-                  textStyle: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.body.withOpacity(0.8)), // ✅ અપડેટેડ
+                  textStyle: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: AppColors.body.withOpacity(0.8)),
                 ),
               ),
             ],

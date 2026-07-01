@@ -9,11 +9,11 @@ class AppColors {
 
   // ✅ રાજપુરોહિત ઓનલાઇન થીમના ગ્લોબલ કલર્સ
   // 🌐 Surface
-  static const Color background = Color(0xFFF8FAFC);
+  static const Color background = Color(0xFFFDFBF7);
   static const Color surface = Color(0xFFFFFFFF);
 
   // 🎨 Brand
-  static const Color primary = Color(0xFF12355B);
+  static const Color primary = Color(0xFF1E3A8A);
   static const Color primaryDark = Color(0xFF0F2C4F);
   static const Color secondary = Color(0xFF1E5AA8);
 

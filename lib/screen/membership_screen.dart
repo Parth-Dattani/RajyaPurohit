@@ -76,10 +76,9 @@ class MembershipScreen extends GetView<MembershipController> {
                 const SizedBox(width: 8),
                 Text(
                   'ડિજિટલ સભ્ય નોંધણી અભિયાન',
-                  style: GoogleFonts.notoSansGujarati(
-                    textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.heading), // ✅ અપડેટેડ
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.heading), // ✅ અપડેટેડ
                   ),
-                ),
+
               ],
             ),
           ),
@@ -89,15 +88,13 @@ class MembershipScreen extends GetView<MembershipController> {
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
-              style: GoogleFonts.notoSansGujarati(
-                textStyle: TextStyle(
+              style:  TextStyle(
                   fontSize: isWeb ? 64 : 38,
                   fontWeight: FontWeight.w900,
                   height: 1.2,
                 ),
-              ),
               children: const [
-                TextSpan(text: 'ગુજરાત રાજ્યપુરોહિત\n', style: TextStyle(color: AppColors.heading)), // ✅ અપડેટેડ
+                TextSpan(text: 'ગુજરાત રાજયગોર\n', style: TextStyle(color: AppColors.heading)), // ✅ અપડેટેડ
                 TextSpan(text: 'સમાજ', style: TextStyle(color: AppColors.accent)), // ✅ અપડેટેડ
               ],
             ),
@@ -110,8 +107,7 @@ class MembershipScreen extends GetView<MembershipController> {
             child: Text(
               'સમાજના ઉત્કર્ષ અને સંગઠન માટેની આ ડિજિટલ પહેલમાં આજે જ જોડાઓ. તમારું ડિજિટલ ઓળખ પત્ર મેળવો.',
               textAlign: TextAlign.center,
-              style: GoogleFonts.notoSansGujarati(
-                textStyle: TextStyle(
+              style:  TextStyle(
                   fontSize: isWeb ? 16 : 14,
                   color: AppColors.body.withOpacity(0.85), // ✅ અપડેટેડ
                   height: 1.6,
@@ -119,7 +115,7 @@ class MembershipScreen extends GetView<MembershipController> {
                 ),
               ),
             ),
-          ),
+
           const SizedBox(height: 50),
 
           // ૪. એક્શન બટન્સ રો / કોલમ ગ્રીડ
@@ -210,8 +206,7 @@ class MembershipScreen extends GetView<MembershipController> {
           child: Text(
             text,
             textAlign: TextAlign.center,
-            style: GoogleFonts.notoSansGujarati(
-              textStyle: TextStyle(
+            style: TextStyle(
                 color: textColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
@@ -219,7 +214,7 @@ class MembershipScreen extends GetView<MembershipController> {
             ),
           ),
         ),
-      )),
+      ),
     );
   }
 
@@ -241,14 +236,13 @@ class MembershipScreen extends GetView<MembershipController> {
         children: [
           Text(
             'શા માટે જોડાવું જોઈએ?',
-            style: GoogleFonts.notoSansGujarati(
-              textStyle: const TextStyle(
+            style: const TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w900,
                 color: AppColors.heading, // ✅ અપડેટેડ
               ),
             ),
-          ),
+
           const SizedBox(height: 10),
           Container(
             width: 60,
@@ -266,7 +260,7 @@ class MembershipScreen extends GetView<MembershipController> {
             children: [
               Expanded(child: _buildWhyJoinCard(
                 title: 'વૈશ્વિક જોડાણ',
-                description: 'વિશ્વભરના રાજ્યપુરોહિત પરિવારો સાથે જોડાઓ અને સમાજને મજબૂત બનાવો.',
+                description: 'વિશ્વભરના રાજયગોર પરિવારો સાથે જોડાઓ અને સમાજને મજબૂત બનાવો.',
                 iconData: Icons.people_alt_outlined,
               )),
               const SizedBox(width: 24),
@@ -287,7 +281,7 @@ class MembershipScreen extends GetView<MembershipController> {
             children: [
               _buildWhyJoinCard(
                 title: 'વૈશ્વિક જોડાણ',
-                description: 'વિશ્વભરના રાજ્યપુરોહિત પરિવારો સાથે જોડાઓ અને સમાજને મજબૂત બનાવો.',
+                description: 'વિશ્વભરના રાજયગોર પરિવારો સાથે જોડાઓ અને સમાજને મજબૂત બનાવો.',
                 iconData: Icons.people_alt_outlined,
               ),
               const SizedBox(height: 24),
@@ -366,28 +360,25 @@ class MembershipScreen extends GetView<MembershipController> {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: GoogleFonts.notoSansGujarati(
-                textStyle: const TextStyle(
+              style:  const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w900,
                   color: AppColors.heading,
                 ),
               ),
-            ),
             const SizedBox(height: 14),
 
             Text(
               description,
               textAlign: TextAlign.center,
-              style: GoogleFonts.notoSansGujarati(
-                textStyle: TextStyle(
+              style:  TextStyle(
                   fontSize: 14,
                   color: AppColors.body.withOpacity(0.8),
                   fontWeight: FontWeight.w500,
                   height: 1.6,
                 ),
               ),
-            ),
+
           ],
         ),
       )),

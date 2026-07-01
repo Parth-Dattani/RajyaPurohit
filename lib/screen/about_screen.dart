@@ -62,12 +62,10 @@ class AboutScreen extends GetView<AboutController> {
         children: [
           Text(
             'અમારા વિષે',
-            style: GoogleFonts.notoSansGujarati(
-              textStyle: TextStyle(
+            style: TextStyle(
                 fontSize: isWeb ? 54 : 36,
                 fontWeight: FontWeight.w900,
                 color: Colors.white,
-              ),
             ),
           ),
           const SizedBox(height: 10),
@@ -76,12 +74,10 @@ class AboutScreen extends GetView<AboutController> {
             children: [
               Text(
                 'હોમ',
-                style: GoogleFonts.notoSansGujarati(
-                  textStyle: TextStyle(
+                style: TextStyle(
                     color: Colors.white.withOpacity(0.6),
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                  ),
                 ),
               ),
               const Padding(
@@ -90,12 +86,10 @@ class AboutScreen extends GetView<AboutController> {
               ),
               Text(
                 'અમારા વિષે',
-                style: GoogleFonts.notoSansGujarati(
-                  textStyle: const TextStyle(
+                style:  TextStyle(
                     color: AppColors.accent, // ✅ અપડેટેડ
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                  ),
                 ),
               ),
             ],
@@ -165,24 +159,21 @@ class AboutScreen extends GetView<AboutController> {
       children: [
         Text(
           'અમારા વિષે',
-          style: GoogleFonts.notoSansGujarati(
-            textStyle: const TextStyle(
+          style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: AppColors.accent, // ✅ અપડેટેડ
-            ),
+
           ),
         ),
         const SizedBox(height: 10),
         RichText(
           text: TextSpan(
-            style: GoogleFonts.notoSansGujarati(
-              textStyle: const TextStyle(
+            style: const TextStyle(
                 fontSize: 38,
                 fontWeight: FontWeight.w900,
                 color: AppColors.heading, // ✅ અપડેટેડ
                 height: 1.2,
-              ),
             ),
             children: const [
               TextSpan(text: 'સમાજને જોડે છે '),
@@ -192,14 +183,12 @@ class AboutScreen extends GetView<AboutController> {
         ),
         const SizedBox(height: 20),
         Text(
-          'ગુજરાત રાજ્યપુરોહિત સમાજનું આ એક અધિકૃત ડિજિટલ પ્લેટફોર્મ છે, જેનો મુખ્ય ઉદ્દેશ્ય સમગ્ર દેશ અને વિદેશમાં વસતા સમાજના પરિવારોને એક તાંતણે બાંધવાનો છે. આ માધ્યમ દ્વારા શૈક્ષણિક, સામાજિક, અને વ્યાપારી પ્રગતિ વેગવંતી બનશે.',
-          style: GoogleFonts.notoSansGujarati(
-            textStyle: TextStyle(
+          'ગુજરાત રાજયગોર સમાજનું આ એક અધિકૃત ડિજિટલ પ્લેટફોર્મ છે, જેનો મુખ્ય ઉદ્દેશ્ય સમગ્ર દેશ અને વિદેશમાં વસતા સમાજના પરિવારોને એક તાંતણે બાંધવાનો છે. આ માધ્યમ દ્વારા શૈક્ષણિક, સામાજિક, અને વ્યાપારી પ્રગતિ વેગવંતી બનશે.',
+          style:  TextStyle(
               fontSize: 15,
               color: AppColors.body.withOpacity(0.85), // ✅ અપડેટેડ
               height: 1.6,
               fontWeight: FontWeight.w500,
-            ),
           ),
         ),
 
@@ -223,17 +212,14 @@ class AboutScreen extends GetView<AboutController> {
             children: [
               Text(
                 'સમાજ સેવા સપોર્ટ',
-                style: GoogleFonts.notoSansGujarati(
-                  textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.heading), // ✅ અપડેટેડ
+                style:const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.heading), // ✅ અપડેટેડ
                 ),
-              ),
+
               const SizedBox(height: 6),
               Text(
-                'રાજ્યપુરોહિત સમાજના સર્વાંગી વિકાસ માટે સતત સેવા અને સહકાર.',
-                style: GoogleFonts.notoSansGujarati(
-                  textStyle: TextStyle(fontSize: 14, color: AppColors.body.withOpacity(0.7), fontWeight: FontWeight.w500), // ✅ અપડેટેડ
+                'રાજયગોર સમાજના સર્વાંગી વિકાસ માટે સતત સેવા અને સહકાર.',
+                style:TextStyle(fontSize: 14, color: AppColors.body.withOpacity(0.7), fontWeight: FontWeight.w500), // ✅ અપડેટેડ
                 ),
-              ),
             ],
           ),
         ),
@@ -254,9 +240,7 @@ class AboutScreen extends GetView<AboutController> {
               onPressed: () {},
               child: Text(
                 'અમારી સાથે જોડાઓ  ➔',
-                style: GoogleFonts.notoSansGujarati(
-                  textStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-                ),
+                style:const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
               ),
             ),
             Row(
@@ -327,12 +311,10 @@ class AboutScreen extends GetView<AboutController> {
         const SizedBox(width: 15),
         Text(
           pointText,
-          style: GoogleFonts.notoSansGujarati(
-            textStyle: const TextStyle(
+          style:  const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: AppColors.heading, // ✅ અપડેટેડ
-            ),
           ),
         ),
       ],
@@ -361,7 +343,7 @@ class AboutScreen extends GetView<AboutController> {
               Expanded(
                 child: _buildValueColumn(
                   title: 'અમારું મિશન',
-                  description: 'ગુજરાતમાં 1,0,000+ રાજ્યપુરોહિત પરિવારોને ઓનલાઇન જોડવા અને સશક્ત બનાવવું.',
+                  description: 'ગુજરાતમાં 1,0,000+ રાજયગોર પરિવારોને ઓનલાઇન જોડવા અને સશક્ત બનાવવું.',
                 ),
               ),
               _buildVerticalDivider(),
@@ -384,7 +366,7 @@ class AboutScreen extends GetView<AboutController> {
             children: [
               _buildValueColumn(
                 title: 'અમારું મિશન',
-                description: 'ગુજરાતમાં 1,0,000+ રાજ્યપુરોહિત પરિવારોને ઓનલાઇન જોડવા અને સશક્ત બનાવવું.',
+                description: 'ગુજરાતમાં 1,0,000+ રાજયગોર પરિવારોને ઓનલાઇન જોડવા અને સશક્ત બનાવવું.',
               ),
               _buildHorizontalDivider(),
               _buildValueColumn(
@@ -423,13 +405,11 @@ class AboutScreen extends GetView<AboutController> {
         Text(
           title,
           textAlign: TextAlign.center,
-          style: GoogleFonts.notoSansGujarati(
-            textStyle: const TextStyle(
+          style:  const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w900,
               color: AppColors.heading, // ✅ અપડેટેડ
               height: 1.2,
-            ),
           ),
         ),
         const SizedBox(height: 16),
@@ -438,13 +418,12 @@ class AboutScreen extends GetView<AboutController> {
           child: Text(
             description,
             textAlign: TextAlign.center,
-            style: GoogleFonts.notoSansGujarati(
-              textStyle: TextStyle(
+            style:  TextStyle(
                 fontSize: 14.5,
                 color: AppColors.body.withOpacity(0.9), // ✅ અપડેટેડ
                 height: 1.6,
                 fontWeight: FontWeight.w600,
-              ),
+
             ),
           ),
         ),
@@ -486,22 +465,18 @@ class AboutScreen extends GetView<AboutController> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Text(
-          '>ગુજરાત રાજ્યપુરોહિત સમાજ',
-          style: GoogleFonts.notoSansGujarati(
-            textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.accent), // ✅ અપડેટેડ
-          ),
+          '>ગુજરાત રાજયગોર સમાજ',
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.accent), // ✅ અપડેટેડ
         ),
         const SizedBox(height: 12),
         RichText(
           text: TextSpan(
-            style: GoogleFonts.notoSansGujarati(
-              textStyle: const TextStyle(
+            style: const TextStyle(
                 fontSize: 54,
                 fontWeight: FontWeight.w900,
                 color: Colors.white,
                 height: 1.15,
               ),
-            ),
             children: const [
               TextSpan(text: 'સમાજને\n'),
               TextSpan(text: 'ડિજિટલ રીતે જોડીએ', style: TextStyle(color: AppColors.accent)), // ✅ અપડેટેડ
@@ -537,13 +512,11 @@ class AboutScreen extends GetView<AboutController> {
       children: [
         Text(
           'ઈ-મેમ્બરશીપ, બિઝનેસ કોમ્યુનિટી સર્ચ, મેટ્રિમોની અને સહાય જેવી સેવાઓને એક પ્લેટફોર્મ પર સુરક્ષિત રીતે ઉપલબ્ધ કરાવવાનું અમારું ધ્યેય છે.',
-          style: GoogleFonts.notoSansGujarati(
-            textStyle: TextStyle(
+          style:  TextStyle(
               fontSize: 16,
               color: AppColors.whiteText.withOpacity(0.85), // ✅ અપડેટેડ
               height: 1.6,
               fontWeight: FontWeight.w500,
-            ),
           ),
         ),
         const SizedBox(height: 45),
@@ -564,9 +537,7 @@ class AboutScreen extends GetView<AboutController> {
             Expanded(
               child: Text(
                 'OTP વેરીફિકેશનથી ઝડપી નોંધણી, પરિવારની વિગતો સાથે સચોટ ડેટાબેઝ અને પારદર્શિતાથી સમાજ વિકાસ.',
-                style: GoogleFonts.notoSansGujarati(
-                  textStyle: TextStyle(color: AppColors.whiteText.withOpacity(0.65), fontSize: 14, height: 1.5, fontWeight: FontWeight.w500), // ✅ અપડેટેડ
-                ),
+                style:  TextStyle(color: AppColors.whiteText.withOpacity(0.65), fontSize: 14, height: 1.5, fontWeight: FontWeight.w500), // ✅ અપડેટેડ
               ),
             ),
           ],
@@ -583,9 +554,7 @@ class AboutScreen extends GetView<AboutController> {
             const SizedBox(height: 8),
             Text(
               'OTP વેરીફિકેશનથી ઝડપી નોંધણી, પરિવારની વિગતો સાથે સચોટ ડેટાબેઝ અને પારદર્શિતાથી સમાજ વિકાસ.',
-              style: GoogleFonts.notoSansGujarati(
-                textStyle: TextStyle(color: AppColors.whiteText.withOpacity(0.65), fontSize: 14, height: 1.5, fontWeight: FontWeight.w500), // ✅ અપડેટેડ
-              ),
+              style:  TextStyle(color: AppColors.whiteText.withOpacity(0.65), fontSize: 14, height: 1.5, fontWeight: FontWeight.w500), // ✅ અપડેટેડ
             ),
           ],
         ),
@@ -600,9 +569,7 @@ class AboutScreen extends GetView<AboutController> {
               children: [
                 Text(
                   'અમારી સેવાઓ ',
-                  style: GoogleFonts.notoSansGujarati(
-                    textStyle: const TextStyle(color: AppColors.accent, fontWeight: FontWeight.bold, fontSize: 14), // ✅ અપડેટેડ
-                  ),
+                  style:  const TextStyle(color: AppColors.accent, fontWeight: FontWeight.bold, fontSize: 14), // ✅ અપડેટેડ
                 ),
                 const SizedBox(width: 4),
                 const Icon(Icons.arrow_forward, color: AppColors.accent, size: 14), // ✅ અપડેટેડ

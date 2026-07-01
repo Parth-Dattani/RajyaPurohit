@@ -70,9 +70,7 @@ class ContactScreen extends GetView<ContactController> {
         children: [
           Text(
             'સંપર્ક',
-            style: GoogleFonts.notoSansGujarati(
-              textStyle: TextStyle(fontSize: isWeb ? 54 : 36, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 1),
-            ),
+            style:  TextStyle(fontSize: isWeb ? 54 : 36, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 1),
           ),
           const SizedBox(height: 12),
           Row(
@@ -80,19 +78,16 @@ class ContactScreen extends GetView<ContactController> {
             children: [
               Text(
                 'હોમ',
-                style: GoogleFonts.notoSansGujarati(
-                  textStyle: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 14, fontWeight: FontWeight.w500),
+                style: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 14, fontWeight: FontWeight.w500),
                 ),
-              ),
+
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text('/', style: TextStyle(color: AppColors.accent, fontSize: 14)), // ✅ અપડેટેડ
               ),
               Text(
                 'સંપર્ક',
-                style: GoogleFonts.notoSansGujarati(
-                  textStyle: const TextStyle(color: AppColors.accent, fontSize: 14, fontWeight: FontWeight.bold), // ✅ અપડેટેડ
-                ),
+                style:  const TextStyle(color: AppColors.accent, fontSize: 14, fontWeight: FontWeight.bold), // ✅ અપડેટે
               ),
             ],
           )
@@ -117,18 +112,16 @@ class ContactScreen extends GetView<ContactController> {
         children: [
           Text(
             'સંપર્ક કરો',
-            style: GoogleFonts.notoSansGujarati(
-              textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.accent, letterSpacing: 0.5), // ✅ અપડેટેડ
+            style:  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.accent, letterSpacing: 0.5), // ✅ અપડેટેડ
             ),
-          ),
+
           const SizedBox(height: 16),
           Container(
             constraints: const BoxConstraints(maxWidth: 800),
             child: RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
-                style: GoogleFonts.notoSansGujarati(
-                  textStyle: TextStyle(fontSize: isWeb ? 44 : 28, fontWeight: FontWeight.w900, height: 1.3),
+                style: TextStyle(fontSize: isWeb ? 44 : 28, fontWeight: FontWeight.w900, height: 1.3
                 ),
                 children: const [
                   TextSpan(text: 'અમારા નિષ્ણાતો સાથે સંપર્ક કરો\n', style: TextStyle(color: AppColors.accent)), // ✅ અપડેટેડ
@@ -168,7 +161,7 @@ class ContactScreen extends GetView<ContactController> {
         iconColor: AppColors.accent, // ✅ અપડેટેડ
         title: 'ફોન કરો',
         subtitle: 'સોમ-શનિ: સવારે ૧૦ થી સાંજે ૬',
-        content: '+91 95743 09096',
+        content: '(૦૨૮૮) ૨૬૬૬૮૨૬',
         textColor: AppColors.heading, // ✅ અપડેટેડ
         subTextColor: AppColors.body.withOpacity(0.7), // ✅ અપડેટેડ
       ),
@@ -178,7 +171,7 @@ class ContactScreen extends GetView<ContactController> {
         iconColor: AppColors.accent, // ✅ અપડેટેડ
         title: 'મુલાકાત લો',
         subtitle: 'અમારા કાર્યાલયે આવો.',
-        content: 'ગુજરાત રાજ્યપુરોહિત સમાજ\nમહાજન વાડી, પંચેશ્વર ટાવર,\nજામનગર - ૩૬૧૦૦૧. ગુજરાત. ભારત.',
+        content: 'ગુજરાત રાજયગોર સમાજ\nમહાજન વાડી, પંચેશ્વર ટાવર,\nજામનગર - ૩૬૧૦૦૧. ગુજરાત. ભારત.',
         textColor: Colors.white,
         subTextColor: AppColors.footerText.withOpacity(0.8), // ✅ અપડેટેડ
         isAddress: true,
@@ -235,13 +228,13 @@ class ContactScreen extends GetView<ContactController> {
           const SizedBox(height: 15),
           Text(
             title,
-            style: GoogleFonts.notoSansGujarati(textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: textColor)),
+            style:  TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: textColor),
           ),
           const SizedBox(height: 8),
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: GoogleFonts.notoSansGujarati(textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: subTextColor)),
+            style:  TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: subTextColor)
           ),
           const SizedBox(height: 15),
           Expanded(
@@ -249,8 +242,7 @@ class ContactScreen extends GetView<ContactController> {
               child: Text(
                 content,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.notoSansGujarati(
-                  textStyle: TextStyle(
+                style: TextStyle(
                     fontSize: isAddress ? 12 : 14.5,
                     fontWeight: isAddress ? FontWeight.w500 : FontWeight.bold,
                     color: isAddress ? subTextColor : AppColors.accent, // ✅ અપડેટેડ
@@ -259,7 +251,7 @@ class ContactScreen extends GetView<ContactController> {
                 ),
               ),
             ),
-          ),
+
         ],
       ),
     );
@@ -278,9 +270,9 @@ class ContactScreen extends GetView<ContactController> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'ગુજરાત રાજ્યપુરોહિત\nસમાજની ઈ-મેમ્બરશીપ\nજોડાઓ',
+            'ગુજરાત રાજયગોર\nસમાજની ઈ-મેમ્બરશીપ\nજોડાઓ',
             textAlign: TextAlign.center,
-            style: GoogleFonts.notoSansGujarati(textStyle: const TextStyle(fontSize: 16.5, fontWeight: FontWeight.w900, color: Colors.white, height: 1.3)),
+            style:  const TextStyle(fontSize: 16.5, fontWeight: FontWeight.w900, color: Colors.white, height: 1.3)
           ),
           const SizedBox(height: 25),
           SizedBox(
@@ -300,7 +292,7 @@ class ContactScreen extends GetView<ContactController> {
                 children: [
                   Text(
                     'સભ્યતા જોડાઓ ',
-                    style: GoogleFonts.notoSansGujarati(textStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)), // ✅ અપડેટેડ
+                    style:const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)
                   ),
                   const SizedBox(width: 4),
                   const Icon(Icons.arrow_forward, color: Colors.white, size: 13), // ✅ અપડેટેડ
@@ -353,13 +345,13 @@ class ContactScreen extends GetView<ContactController> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Rajyapurohit Online',
-                    style: GoogleFonts.notoSansGujarati(textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.heading)), // ✅ અપડેટેડ
+                    'Rajyapurohit Jamnagar',
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.heading) // ✅ અપડેટેડ
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'રાજ્યપુરોહિત સમાજ મહાજન વાડી,\nપંચેશ્વર ટાવર, જામનગર, ગુજરાત.',
-                    style: GoogleFonts.notoSansGujarati(textStyle: TextStyle(fontSize: 12, color: AppColors.body, height: 1.4)), // ✅ અપડેટેડ
+                    'રાજયગોર સમાજ વાડી,\nરાજ્યગોર કુંજી શેરી નં. ૨, જામનગર - ૩૬૧૦૦૧, ગુજરાત રાજ્ય.',
+                    style: TextStyle(fontSize: 12, color: AppColors.body, height: 1.4)
                   ),
                 ],
               ),

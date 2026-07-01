@@ -60,35 +60,31 @@ class MissionScreen extends GetView<MissionController> {
         children: [
           Text(
             'અમારો ઉદ્દેશ',
-            style: GoogleFonts.notoSansGujarati(
-              textStyle: TextStyle(
+            style:  TextStyle(
                 fontSize: isWeb ? 52 : 34,
                 fontWeight: FontWeight.w900,
                 color: Colors.white,
                 letterSpacing: 1,
               ),
             ),
-          ),
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 'હોમ',
-                style: GoogleFonts.notoSansGujarati(
-                  textStyle: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 14, fontWeight: FontWeight.w500),
+                style: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 14, fontWeight: FontWeight.w500),
                 ),
-              ),
+
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text('/', style: TextStyle(color: AppColors.accent, fontSize: 14)), // ✅ અપડેટેડ
               ),
               Text(
                 'અમારો ઉદ્દેશ',
-                style: GoogleFonts.notoSansGujarati(
-                  textStyle: const TextStyle(color: AppColors.accent, fontSize: 14, fontWeight: FontWeight.bold), // ✅ અપડેટેડ
+                style:  const TextStyle(color: AppColors.accent, fontSize: 14, fontWeight: FontWeight.bold), // ✅ અપડેટેડ
                 ),
-              ),
+
             ],
           )
         ],
@@ -110,7 +106,7 @@ class MissionScreen extends GetView<MissionController> {
         imagePath: 'assets/images/earth.png',
         placeholderIcon: Icons.handshake_outlined,
         title: 'સમાજની એકતા - Community Unity',
-        description: 'રાજ્યપુરોહિત સમાજના દરેક સભ્યોને એક મંચ પર લાવવાનો ઉદ્દેશ છે - Fostering unity, mutual support, and a shared identity among all Rajyapurohit Families across Gujarat.',
+        description: 'રાજયગોર સમાજના દરેક સભ્યોને એક મંચ પર લાવવાનો ઉદ્દેશ છે - Fostering unity, mutual support, and a shared identity among all Rajyapurohit Families across Gujarat.',
       ),
       _buildMissionCard(
         imagePath: 'assets/images/earth.png',
@@ -218,28 +214,26 @@ class MissionScreen extends GetView<MissionController> {
 
             Text(
               title,
-              style: GoogleFonts.notoSansGujarati(
-                textStyle: const TextStyle(
+              style: const TextStyle(
                   fontSize: 17.5,
                   fontWeight: FontWeight.w900,
                   color: AppColors.heading,
                   height: 1.3,
                 ),
               ),
-            ),
+
             const SizedBox(height: 12),
 
             Text(
               description,
-              style: GoogleFonts.notoSansGujarati(
-                textStyle: TextStyle(
+              style: TextStyle(
                   fontSize: 13.5,
                   color: AppColors.body.withOpacity(0.85),
                   fontWeight: FontWeight.w500,
                   height: 1.6,
                 ),
               ),
-            ),
+
           ],
         ),
       )),

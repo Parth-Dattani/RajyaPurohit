@@ -92,7 +92,7 @@ class CustomFooter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'RAJYAPUROHITONLINE.IN',
+          'RAJYAPUROHIJAMNAGAR.IN',
           style: GoogleFonts.cinzel(
             textStyle: const TextStyle(
               fontSize: 18,
@@ -103,15 +103,14 @@ class CustomFooter extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         Text(
-          'ગુજરાત રાજ્યપુરોહિત સમાજ દ્વારા બનાવાયેલ RajyapurohitOnline.in એક ડિજિટલ સામાજિક પ્લેટફોર્મ છે. અહીં સભ્યતા, બિઝનેસ, મે્ટ્રિમોની, હેલ્થ અને એજ્યુકેશન જેવી સેવાઓ ઉપલબ્ધ છે.',
-          style: GoogleFonts.notoSansGujarati(
-            textStyle: TextStyle(
+          'ગુજરાત રાજયગોર સમાજ દ્વારા બનાવાયેલ RAJYAPUROHIJAMNAGAR.IN એક ડિજિટલ સામાજિક પ્લેટફોર્મ છે. અહીં સભ્યતા, બિઝનેસ, મે્ટ્રિમોની, હેલ્થ અને એજ્યુકેશન જેવી સેવાઓ ઉપલબ્ધ છે.',
+          style:  TextStyle(
               fontSize: 14,
               color: AppColors.footerText, // ✅ અપડેટેડ
               height: 1.5,
             ),
           ),
-        ),
+
         const SizedBox(height: 25),
         // સોશિયલ મીડિયા આઈકોન્સ રો
         Row(
@@ -151,10 +150,9 @@ class CustomFooter extends StatelessWidget {
       children: [
         Text(
           'ઝડપી કરો',
-          style: GoogleFonts.notoSansGujarati(
-            textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+          style:  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
           ),
-        ),
+
         const SizedBox(height: 20),
         _buildFooterLink('હોમ'),
         _buildFooterLink('અમારા વિષે'),
@@ -188,11 +186,10 @@ class CustomFooter extends StatelessWidget {
         },
         child: Text(
           title,
-          style: GoogleFonts.notoSansGujarati(
-            textStyle: TextStyle(fontSize: 14, color: AppColors.footerText.withOpacity(0.8)), // ✅ અપડેટેડ
+          style:  TextStyle(fontSize: 14, color: AppColors.footerText.withOpacity(0.8)), // ✅ અપડેટેડ
           ),
         ),
-      ),
+
     );
   }
 
@@ -203,10 +200,9 @@ class CustomFooter extends StatelessWidget {
       children: [
         Text(
           'ગૂગલ મેપ',
-          style: GoogleFonts.notoSansGujarati(
-            textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
           ),
-        ),
+
         const SizedBox(height: 20),
         ClipRRect(
           borderRadius: BorderRadius.circular(4),
@@ -244,21 +240,20 @@ class CustomFooter extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'ગુજરાતamp; રાજ્યપુરોહિત સમાજ',
-            style: GoogleFonts.notoSansGujarati(
-              textStyle: const TextStyle(
+            'ગુજરાત રાજયગોર સમાજ',
+            style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: AppColors.primary, // ✅ અપડેટેડ: ડાર્ક પ્રાઈમરી ટેક્સ્ટ
               ),
             ),
-          ),
+
           const SizedBox(height: 20),
-          _buildAddressRow(Icons.phone, '+91 95743-09096'),
-          _buildAddressRow(Icons.email, 'info@rayapurohitonline.in'),
+          _buildAddressRow(Icons.phone, '(૦૨૮૮) ૨૬૬૬૮૨૬'),
+          _buildAddressRow(Icons.email, 'contact@rajyapurohitjamnagar.in'),
           _buildAddressRow(
             Icons.location_on,
-            'ગુજરાત રાજ્યપુરોહિત સમાજ,\nમહાજન વાડી, પંચેશ્વર ટાવર,\nજામનગર - ૩૬૧૦૦૧. ગુજરાત. ઇન્ડિયા.',
+            'ગુજરાત રાજયગોર સમાજ વાડી,\n રાજ્યગોર કુંજી શેરી નં. ૨,\nજામનગર - ૩૬૧૦૦૧. ગુજરાત. ઇન્ડિયા.',
           ),
         ],
       ),
@@ -276,8 +271,7 @@ class CustomFooter extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: GoogleFonts.notoSansGujarati(
-                textStyle: const TextStyle(
+              style:  const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: AppColors.primary, // ✅ અપડેટેડ
@@ -285,7 +279,7 @@ class CustomFooter extends StatelessWidget {
                 ),
               ),
             ),
-          ),
+
         ],
       ),
     );
@@ -293,13 +287,12 @@ class CustomFooter extends StatelessWidget {
 
   // 🔹 બોટમ કોપીરાઈટ અને ક્રાફ્ટેડ બાય લીંક
   Widget _buildBottomBar(bool isWeb) {
-    final textStyle = GoogleFonts.notoSansGujarati(
-      textStyle: TextStyle(fontSize: 13, color: AppColors.footerText.withOpacity(0.4)), // ✅ અપડેટેડ
+    final textStyle = TextStyle(fontSize: 13, color: AppColors.footerText.withOpacity(0.4) // ✅ અપડેટેડ
     );
 
     final content = [
       Text(
-        '© 2026 ગુજરાત રાજ્યપુરોહિત સમાજ | Powered by RajyapurohitOnline.in',
+        '© 2026 ગુજરાત રાજયગોર સમાજ | Powered by RajyapurohitJamnagar.in',
         style: textStyle,
       ),
       if (isWeb) const Spacer(),

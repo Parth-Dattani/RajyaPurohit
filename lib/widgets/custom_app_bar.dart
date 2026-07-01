@@ -67,14 +67,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       },
       child: Text(
         title,
-        style: GoogleFonts.notoSansGujarati(
-          textStyle: TextStyle(
+        style:  TextStyle(
             color: isActive ? AppColors.textOrange : AppColors.textMaroon,
             fontWeight: isActive ? FontWeight.bold : FontWeight.w600,
             fontSize: 14,
           ),
         ),
-      ),
+
     );
   }
 }
@@ -120,7 +119,7 @@ class CustomMobileDrawer extends StatelessWidget {
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'RAJYAPUROHITONLINE.IN',
+                            'RAJYAPUROHITJAMNAGAR.IN',
                             style: GoogleFonts.cinzel(
                               textStyle: const TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -159,27 +158,6 @@ class CustomMobileDrawer extends StatelessWidget {
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'નમસ્તે!',
-                  style: GoogleFonts.notoSansGujarati(
-                    textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textMaroon),
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  'ગુજરાત રાજ્યપુરોહيت સમાજનું ડિજિટલ પ્લેટફોર્મ.',
-                  style: GoogleFonts.notoSansGujarati(
-                    textStyle: const TextStyle(fontSize: 12, color: Colors.black54, height: 1.4),
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );
@@ -191,14 +169,13 @@ class CustomMobileDrawer extends StatelessWidget {
       leading: Icon(icon, color: isActive ? AppColors.textOrange : AppColors.textMaroon, size: 20),
       title: Text(
         title,
-        style: GoogleFonts.notoSansGujarati(
-          textStyle: TextStyle(
+        style:  TextStyle(
             color: isActive ? AppColors.textOrange : AppColors.textMaroon,
             fontWeight: isActive ? FontWeight.bold : FontWeight.w600,
             fontSize: 14.5,
           ),
         ),
-      ),
+
       selected: isActive,
       onTap: () {
         Get.back();

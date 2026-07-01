@@ -36,7 +36,7 @@ class HomeScreen extends GetView<HomeController> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildHeroSection(isWeb),                       // ================== SECTION 1 ==================
+            _buildHeroSection(context, isWeb),                       // ================== SECTION 1 ==================
             _buildSolutionsSection(isWeb, screenWidth),     // ================== SECTION 2 ==================
             _buildMissionSection(isWeb),                    // ================== SECTION 3 ==================
             _buildStepsSection(isWeb, screenWidth),         // ================== SECTION 4 ==================
@@ -51,18 +51,24 @@ class HomeScreen extends GetView<HomeController> {
   // ==========================================
   // SECTION 1: HERO SECTION MODULE
   // ==========================================
-  Widget _buildHeroSection(bool isWeb) {
+  Widget _buildHeroSection(BuildContext context,bool isWeb) {
     return Container(
       color: AppColors.background, // ✅ અપડેટેડ
-      child: isWeb ? _buildHeroWebLayout() : _buildHeroMobileLayout(),
+      child: isWeb ? _buildHeroWebLayout(context) : _buildHeroMobileLayout(),
     );
   }
 
-  Widget _buildHeroWebLayout() {
+  Widget _buildHeroWebLayout(BuildContext context) {
+    // ⚡ ડિવાઈસની આખી સ્ક્રીનની હાઈટ મેળવો
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // પ્રોફેશનલ કન્ડિશન: જો સ્ક્રીન નાની હોય તો પણ મિનિમમ 500 રહે, બાકી આખી સ્ક્રીનના ૭૦% થી ૮૦% હાઈટ રોકે
+    final dynamicHeight = screenHeight * 0.75;
+
     return Container(
-      constraints: const BoxConstraints(
-        minHeight: 650,
-        maxHeight: 750,
+      constraints:  BoxConstraints(
+        minHeight: 500,
+        maxHeight: dynamicHeight < 650 ? 650 : dynamicHeight,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -89,7 +95,7 @@ class HomeScreen extends GetView<HomeController> {
                   end: Alignment.centerRight,
                 ),
               ),
-              child: _buildHeroRightImage(BoxFit.cover, Alignment.topCenter),
+              child: _buildHeroRightImage(BoxFit.contain, Alignment.topCenter),
             ),
           ),
         ],
@@ -647,7 +653,7 @@ class HomeScreen extends GetView<HomeController> {
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  'ગુજરાત રાજ્યપુરોહિત સમાજની ઈ-મેમ્બરશીપમાં જોડાઓ\nઅને સમાજના સકારાત્મક બદલાવમાં ભાગ બનો.',
+                  'ગુજરાત રાજયગોર સમાજની ઈ-મેમ્બરશીપમાં જોડાઓ\nઅને સમાજના સકારાત્મક બદલાવમાં ભાગ બનો.',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.baloo2(
                     textStyle: const TextStyle(
@@ -750,7 +756,7 @@ class HomeScreen extends GetView<HomeController> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
-            'ગુજરાત રાજ્યપુરોહિત સમાજની ઈ-મેમ્બરશીપમાં જોડાઓ અને સમાજના સકારાત્મક બદલાવમાં ભાગ બનો.',
+            'ગુજરાત રાજયગોર સમાજની ઈ-મેમ્બરશીપમાં જોડાઓ અને સમાજના સકારાત્મક બદલાવમાં ભાગ બનો.',
             textAlign: TextAlign.center,
             style: GoogleFonts.baloo2(
               textStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.heading, height: 1.3), // ✅ અપડેટેડ
@@ -1213,27 +1219,25 @@ class HomeScreen extends GetView<HomeController> {
       children: [
         Text(
           "FAQ's વિભાગ",
-          style: GoogleFonts.notoSansGujarati(
-            textStyle: const TextStyle(
+          style:  const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: AppColors.accent, // ✅ અપડેટેડ
               letterSpacing: 0.5,
             ),
-          ),
+
         ),
         const SizedBox(height: 12),
         Text(
           'વારંવાર\nપૂછાતા પ્રશ્નો',
-          style: GoogleFonts.notoSansGujarati(
-            textStyle: const TextStyle(
+          style: const TextStyle(
               fontSize: 44,
               fontWeight: FontWeight.w900,
               color: AppColors.heading, // ✅ અપડેટેડ
               height: 1.15,
             ),
           ),
-        ),
+
       ],
     );
   }
@@ -1278,7 +1282,7 @@ class HomeScreen extends GetView<HomeController> {
           expandedIndex: expandedIndex.value,
           stepNumber: '05',
           question: 'મોબાઇલ એપ (Android/iOS) ક્યારે મળશે?',
-          answer: 'રાજ્યપુરોહિત ઓનલાઇનની Android અને iOS એપ ટૂંક સમયમાં ઉપલબ્ધ થશે. લોન્ચ બાદ તમે એપમાં પણ OTP વેરીફિકેશન, રજીસ્ટ્રેશન અને e-Card એક્સેસ કરી શકશો.',
+          answer: 'રાજયગોર ઓનલાઇનની Android અને iOS એપ ટૂંક સમયમાં ઉપલબ્ધ થશે. લોન્ચ બાદ તમે એપમાં પણ OTP વેરીફિકેશન, રજીસ્ટ્રેશન અને e-Card એક્સેસ કરી શકશો.',
           onTap: (idx) => expandedIndex.value = expandedIndex.value == idx ? -1 : idx,
         )),
       ],
@@ -1315,29 +1319,27 @@ class HomeScreen extends GetView<HomeController> {
                     width: 40,
                     child: Text(
                       stepNumber,
-                      style: GoogleFonts.notoSansGujarati(
-                        textStyle: const TextStyle(
+                      style:  const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: AppColors.heading, // ✅ અપડેટેડ
                         ),
                       ),
                     ),
-                  ),
+
                   const SizedBox(width: 15),
 
                   Expanded(
                     child: Text(
                       question,
-                      style: GoogleFonts.notoSansGujarati(
-                        textStyle: TextStyle(
+                      style:  TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: isOpen ? AppColors.accent : AppColors.heading, // ✅ એક્સેન્ટ અથવા હેડિંગ બ્લુ
                         ),
                       ),
                     ),
-                  ),
+
                   const SizedBox(width: 20),
 
                   AnimatedContainer(
@@ -1365,8 +1367,7 @@ class HomeScreen extends GetView<HomeController> {
                   padding: const EdgeInsets.only(left: 55.0, top: 16.0, right: 40.0),
                   child: Text(
                     answer,
-                    style: GoogleFonts.notoSansGujarati(
-                      textStyle: TextStyle(
+                    style: TextStyle(
                         fontSize: 15,
                         color: AppColors.body.withOpacity(0.85), // ✅ અપડેટેડ
                         fontWeight: FontWeight.w500,
@@ -1374,7 +1375,7 @@ class HomeScreen extends GetView<HomeController> {
                       ),
                     ),
                   ),
-                ),
+
                 crossFadeState: isOpen ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                 duration: const Duration(milliseconds: 250),
               ),
@@ -1385,3 +1386,4 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 }
+
