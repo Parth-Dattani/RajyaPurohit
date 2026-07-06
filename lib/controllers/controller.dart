@@ -5,3 +5,5 @@ export 'membership_controller.dart';
 export 'mission_controller.dart';
 export 'contact_controller.dart';
 export 'team_controller.dart';
+export 'registration_controller.dart';
+export 'sanstha_controller.dart';

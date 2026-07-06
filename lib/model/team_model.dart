@@ -11,3 +11,19 @@ class TeamMember {
     this.imageUrl,
   });
 }
+
+class PastPresident {
+  final int srNo;
+  final String name;
+  final String duration;
+  final String years;
+  final String? imageUrl;
+
+  PastPresident({
+    required this.srNo,
+    required this.name,
+    required this.duration,
+    required this.years,
+    this.imageUrl,
+  });
+}

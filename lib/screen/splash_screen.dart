@@ -48,7 +48,7 @@ class SplashScreen extends GetView<SplashController> {
               children: [
                 // --- LAYER 1: BASE OUTLINE TEXT ---
                 Text(
-                  'RAJYAPUROHIT',
+                  'RAJYAGOR',
                   style: textStyle.copyWith(
                     foreground: Paint()
                       ..style = PaintingStyle.stroke
@@ -67,7 +67,7 @@ class SplashScreen extends GetView<SplashController> {
                         shiftValue: controller.waveShiftAnimation.value,
                       ),
                       child: Text(
-                        'RAJYAPUROHIT',
+                        'RAJYAGOR',
                         style: textStyle.copyWith(
                           color: AppColors.accent, // ➔ ✅ અપડેટેડ: ગ્લોબલ એક્સેન્ટ સોલિડ ફિલ
                         ),

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:rajya_purohit/screen/membership/registration_stepper_screen.dart';
 import 'package:rajya_purohit/screen/screen.dart';
 
 import 'bindings/bindings.dart';
@@ -45,5 +46,17 @@ List<GetPage> appPages = [
     name: TeamScreen.pageId,
     page: () => const TeamScreen(),
     binding: TeamBinding(), // ➔ ✅ પ્રોપર બાઈન્ડિંગ ઇન્જેક્શન
+  ),
+
+  GetPage(
+    name: '/RegistrationStepperScreen', // અથવા તમારો જે પેજ આઈડી હોય તે
+    page: () => const RegistrationStepperScreen(),
+    binding: RegistrationBinding(), // ✅ ખાતરી કરી લો કે આ લાઈન લખેલી છે ભાઈ
+  ),
+
+  GetPage(
+    name: '/SansthaScreen',
+    page: () => const SansthaScreen(),
+    binding: SansthaBinding(),
   ),
 ];

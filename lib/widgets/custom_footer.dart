@@ -1,3 +1,12 @@
+
+import 'package:universal_html/html.dart' as html;
+import 'dart:ui_web' as ui;
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../constant/app_colors.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,7 +15,8 @@ import '../constant/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../constant/app_colors.dart';
+import 'dart:html' as html; // 👈 Required import to fix the red error line
+import '../../constant/const.dart';
 
 class CustomFooter extends StatelessWidget {
   const CustomFooter({super.key});
@@ -18,50 +28,45 @@ class CustomFooter extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      color: AppColors.footerBackground, // ✅ અપડેટેડ: ગ્લોબલ ફૂટર ડાર્ક બેકગ્રાઉન્ડ
-      padding: EdgeInsets.symmetric(
-        horizontal: isWeb ? screenWidth * 0.08 : 24.0,
-        vertical: 60.0,
+      color: AppColors.footerBackground,
+      padding: EdgeInsets.only(
+        // ⚡ જાદુઈ ફિક્સ: આખા કન્ટેનરમાં નીચેનું પેડિંગ ૬૦ માંથી ઘટાડીને ૩૦ કરી દીધું ભાઈ!
+        left: isWeb ? screenWidth * 0.08 : 24.0,
+        right: isWeb ? screenWidth * 0.08 : 24.0,
+        top: 60.0,
+        bottom: 30.0,
       ),
       child: Column(
         children: [
           isWeb ? _buildWebLayout() : _buildMobileLayout(),
           const SizedBox(height: 50),
           const Divider(color: Colors.white10, height: 1),
-          const SizedBox(height: 30),
+          const SizedBox(height: 25), // સેહેજ સ્પેસિંગ બેલેન્સ કર્યું ભાઈ
           _buildBottomBar(isWeb),
         ],
       ),
     );
   }
 
-  // --- વેબ વ્યુ આડો લેઆઉટ (૪ કોલમ) ---
   Widget _buildWebLayout() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // કોલમ ૧: બ્રાન્ડિંગ અને સોશિયલ લિંક્સ
         Expanded(
           flex: 5,
           child: _buildBrandColumn(),
         ),
         const SizedBox(width: 40),
-
-        // કોલમ ૨: ઝડપી કરો (લિંક્સ)
         Expanded(
           flex: 3,
           child: _buildLinksColumn(),
         ),
         const SizedBox(width: 40),
-
-        // કોલમ ૩: ગૂગલ મેપ પ્લેસહોલ્ડર
         Expanded(
           flex: 5,
           child: _buildMapColumn(),
         ),
         const SizedBox(width: 40),
-
-        // કોલમ ૪: યેલો એડ્રેસ કાર્ડ
         Expanded(
           flex: 6,
           child: _buildAddressCard(),
@@ -70,7 +75,6 @@ class CustomFooter extends StatelessWidget {
     );
   }
 
-  // --- મોબાઇલ વ્યુ ઉભો લેઆઉટ ---
   Widget _buildMobileLayout() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,76 +90,44 @@ class CustomFooter extends StatelessWidget {
     );
   }
 
-  // 🔹 કોલમ ૧: બ્રાન્ડિંગ
   Widget _buildBrandColumn() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'RAJYAPUROHIJAMNAGAR.IN',
+          'RAJYAPUROHITJAMNAGAR.IN',
           style: GoogleFonts.cinzel(
             textStyle: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: AppColors.footerHeading, // ✅ અપડેટેડ
+              color: AppColors.footerHeading,
             ),
           ),
         ),
         const SizedBox(height: 20),
-        Text(
-          'ગુજરાત રાજયગોર સમાજ દ્વારા બનાવાયેલ RAJYAPUROHIJAMNAGAR.IN એક ડિજિટલ સામાજિક પ્લેટફોર્મ છે. અહીં સભ્યતા, બિઝનેસ, મે્ટ્રિમોની, હેલ્થ અને એજ્યુકેશન જેવી સેવાઓ ઉપલબ્ધ છે.',
-          style:  TextStyle(
-              fontSize: 14,
-              color: AppColors.footerText, // ✅ અપડેટેડ
-              height: 1.5,
-            ),
+        const Text(
+          'ગુજરાત રાજયગોર જ્ઞાતિ દ્વારા બનાવાયેલ RAJYAPUROHIJAMNAGAR.IN એક ડિજિટલ સામાજિક પ્લેટફોર્મ છે. અહીં સભ્યના, બિઝનેસ, મે્ટ્રિમોની, હેલ્થ અને એજ્યુકેશન જેવી સેવાઓ ઉપલબ્ધ કરવાનુ આયોજન છે.',
+          textAlign: TextAlign.justify,
+          style: TextStyle(
+            fontSize: 14,
+            color: AppColors.footerText,
+            height: 1.5,
           ),
-
-        const SizedBox(height: 25),
-        // સોશિયલ મીડિયા આઈકોન્સ રો
-        Row(
-          children: [
-            _buildSocialIcon(Icons.g_mobiledata, () {}),
-            const SizedBox(width: 10),
-            _buildSocialIcon(Icons.phone, () {}),
-            const SizedBox(width: 10),
-            _buildSocialIcon(Icons.android, () {}),
-            const SizedBox(width: 10),
-            _buildSocialIcon(Icons.apple, () {}),
-          ],
-        )
+        ),
       ],
     );
   }
 
-  Widget _buildSocialIcon(IconData icon, VoidCallback onTap) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        width: 36,
-        height: 36,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white24),
-        ),
-        child:  Icon(icon, color: AppColors.footerIcon, size: 18), // ✅ અપડેટેડ
-      ),
-    );
-  }
-
-  // 🔹 કોલમ ૨: લિંક્સ
   Widget _buildLinksColumn() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'ઝડપી કરો',
-          style:  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
         const SizedBox(height: 20),
         _buildFooterLink('હોમ'),
-        _buildFooterLink('અમારા વિષે'),
         _buildFooterLink('મેમ્બરશીપ'),
         _buildFooterLink('અમારી ટીમ'),
         _buildFooterLink('અમારો ઉદ્દેશ'),
@@ -172,8 +144,6 @@ class CustomFooter extends StatelessWidget {
         onTap: () {
           if (title == 'હોમ') {
             Get.offAllNamed('/HomeScreen');
-          } else if (title == 'અમારા વિષે') {
-            Get.toNamed('/AboutScreen');
           } else if (title == 'મેમ્બરશીપ') {
             Get.toNamed('/MembershipScreen');
           } else if (title == 'અમારો ઉદ્દેશ') {
@@ -186,74 +156,72 @@ class CustomFooter extends StatelessWidget {
         },
         child: Text(
           title,
-          style:  TextStyle(fontSize: 14, color: AppColors.footerText.withOpacity(0.8)), // ✅ અપડેટેડ
-          ),
+          style: TextStyle(fontSize: 14, color: AppColors.footerText.withOpacity(0.8)),
         ),
-
+      ),
     );
   }
 
-  // 🔹 કોલમ ૩: ગૂગલ મેપ પ્લેસહોલ્ડર
   Widget _buildMapColumn() {
+    const String footerMapTag = "google-maps-footer-jamnagar";
+
+    // ignore: undefined_prefixed_name
+    ui.platformViewRegistry.registerViewFactory(footerMapTag, (int viewId) {
+      return html.IFrameElement()
+        ..src = 'https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d3686.993510531557!2d70.0737843!3d22.4668749!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjLCsDI4JzAwLjciTiA3MMKwMDQnMjUuNiJF!5e0!3m2!1sgu!2sin!4v1719945000000!5m2!1sgu!2sin'
+        ..style.border = 'none'
+        ..style.width = '100%'
+        ..style.height = '100%';
+    });
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'ગૂગલ મેપ',
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
         const SizedBox(height: 20),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: Container(
-            height: 180,
-            width: double.infinity,
-            color: Colors.white.withOpacity(0.1), // ✅ અપડેટેડ: ડાર્ક થીમ અનુકૂળ પ્લેસહોલ્ડર
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.map, color: AppColors.footerIcon, size: 40), // ✅ અપડેટેડ
-                const SizedBox(height: 10),
-                Text(
-                  'Open in Maps',
-                  style: TextStyle(color: AppColors.footerText.withOpacity(0.7), fontSize: 13), // ✅ અપડેટેડ
-                )
-              ],
-            ),
+        Container(
+          height: 180,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(7),
+            child: const HtmlElementView(viewType: footerMapTag),
           ),
         ),
       ],
     );
   }
 
-  // 🔹 કોલમ ૪: ગોલ્ડન સરનામું કાર્ડ
   Widget _buildAddressCard() {
     return Container(
       padding: const EdgeInsets.all(24.0),
       decoration: BoxDecoration(
-        color: AppColors.buttonSecondary, // ✅ અપડેટેડ: ગ્લોબલ સેકન્ડરી ગોલ્ડન/પીળો
+        color: AppColors.buttonSecondary,
         borderRadius: BorderRadius.circular(4),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'ગુજરાત રાજયગોર સમાજ',
-            style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primary, // ✅ અપડેટેડ: ડાર્ક પ્રાઈમરી ટેક્સ્ટ
-              ),
+          const Text(
+            'ગુજરાત રાજયગોર જ્ઞાતિ',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primary,
             ),
-
+          ),
           const SizedBox(height: 20),
-          _buildAddressRow(Icons.phone, '(૦૨૮૮) ૨૬૬૬૮૨૬'),
+          _buildAddressRow(Icons.phone, '(૦૨૮૮) ૨૬૭૯૮૧૯'),
           _buildAddressRow(Icons.email, 'contact@rajyapurohitjamnagar.in'),
           _buildAddressRow(
             Icons.location_on,
-            'ગુજરાત રાજયગોર સમાજ વાડી,\n રાજ્યગોર કુંજી શેરી નં. ૨,\nજામનગર - ૩૬૧૦૦૧. ગુજરાત. ઇન્ડિયા.',
+            'જામનગર રાજ્યગોર જ્ઞાતિ બ્રહ્મપુરી,\n રાજ્યગોર ફળી શેરી નં. ૧,\nજામનગર - ૩૬૧૦૦૧. ગુજરાત. ઇન્ડિયા.',
           ),
         ],
       ),
@@ -266,40 +234,52 @@ class CustomFooter extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 16, color: AppColors.primary), // ✅ અપડેટેડ
+          Icon(icon, size: 16, color: AppColors.primary),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               text,
-              style:  const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primary, // ✅ અપડેટેડ
-                  height: 1.4,
-                ),
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppColors.primary,
+                height: 1.4,
               ),
             ),
-
+          ),
         ],
       ),
     );
   }
 
-  // 🔹 બોટમ કોપીરાઈટ અને ક્રાફ્ટેડ બાય લીંક
   Widget _buildBottomBar(bool isWeb) {
-    final textStyle = TextStyle(fontSize: 13, color: AppColors.footerText.withOpacity(0.4) // ✅ અપડેટેડ
-    );
+    final textStyle = TextStyle(fontSize: 13, color: AppColors.footerText.withOpacity(0.8));
 
     final content = [
       Text(
-        '© 2026 ગુજરાત રાજયગોર સમાજ | Powered by RajyapurohitJamnagar.in',
+        '© 2026 ગુજરાત રાજયગોર જ્ઞાત | RajyapurohitJamnagar.in',
         style: textStyle,
       ),
       if (isWeb) const Spacer(),
       if (!isWeb) const SizedBox(height: 10),
-      Text(
-        'Crafted by iNTELLIGENT tECH',
-        style: textStyle,
+      MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () async {
+            final Uri url = Uri.parse('https://intelligenttech.in/');
+            if (await canLaunchUrl(url)) {
+              await launchUrl(url);
+            } else {
+              debugPrint('Could not launch $url');
+            }
+          },
+          child: Text(
+            'Powered by iNTELLIGENT tECH',
+            style: textStyle.copyWith(
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ),
       ),
     ];
 

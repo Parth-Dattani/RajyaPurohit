@@ -1,22 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:rajya_purohit/screen/screen.dart';
 import '../controllers/home_controller.dart';
 import '../constant/app_colors.dart';
 import '../widgets/widgets.dart'; // ✅ ગ્લોબલ કલર્સ ફાઈલ ઈમ્પોર્ટ કરી
 
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../constant/app_colors.dart';
-import '../widgets/custom_app_bar.dart';
-import '../widgets/custom_footer.dart';
-
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../constant/app_colors.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_footer.dart';
 
@@ -30,14 +18,14 @@ class HomeScreen extends GetView<HomeController> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: AppColors.background, // ✅ અપડેટેડ: ગ્લોબલ સરફેસ બેકગ્રાઉન્ડ
+      backgroundColor: AppColors.background, // ✅ ગ્લોબલ સરફેસ બેકગ્રાઉન્ડ
       appBar: const CustomAppBar(),
       drawer: !isWeb ? const CustomMobileDrawer() : null,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildHeroSection(context, isWeb),                       // ================== SECTION 1 ==================
-            _buildSolutionsSection(isWeb, screenWidth),     // ================== SECTION 2 ==================
+            _buildHeroSection(context, isWeb),               // ================== SECTION 1 ==================
+            //_buildSolutionsSection(isWeb, screenWidth),     // ================== SECTION 2 ==================
             _buildMissionSection(isWeb),                    // ================== SECTION 3 ==================
             _buildStepsSection(isWeb, screenWidth),         // ================== SECTION 4 ==================
             _buildFaqSection(isWeb, screenWidth),           // ================== SECTION 5 ==================
@@ -51,61 +39,164 @@ class HomeScreen extends GetView<HomeController> {
   // ==========================================
   // SECTION 1: HERO SECTION MODULE
   // ==========================================
-  Widget _buildHeroSection(BuildContext context,bool isWeb) {
+  Widget _buildHeroSection(BuildContext context, bool isWeb) {
     return Container(
-      color: AppColors.background, // ✅ અપડેટેડ
+      color: AppColors.background,
       child: isWeb ? _buildHeroWebLayout(context) : _buildHeroMobileLayout(),
     );
   }
 
   Widget _buildHeroWebLayout(BuildContext context) {
-    // ⚡ ડિવાઈસની આખી સ્ક્રીનની હાઈટ મેળવો
     final screenHeight = MediaQuery.of(context).size.height;
-
-    // પ્રોફેશનલ કન્ડિશન: જો સ્ક્રીન નાની હોય તો પણ મિનિમમ 500 રહે, બાકી આખી સ્ક્રીનના ૭૦% થી ૮૦% હાઈટ રોકે
     final dynamicHeight = screenHeight * 0.75;
 
-    return Container(
-      constraints:  BoxConstraints(
-        minHeight: 500,
-        maxHeight: dynamicHeight < 650 ? 650 : dynamicHeight,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+    // ⚡ કમ્પાઇલરના ડખા દૂર કરવા માટે ડબલમાં કન્વર્ટ ભાઈ
+    final double baseHeight = (dynamicHeight < 630 ? 630.0 : dynamicHeight).toDouble();
+
+    return Obx(() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            flex: 11,
-            child: Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.only(left: 80.0, top: 40.0, bottom: 40.0, right: 40.0),
-              child: _buildHeroLeftContentWeb(),
+          // ➔ ૧. મેઈન સેક્શન: શરૂઆતનો ઇતિહાસ અને જમણી બાજુ દાદાનો ફોટો (Row Layout)
+          Container(
+            height: baseHeight,
+            width: double.infinity,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // ડાબી બાજુ: માત્ર શરૂઆતના ૨ પેરેગ્રાફ ભાઈ
+                Expanded(
+                  flex: 10,
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.only(left: 80.0, top: 40.0, bottom: 20.0, right: 40.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'જામનગર રાજ્યપુરોહિત (રાજગોર) બ્રાહ્મણ જ્ઞાતિ',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.heading,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                              fontSize: 54,
+                              fontWeight: FontWeight.w800,
+                              height: 1.15,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: 'જ્ઞાતિનો ગૌરવશાળી\n',
+                                style: TextStyle(color: AppColors.heading),
+                              ),
+                              TextSpan(
+                                text: 'ઐતિહાસિક વારસો.',
+                                style: TextStyle(color: AppColors.accent),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'જામનગર રાજ્યપુરોહિત (રાજગોર) બ્રાહ્મણ જ્ઞાતિનો ઇતિહાસ આશરે ૪૮૬ વર્ષ જૂનો માનવામાં આવે છે. કચ્છના રાજવી જામ રાવળ, જે કચ્છની તેરા શાખાના પ્રમુખ જામ લાખોજીના પુત્ર હતા, તેમણે ઈ.સ. ૧૫૨૪થી ૧૫૪૮ સુધી કચ્છ પર શાસન કર્યું. બાદમાં આંતરિક વિખવાદો અને રાજકીય પરિસ્થિતિઓને કારણે તેઓ પોતાના ભાયાતો, વફાદાર સૈનિકો તથા કુળગોર રાજ્યપુરોહિત બ્રાહ્મણ પરિવારો સાથે કચ્છ છોડીને સૌરાષ્ટ્ર તરફ પ્રસ્થાન કર્યું. લોકવાયકા મુજબ આશાપુરા માતાની પ્રેરણાથી તેમણે નવા રાજ્યની સ્થાપનાનો સંકલ્પ કર્યો.',
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(fontSize: 15.5, color: AppColors.body, fontWeight: FontWeight.w500, height: 1.6),
+                        ),
+                        const SizedBox(height: 15),
+                        const Text(
+                          'સૌપ્રથમ જામ રાવળે બેડ ગામ ખાતે થાણું સ્ถาપ્યું અને ત્યારબાદ khંભાળિયા વિસ્તારમાં પોતાનું પ્રભુત્વ સ્થાપિત કર્યું. ખંભાળિયા અને સલાયા દરિયાકાંઠાના વિસ્તારો હોવાથી વેપાર અને બંદર વિકાસ માટે અનુકૂળ હતા. સમય જતાં અનેક સ્થાનિક શાસકો અને જાતિઓ સાથેના સંઘર્ષોમાં વિજય પ્રાપ્ત કરીને તેમણે જોડિયા, આમરણ, ધ્રોલ, નાગનાથ બંદર અને ખંભાળિયા જેવા વિસ્તારો પોતાના રાજ્યમાં સામેલ કર્યા. અંતે ઈ.સ. ૧૫૪૦ આસપાસ નવાનગર (આજનું જામનગર) રાજ્યની સ્થાપના કરી અને જામનગરને રાજધાની તરીકે વિકસાવ્યું.',
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(fontSize: 15.5, color: AppColors.body, fontWeight: FontWeight.w500, height: 1.6),
+                        ),
+
+                        // ⚡ જો હિસ્ટ્રી બંધ હોય તો જ બટન અહીંયા ઉપર દેખાશે ભાઈ!
+                        if (!controller.isHistoryExpanded.value) ...[
+                          const SizedBox(height: 25),
+                          _buildHeroActionButtons(),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+
+                // જમણી બાજુ: ભગવાન પરશુરામની ઈમેજ
+                Expanded(
+                  flex: 8,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [AppColors.background, Color(0xFFF5A65B), Color(0xFFD46A13)],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                    ),
+                    child: _buildHeroRightImage(BoxFit.contain, Alignment.topCenter),
+                  ),
+                ),
+              ],
             ),
           ),
-          Expanded(
-            flex: 9,
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.background, // ✅ અપડેટેડ
-                    Color(0xFFF5A65B),
-                    Color(0xFFD46A13),
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ),
+
+          // ➔ ૨. બાકીનો બધો જ ઇતિહાસ હવે ફોટાની સાવ નીચે ફૂલ વિડ્થ (Full Width) માં ઓપન થશે
+          AnimatedSize(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            child: controller.isHistoryExpanded.value
+                ? Container(
+              width: double.infinity,
+              padding: const EdgeInsets.only(left: 80.0, right: 80.0, bottom: 40.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+                  _buildExtendedHistoryText(
+                    'જામ રાવળ સાથે આવેલા રાજ્યપુરોહિત બ્રાહ્મણ પરિવારોને રાજગોર તરીકે ઓળખવામાં આવ્યા. તેમને વસવાટ માટે જામનગર શહેરમાં રાજગોર ફળીમાં મકાનો તથા જીવનનિર્વાહ માટે ખેતીની જમીનો આપવામાં આવી. ખંભાળિયા, સોડસલા તથા આસપાસના વિસ્તારોમાં પણ રાજગોર પરિવારોને ખેતી અને ધાર્મિક સેવાઓ માટે જમીનો ફાળવવામાં આવી. જાડેજા રાજવીઓએ પોતાના ભાયાતોને વિવિધ ગામો અને પરગણાઓના વહીવટની જવાબદારી સોંપી હતી, અને તે ભાયાતોના ગોર તરીકે રાજગોર બ્રાહ્મણ પરિવારો ગામે ગામ વસ્યા. આજે પણ જામનગર, ખંભાળિયા, ભાટિયા, ભોપલકા, લાલપુર તથા આસપાસના લગભગ ૧૦૦થી વધુ ગામોમાં રાજગોર પરિવારો વસવાટ કરે છે અને તેમની ઐતિહાસિક ઓળખ જાળવી રાખે છે.',
+                    isMobile: false,
+                  ),
+                  const SizedBox(height: 15),
+                  _buildExtendedHistoryText(
+                    'લાલપુર વિસ્તારના ચેલા ચંગા, hરીપર, મેમાણા, ખીરસરા, ભણગોર સહિતના ગામોમાં પણ રાજગોર પરિવારો રાજના ગોર તરીકે ઓળખાય છે. સમય જતાં આ પરિવારો જામનગર અને ખંભાળિયા ઉપરાંત રાજકોટ, મોરબી, ગોંડલ, જુનાગઢ, મુંબઈ, આફ્રિકા, લંડન અને અન્ય સ્થળોએ સ્થાયી થયા. શિક્ષણ, વેપાર-ઉદ્યોગ, સરકારી સેવા, રાજકારણ અને વિવિધ વ્યવસાયોમાં તેમણે નોંધપાત્ર પ્રગતિ હાંસલ કરી છે.',
+                    isMobile: false,
+                  ),
+                  const SizedBox(height: 15),
+                  _buildExtendedHistoryText(
+                    'રાજગોર જ્ઞાતિમાં અનેક શાખાઓ અને અટકો જોવા મળે છે. લોકવાયકા મુજબ કલો, ખેતો, ગોપો અને પુંજો નામના ચાર મુખ્ય વડવાઓના વંશજો ક્રમે કલ્યાણી, ખેતીયા, ગોપિયાણી અને પુંજાણી તરીકે ઓળખાયા. આ ઉપરાંત ભટ્ટ, બારોટ, નાકર, જોશી, લવા, પંડ્યા, આશા, રાવલ, વાસુ, કેશવાણી વગેરે અટકો ધરાવતા પરિવારો પણ જ્ઞાતિમાં મહત્વનું સ્થાન ધરાવે છે. આ સિવાય મોખા, મેતા, મોતા અને કેવલીયા પરિવાર પણ રાજગોર જ્ઞાતિનો અભિન્ન ભાગ છે અને જ્ઞાતિના સામાજિક તથા સાંસ્કૃતિક વિકાસમાં તેમનું પણ મહત્વપૂર્ણ યોગદાન રહ્યું છે.',
+                    isMobile: false,
+                  ),
+                  const SizedBox(height: 15),
+                  _buildExtendedHistoryText(
+                    'રાજગોર બ્રાહ્મણોના કેટલાક પરિવારો વિવિધ રાજ્યોના શાસકો સાથે સંકળાયેલા રહ્યા હતા. રાજકોટ અને ગોંડલમાં મુખ્યત્વે ખેતીયા પરિવારો વસ્યા, જ્યારે જુનાગઢમાં ગોપિયાણી પરિવારો અને મોરબીમાં જોશી પરિવારો રાજપરિવારો સાથે જોડાયેલા હોવાનું કહેવાય છે. આ સંબંધોએ જ્ઞાતિના સામાજિક અને વહીવટી પ્રભાવને વધુ મજબૂત બનાવ્યો.',
+                    isMobile: false,
+                  ),
+                  const SizedBox(height: 15),
+                  _buildExtendedHistoryText(
+                    'આ રીતે રાજગોર બ્રાહ્મણ જ્ઞાતિએ રાજ્યપુરોહિત, વહીવટી માર્ગદર્શક, ધાર્મિક સેવક અને સમાજનિર્માતા તરીકે સૌરાષ્ટ્ર અને ગુજરાતના ઇતિહાસમાં મહત્વપૂર્ણ યોગદાન આપ્યું છે. આજે પણ જ્ઞાતિના પરિવારો પોતાની પરંપરા, સંસ્કૃતિ અને ઐતિહાસિક વારસાને જાળવી રાખીને વિવિધ ક્ષેત્રોમાં પ્રગતિ કરી રહ્યા છે.',
+                    isMobile: false,
+                  ),
+
+                  // ⚡ જાદુઈ બટન શિફ્ટ લોજિક
+                  const SizedBox(height: 30),
+                  _buildHeroActionButtons(),
+                ],
               ),
-              child: _buildHeroRightImage(BoxFit.contain, Alignment.topCenter),
-            ),
+            )
+                : const SizedBox.shrink(),
           ),
         ],
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildHeroRightImage(BoxFit boxFit, Alignment alignment) {
     return Image.asset(
-      'assets/images/parsuram.png',
+      'assets/images/shiv_logo.png',
       fit: boxFit,
       alignment: alignment,
       errorBuilder: (context, error, stackTrace) {
@@ -130,7 +221,7 @@ class HomeScreen extends GetView<HomeController> {
           height: 480,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [AppColors.background, Color(0xFFF5A65B)], // ✅ અપડેટેડ
+              colors: [AppColors.background, Color(0xFFF5A65B)],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -141,122 +232,73 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 
-  Widget _buildHeroLeftContentWeb() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          'ગુજરાત રાજ્યપુરોહિત સમાજમાં',
-          style: GoogleFonts.baloo2(
-            textStyle: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: AppColors.heading, // ✅ અપડેટેડ
-              letterSpacing: 0.5,
-            ),
-          ),
-        ),
-        const SizedBox(height: 10),
-
-        RichText(
-          text: TextSpan(
-            style: GoogleFonts.baloo2(
-              textStyle: const TextStyle(
-                fontSize: 64,
-                fontWeight: FontWeight.w800,
-                height: 1.15,
-              ),
-            ),
-            children: const [
-              TextSpan(
-                text: 'તમારી\n',
-                style: TextStyle(color: AppColors.heading), // ✅ અપડેટેડ
-              ),
-              TextSpan(
-                text: 'ઈ-મેમ્બરશીપ\n',
-                style: TextStyle(color: AppColors.accent), // ✅ અપડેટેડ: ગોલ્ડન એક્સેન્ટ કલર
-              ),
-              TextSpan(
-                text: 'એક્ટીવેટ કરો.',
-                style: TextStyle(color: AppColors.heading), // ✅ અપડેટેડ
-              ),
-            ],
-          ),
-        ),
-
-        const SizedBox(height: 60),
-
-        Text(
-          'ગુજરાત રાજ્યપુરોહિત સમાજનું એકીકરણ અને વિકાસ માટે જોડાઓ. તમારી માહિતી નોંધાવી સમાજની ડિજિટલ ઓળખ બનાવી શકશો.',
-          style: GoogleFonts.baloo2(
-            textStyle: const TextStyle(
-              fontSize: 16,
-              color: AppColors.body, // ✅ અપડેટેડ: બોડી ટેક્સ્ટ કલર
-              fontWeight: FontWeight.w500,
-              height: 1.4,
-            ),
-          ),
-        ),
-        const SizedBox(height: 35),
-        _buildHeroActionButtons(),
-      ],
-    );
-  }
-
   Widget _buildHeroLeftContentMobile() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'ગુજરાત રાજ્યપુરોહિત સમાજમાં',
-          style: GoogleFonts.baloo2(
-            textStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: AppColors.heading, // ✅ અપડેટેડ
-            ),
+        const Text(
+          'જામનગર રાજ્યપુરોહિત (રાજગોર) જ્ઞાતિ',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: AppColors.heading,
           ),
         ),
         const SizedBox(height: 5),
         RichText(
           text: TextSpan(
-            style: GoogleFonts.baloo2(
-              textStyle: const TextStyle(
-                fontSize: 42,
-                fontWeight: FontWeight.w800,
-                height: 1.15,
-              ),
+            style: TextStyle(
+              fontSize: 36,
+              fontWeight: FontWeight.w800,
+              height: 1.15,
             ),
-            children: const [
+            children: [
               TextSpan(
-                text: 'તમારી\n',
-                style: TextStyle(color: AppColors.heading), // ✅ અપડેટેડ
+                text: 'જ્ઞાતિનો ગૌરવશાળી\n',
+                style: TextStyle(color: AppColors.heading),
               ),
               TextSpan(
-                text: 'ઈ-મેમ્બરશીપ\n',
-                style: TextStyle(color: AppColors.accent), // ✅ અપડેટેડ
-              ),
-              TextSpan(
-                text: 'એક્ટીવેટ કરો.',
-                style: TextStyle(color: AppColors.heading), // ✅ અપડેટેડ
+                text: 'ઐતિહાસિક વારસો.',
+                style: TextStyle(color: AppColors.accent),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 25),
-        Text(
-          'ગુજરાત રાજ્યપુરોહિત સમાજનું એકીકરણ અને વિકાસ માટે જોડાઓ. તમારી માહિતી નોંધાવી સમાજની ડિજिटल ઓળખ બનાવી શકશો.',
-          style: GoogleFonts.baloo2(
-            textStyle: const TextStyle(
-              fontSize: 14,
-              color: AppColors.body, // ✅ અપડેટેડ
-              fontWeight: FontWeight.w500,
-              height: 1.4,
-            ),
+        const SizedBox(height: 20),
+
+        const Text(
+          'જામનગર રાજ્યપુરોહિત (રાજગોર) બ્રાહ્મણ જ્ઞાતિનો ઇતિહાસ આશરે ૪૮૬ વર્ષ જૂનો છે. ઈ.સ. ૧૫૪૦ આસપાસ કચ્છના રાજવી જામ રાવળ પોતાના કુળગોર રાજ્યપુરોહિત પરિવારો સાથે સૌરાષ્ટ્રમાં નવાનગર (આજનું જામનગર) રાજ્યની સ્થાપના કરી હતી. જાડેજા રાજવીઓ દ્વારા ગામેગામ વસેલા આ પરિવારો આજે પણ ગૌરવશાળી પરંપરા જાળવી વિવિધ ક્ષેત્રોમાં પ્રગતિ કરી રહ્યા છે.',
+          textAlign: TextAlign.justify,
+          style: TextStyle(
+            fontSize: 14,
+            color: AppColors.body,
+            fontWeight: FontWeight.w500,
+            height: 1.5,
           ),
         ),
+
+        Obx(() => AnimatedSize(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          child: controller.isHistoryExpanded.value
+              ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 12),
+              _buildExtendedHistoryText('જામ રાવળ સાથે આવેલા રાજ્યપુરોહિત બ્રાહ્મણ પરિવારોને રાજગોર તરીકે ઓળખવામાં આવ્યા. તેમને વસવાટ માટે જામનગર શહેરમાં રાજગોર ફળીમાં મકાનો તથા જીવનનિર્વાહ માટે ખેતીની જમીનો આપવામાં આવી. ખંભાળિયા, સોડસલા તથા આસપાસના વિસ્તારોમાં પણ રાજગોર પરિવારોને ખેતી અને ધાર્મિક સેવાઓ માટે જમીનો ફાળવવામાં આવી. જાડેજા રાજવીઓએ પોતાના ભાયાતોને વિવિધ ગામો અને પરગણાઓના વહીવટની જવાબદારી સોંપી હતી, અને તે ભાયાતોના ગોર તરીકે રાજગોર બ્રાહ્મણ પરિવારો ગામે ગામ વસ્યા. આજે પણ જામનગર, ખંભાળિયા, ભાટિયા, ભોપલકા, લાલપુર તથા આસપાસના લગભગ ૧૦૦થી વધુ ગામોમાં રાજગોર પરિવારો વસવાટ કરે છે અને તેમની ઐતિહાસિક ઓળખ જાળવી રાખે છે.', isMobile: true),
+              const SizedBox(height: 12),
+              _buildExtendedHistoryText('લાલપુર વિસ્તારના ચેલા ચંગા, હરીપર, મેમાણા, khીરસરા, ભણગોર સહિતના ગામોમાં પણ રાજગોર પરિવારો રાજના ગોર તરીકે ઓળખાય છે. સમય જતાં આ પરિવારો જામનગર અને khંભાળિયા ઉપરાંત રાજકોટ, મોરબી, ગોંડલ, જુનાગઢ, મુંબઈ, આફ્રિકા, લંડન અને અન્ય સ્થળોએ સ્થાયી થયા. શિક્ષણ, વેપાર-ઉદ્યોગ, સરકારી સેવા, રાજકારણ અને વિવિધ વ્યવસાયોમાં તેમણે નોંધપાત્ર પ્રગતિ હાંસલ કરી છે.', isMobile: true),
+              const SizedBox(height: 12),
+              _buildExtendedHistoryText('રાજગોર જ્ઞાતિમાં અનેક શાખાઓ અને અટકો જોવા મળે છે. લોકવાયકા મુજબ કલો, ખેતો, ગોપો અને પુંજો નામના ચાર મુખ્ય વડવાઓના વંશજો ક્રમે કલ્યાણી, ખેતીયા, ગોપિયાણી અને પુંજાણી તરીકે ઓળખાયા. આ ઉપરાંત ભટ્ટ, બારોટ, નાકર, જોશી, લવા, પંડ્યા, આશા, રાવલ, વાસુ, કેશવાણી વગેરે અટકો ધરાવતા પરિવારો પણ જ્ઞાતિમાં મહત્વનું સ્થાન ધરાવે છે. આ સિવાય મોખા, મેતા, મોતા અને કેવલીયા પરિવાર પણ રાજગોર જ્ઞાતિનો અભિન્ન ભાગ છે અને જ્ઞાતિના સામાજિક તથા સાંસ્કૃતિક વિકાસમાં તેમનું પણ મહત્વપૂર્ણ યોગદાન રહ્યું છે.', isMobile: true),
+              const SizedBox(height: 12),
+              _buildExtendedHistoryText('રાજગોર બ્રાહ્મણોના કેટલાક પરિવારો વિવિધ રાજ્યોના શાસકો સાથે સંકળાયેલા રહ્યા હતા. રાજકોટ અને ગોંડલમાં મુખ્યત્વે ખેતીયા પરિવારો વસ્યા, જ્યારે જુનાગઢમાં ગોપિયાણી પરિવારો અને મોરબીમાં જોશી પરિવારો રાજપરિવારો સાથે જોડાયેલા હોવાનું કહેવાય છે. આ સંબંધોએ જ્ઞાતિના સામાજિક અને વહીવટી પ્રભાવને વધુ મજબૂત બનાવ્યો.', isMobile: true),
+              const SizedBox(height: 12),
+              _buildExtendedHistoryText('આ રીતે રાજગોર બ્રાહ્મણ જ્ઞાતિએ રાજ્યપુરોહિત, વહીવટી માર્ગદર્શક, ધાર્મિક સેવક અને સમાજનિર્માતા તરીકે સૌરાષ્ટ્ર અને ગુજરાતના ઇતિહાસમાં મહત્વપૂર્ણ યોગદાન આપ્યું છે. આજે પણ જ્ઞાતિના પરિવારો પોતાની પરંપરા, સંસ્કૃતિ અને ઐતિહાસિક વારસાને જાળવી રાખીને વિવિધ ક્ષેત્રોમાં પ્રગતિ કરી રહ્યા છે.', isMobile: true),
+            ],
+          )
+              : const SizedBox.shrink(),
+        )),
+
         const SizedBox(height: 25),
         _buildHeroActionButtons(isMobile: true),
       ],
@@ -268,51 +310,60 @@ class HomeScreen extends GetView<HomeController> {
       children: [
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.textOrange, // ✅ અપડેટેડ: બટન એક્સેન્ટ
+            backgroundColor: AppColors.accent,
             padding: EdgeInsets.symmetric(
-                horizontal: isMobile ? 20 : 28,
-                vertical: isMobile ? 14 : 16
+                horizontal: isMobile ? 24 : 32,
+                vertical: isMobile ? 14 : 18
             ),
             elevation: 0,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           ),
           onPressed: () {
-            Get.toNamed(MembershipScreen.pageId);
+            controller.isHistoryExpanded.value = !controller.isHistoryExpanded.value;
           },
-          child: Text(
-              'મેમ્બરશીપ  ➔',
-              style: TextStyle(color: AppColors.whiteText, fontWeight: FontWeight.bold, fontSize: isMobile ? 13 : 14) // ✅ અપડેટેડ
-          ),
-        ),
-        SizedBox(width: isMobile ? 15 : 20),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.buttonSecondary, // ✅ અપડેટેડ: સેકન્ડરી પીળો/ગોલ્ડન
-            padding: EdgeInsets.symmetric(
-                horizontal: isMobile ? 20 : 28,
-                vertical: isMobile ? 14 : 16
-            ),
-            elevation: 0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-          ),
-          onPressed: () {
-            Get.toNamed(ContactScreen.pageId);
-          },
-          child: Text(
-              'સંપર્ક  ➔',
-              style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold, fontSize: isMobile ? 13 : 14) // ✅ અપડેટેડ
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Obx(() => Text(
+                controller.isHistoryExpanded.value ? 'ઓછું વાંચો' : 'વધુ વાંચો',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: isMobile ? 13 : 14,
+                ),
+              )),
+              const SizedBox(width: 8),
+              Obx(() => Icon(
+                controller.isHistoryExpanded.value ? Icons.arrow_upward : Icons.arrow_forward,
+                color: Colors.white,
+                size: 16,
+              )),
+            ],
           ),
         ),
       ],
     );
   }
 
+  Widget _buildExtendedHistoryText(String text, {required bool isMobile}) {
+    return Text(
+      text,
+      textAlign: TextAlign.justify,
+      style: TextStyle(
+        fontSize: isMobile ? 14 : 15.5,
+        color: AppColors.body,
+        fontWeight: FontWeight.w500,
+        height: isMobile ? 1.5 : 1.6,
+      ),
+    );
+  }
+
   // ==========================================
-  // SECTION 2: MAROON SOLUTIONS MODULE
+  // SECTION 2: MAROON SOLUTIONS MODULE currently not show
   // ==========================================
   Widget _buildSolutionsSection(bool isWeb, double screenWidth) {
     return Container(
-      color: AppColors.primary, // ✅ અપડેટેડ: ડાર્ક બ્રાન્ડ બ્લુ સેક્શન
+      color: AppColors.primary,
       width: double.infinity,
       padding: EdgeInsets.symmetric(
         horizontal: isWeb ? screenWidth * 0.06 : 24.0,
@@ -360,7 +411,7 @@ class HomeScreen extends GetView<HomeController> {
                       index: 1,
                       hoveredIndex: hoveredIndex.value,
                       title: 'મેટ્રિમોની',
-                      description: 'રાજ્યપુરોહિત સમાજમાં જીવનસાથી શોધ માટે પ્લેટફોર્મ.',
+                      description: 'રાજ્યગોર સમાજમાં જીવનસાથી શોધ માટે પ્લેટફોર્મ.',
                       iconData: Icons.people,
                       onHover: (isHovered) => hoveredIndex.value = isHovered ? 1 : -1,
                     )),
@@ -414,7 +465,7 @@ class HomeScreen extends GetView<HomeController> {
         const SizedBox(height: 30),
         Obx(() => _buildHoverableSolutionCard(index: 0, hoveredIndex: hoveredIndex.value, title: 'વ્યવસાય કોમ્યુનિટી', description: 'સમાજમાં ધંધા અને સેવાઓ સરળતાથી શોધો.', iconData: Icons.business_center, onHover: (v) => hoveredIndex.value = v ? 0 : -1)),
         const SizedBox(height: 16),
-        Obx(() => _buildHoverableSolutionCard(index: 1, hoveredIndex: hoveredIndex.value, title: 'મેટ્રિમોની', description: 'રાજ્યપુરોહિત સમાજમાં જીવનસાથી શોધ માટે પ્લેટફોર્મ.', iconData: Icons.people, onHover: (v) => hoveredIndex.value = v ? 1 : -1)),
+        Obx(() => _buildHoverableSolutionCard(index: 1, hoveredIndex: hoveredIndex.value, title: 'મેટ્રિમોની', description: 'રાજ્યગોર સમાજમાં જીવનસાથી શોધ માટે પ્લેટફોર્મ.', iconData: Icons.people, onHover: (v) => hoveredIndex.value = v ? 1 : -1)),
         const SizedBox(height: 16),
         Obx(() => _buildHoverableSolutionCard(index: 2, hoveredIndex: hoveredIndex.value, title: 'ઈવેન્ટ્સ', description: 'આવતા કાર્યોમો અને વિગતો અહીં અપડેટ રહેશે.', iconData: Icons.calendar_month, onHover: (v) => hoveredIndex.value = v ? 2 : -1)),
         const SizedBox(height: 16),
@@ -445,7 +496,7 @@ class HomeScreen extends GetView<HomeController> {
           borderRadius: BorderRadius.circular(4),
           border: Border(
             bottom: BorderSide(
-              color: isHovered ? AppColors.accent : Colors.transparent, // ✅ અપડેટેડ
+              color: isHovered ? AppColors.accent : Colors.transparent,
               width: 3.0,
             ),
           ),
@@ -457,31 +508,27 @@ class HomeScreen extends GetView<HomeController> {
             Icon(
               iconData,
               size: 28,
-              color: isHovered ? AppColors.accent : Colors.white60, // ✅ અપડેટેડ
+              color: isHovered ? AppColors.accent : Colors.white60,
             ),
             const SizedBox(height: 25),
 
             Text(
               title,
-              style: GoogleFonts.baloo2(
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
             const SizedBox(height: 12),
 
             Text(
               description,
-              style: GoogleFonts.baloo2(
-                textStyle: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white.withOpacity(0.7),
-                  fontWeight: FontWeight.w400,
-                  height: 1.4,
-                ),
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.white.withOpacity(0.7),
+                fontWeight: FontWeight.w400,
+                height: 1.4,
               ),
             ),
 
@@ -494,22 +541,16 @@ class HomeScreen extends GetView<HomeController> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
+                    const Text(
                       'વધુ જાણો ',
-                      style: GoogleFonts.baloo2(
-                        textStyle: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(width: 4),
-                    const Icon(
-                        Icons.arrow_forward,
-                        size: 14,
-                        color: Colors.white
-                    ),
+                    const Icon(Icons.arrow_forward, size: 14, color: Colors.white),
                   ],
                 ),
               )
@@ -522,30 +563,26 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   Widget _buildSolutionsHeader() {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'અમે કેવી રીતે મદદ કરીએ છીએ',
-          style: GoogleFonts.baloo2(
-            textStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: AppColors.accent, // ✅ અપડેટેડ
-              letterSpacing: 0.5,
-            ),
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: AppColors.accent,
+            letterSpacing: 0.5,
           ),
         ),
         const SizedBox(height: 8),
         Text(
-          'સમાજ માટેના ઉકેલો',
-          style: GoogleFonts.baloo2(
-            textStyle: const TextStyle(
-              fontSize: 42,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              height: 1.2,
-            ),
+          'જ્ઞાત માટેના ઉકેલો',
+          style: TextStyle(
+            fontSize: 42,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            height: 1.2,
           ),
         ),
       ],
@@ -571,7 +608,7 @@ class HomeScreen extends GetView<HomeController> {
   // ==========================================
   Widget _buildMissionSection(bool isWeb) {
     return Container(
-      color: AppColors.background, // ✅ અપડેટેડ
+      color: AppColors.background,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 80.0),
       child: isWeb ? _buildMissionWebLayout() : _buildMissionMobileLayout(),
@@ -639,55 +676,35 @@ class HomeScreen extends GetView<HomeController> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'અમારું મિશન',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.baloo2(
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.accent, // ✅ અપડેટેડ
-                      letterSpacing: 0.5,
-                    ),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.accent,
+                    letterSpacing: 0.5,
                   ),
                 ),
                 const SizedBox(height: 15),
-                Text(
-                  'ગુજરાત રાજયગોર સમાજની ઈ-મેમ્બરશીપમાં જોડાઓ\nઅને સમાજના સકારાત્મક બદલાવમાં ભાગ બનો.',
+                const Text(
+                  'ગુજરાત રાજયગોર જ્ઞાતની ઈ-મેમ્બરશીપમાં જોડાઓ\nઅને જ્ઞાતના સકારાત્મક બદલાવમાં ભાગ બનો.',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.baloo2(
-                    textStyle: const TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.heading, // ✅ અપડેટેડ
-                      height: 1.3,
-                    ),
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.heading,
+                    height: 1.3,
                   ),
                 ),
                 const SizedBox(height: 25),
-
-                Text(
-                  '1,00,000+',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.baloo2(
-                    textStyle: const TextStyle(
-                      fontSize: 110,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.accent, // ✅ અપડેટેડ
-                      height: 1.0,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
+                const Text(
                   'પરિવારોનું લક્ષ્ય (ઈ-મેમ્બરશીપ)',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.baloo2(
-                    textStyle: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.subtitle, // ✅ અપડેટેડ: સબટાઇટલ ગ્રે
-                    ),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.subtitle,
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -701,34 +718,34 @@ class HomeScreen extends GetView<HomeController> {
                     width: 280,
                     height: 54,
                     decoration: BoxDecoration(
-                      color: isBtnHovered.value ? AppColors.primary : Colors.transparent, // ✅ અપડેટેડ
+                      color: isBtnHovered.value ? AppColors.primary : Colors.transparent,
                       borderRadius: BorderRadius.circular(4),
                       border: Border.all(
-                        color: isBtnHovered.value ? AppColors.primary : AppColors.cardBorder, // ✅ અપડેટેડ
+                        color: isBtnHovered.value ? AppColors.primary : AppColors.cardBorder,
                         width: 1,
                       ),
                     ),
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(MembershipScreen.pageId);
+                      },
                       borderRadius: BorderRadius.circular(4),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             'વધુ જાણો',
-                            style: GoogleFonts.baloo2(
-                              textStyle: TextStyle(
-                                fontSize: 15,
-                                color: isBtnHovered.value ? Colors.white : AppColors.primary, // ✅ અપડેટેડ
-                                fontWeight: FontWeight.bold,
-                              ),
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: isBtnHovered.value ? Colors.white : AppColors.primary,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           const SizedBox(width: 10),
                           Icon(
                             Icons.arrow_forward,
                             size: 16,
-                            color: isBtnHovered.value ? Colors.white : AppColors.primary, // ✅ અપડેટેડ
+                            color: isBtnHovered.value ? Colors.white : AppColors.primary,
                           ),
                         ],
                       ),
@@ -746,35 +763,27 @@ class HomeScreen extends GetView<HomeController> {
   Widget _buildMissionMobileLayout() {
     return Column(
       children: [
-        Text(
+        const Text(
           'અમારું મિશન',
-          style: GoogleFonts.baloo2(
-            textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.accent), // ✅ અપડેટેડ
-          ),
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.accent),
         ),
         const SizedBox(height: 10),
-        Padding(
+        const Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
             'ગુજરાત રાજયગોર સમાજની ઈ-મેમ્બરશીપમાં જોડાઓ અને સમાજના સકારાત્મક બદલાવમાં ભાગ બનો.',
             textAlign: TextAlign.center,
-            style: GoogleFonts.baloo2(
-              textStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.heading, height: 1.3), // ✅ અપડેટેડ
-            ),
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.heading, height: 1.3),
           ),
         ),
         const SizedBox(height: 20),
-        Text(
+        const Text(
           '1,00,000+',
-          style: GoogleFonts.baloo2(
-            textStyle: const TextStyle(fontSize: 70, fontWeight: FontWeight.w800, color: AppColors.accent), // ✅ અપડેટેડ
-          ),
+          style: TextStyle(fontSize: 70, fontWeight: FontWeight.w800, color: AppColors.accent),
         ),
-        Text(
+        const Text(
           'પરિવારોનું લક્ષ્ય (ઈ-મેમ્બરશીપ)',
-          style: GoogleFonts.baloo2(
-            textStyle: const TextStyle(fontSize: 13, color: AppColors.subtitle, fontWeight: FontWeight.w500), // ✅ અપડેટેડ
-          ),
+          style: TextStyle(fontSize: 13, color: AppColors.subtitle, fontWeight: FontWeight.w500),
         ),
         const SizedBox(height: 35),
 
@@ -797,16 +806,16 @@ class HomeScreen extends GetView<HomeController> {
           height: 48,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: AppColors.cardBorder), // ✅ અપડેટેડ
+            border: Border.all(color: AppColors.cardBorder),
           ),
           child: InkWell(
             onTap: () {},
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('વધુ જાણો', style: GoogleFonts.baloo2(textStyle: const TextStyle(fontSize: 14, color: AppColors.primary, fontWeight: FontWeight.bold))), // ✅ અપડેટેડ
+                Text('વધુ જાણો', style: TextStyle(fontSize: 14, color: AppColors.primary, fontWeight: FontWeight.bold)),
                 const SizedBox(width: 8),
-                const Icon(Icons.arrow_forward, size: 14, color: AppColors.primary), // ✅ અપડેટેડ
+                const Icon(Icons.arrow_forward, size: 14, color: AppColors.primary),
               ],
             ),
           ),
@@ -851,7 +860,7 @@ class HomeScreen extends GetView<HomeController> {
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return Container(
-                  color: AppColors.primary.withOpacity(0.2), // ✅ અપડેટેડ
+                  color: AppColors.primary.withOpacity(0.2),
                   child: const Icon(Icons.person, color: AppColors.primary),
                 );
               },
@@ -883,7 +892,7 @@ class HomeScreen extends GetView<HomeController> {
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) {
             return Container(
-              color: AppColors.primary.withOpacity(0.2), // ✅ અપડેટેડ
+              color: AppColors.primary.withOpacity(0.2),
               child: const Icon(Icons.person, color: AppColors.primary),
             );
           },
@@ -897,7 +906,7 @@ class HomeScreen extends GetView<HomeController> {
   // ==========================================
   Widget _buildStepsSection(bool isWeb, double screenWidth) {
     return Container(
-      color: AppColors.primary, // ✅ અપડેટેડ: ડાર્ક બ્રાન્ડ સેક્શન
+      color: AppColors.primary,
       width: double.infinity,
       padding: EdgeInsets.symmetric(
         horizontal: isWeb ? screenWidth * 0.06 : 24.0,
@@ -916,31 +925,27 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   Widget _buildStepsHeader() {
-    return Column(
+    return const Column(
       children: [
         Text(
           'અમે જે કરીએ છીએ તે અમને ગમે છે',
           textAlign: TextAlign.center,
-          style: GoogleFonts.baloo2(
-            textStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: AppColors.accent, // ✅ અપડેટેડ: ગોલ્ડન એક્સેન્ટ
-              letterSpacing: 0.5,
-            ),
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: AppColors.accent,
+            letterSpacing: 0.5,
           ),
         ),
         const SizedBox(height: 8),
         Text(
           '4 સરળ પગલાંમાં ઈ-મેમ્બરશીપ',
           textAlign: TextAlign.center,
-          style: GoogleFonts.baloo2(
-            textStyle: const TextStyle(
-              fontSize: 42,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              height: 1.2,
-            ),
+          style: TextStyle(
+            fontSize: 42,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            height: 1.2,
           ),
         ),
       ],
@@ -1070,7 +1075,7 @@ class HomeScreen extends GetView<HomeController> {
             width: 70,
             height: 70,
             decoration: BoxDecoration(
-              color: isCircleHovered ? Colors.white : AppColors.accent, // ✅ અપડેટેડ: એક્સેન્ટ કલર
+              color: isCircleHovered ? Colors.white : AppColors.accent,
               shape: BoxShape.circle,
               boxShadow: isCircleHovered ? [
                 BoxShadow(
@@ -1083,12 +1088,10 @@ class HomeScreen extends GetView<HomeController> {
             alignment: Alignment.center,
             child: Text(
               stepNumber,
-              style: GoogleFonts.baloo2(
-                textStyle: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primary, // ✅ અપડેટેડ: નંબર માટે બ્રાન્ડ કલર
-                ),
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: AppColors.primary,
               ),
             ),
           ),
@@ -1097,12 +1100,10 @@ class HomeScreen extends GetView<HomeController> {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: GoogleFonts.baloo2(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
           ),
           const SizedBox(height: 12),
@@ -1112,13 +1113,11 @@ class HomeScreen extends GetView<HomeController> {
             child: Text(
               description,
               textAlign: TextAlign.center,
-              style: GoogleFonts.baloo2(
-                textStyle: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white.withOpacity(0.7),
-                  fontWeight: FontWeight.w400,
-                  height: 1.4,
-                ),
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.white.withOpacity(0.7),
+                fontWeight: FontWeight.w400,
+                height: 1.4,
               ),
             ),
           ),
@@ -1135,7 +1134,7 @@ class HomeScreen extends GetView<HomeController> {
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          color: AppColors.accent, // ✅ અપડેટેડ
+          color: AppColors.accent,
           letterSpacing: -2,
         ),
       ),
@@ -1146,24 +1145,22 @@ class HomeScreen extends GetView<HomeController> {
     return TextButton(
       onPressed: () {},
       style: TextButton.styleFrom(padding: EdgeInsets.zero),
-      child: RichText(
+      child:  RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
-          style: GoogleFonts.baloo2(
-            textStyle: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-            ),
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
           ),
-          children: const [
+          children: [
             TextSpan(
               text: 'હવે જોડાઓ અને સમાજની ડિજિટલ ઓળખ બનાવો. ',
-              style: TextStyle(color: AppColors.accent), // ✅ અપડેટેડ
+              style: TextStyle(color: AppColors.accent),
             ),
             TextSpan(
               text: 'અરજી કરો',
               style: TextStyle(
-                color: AppColors.accent, // ✅ અપડેટેડ
+                color: AppColors.accent,
                 decoration: TextDecoration.underline,
                 fontWeight: FontWeight.bold,
               ),
@@ -1181,7 +1178,7 @@ class HomeScreen extends GetView<HomeController> {
     final RxInt expandedIndex = 0.obs;
 
     return Container(
-      color: AppColors.background, // ✅ અપડેટેડ
+      color: AppColors.background,
       width: double.infinity,
       padding: EdgeInsets.symmetric(
         horizontal: isWeb ? screenWidth * 0.08 : 24.0,
@@ -1214,30 +1211,28 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   Widget _buildFaqLeftHeader() {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "FAQ's વિભાગ",
-          style:  const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: AppColors.accent, // ✅ અપડેટેડ
-              letterSpacing: 0.5,
-            ),
-
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: AppColors.accent,
+            letterSpacing: 0.5,
+          ),
         ),
         const SizedBox(height: 12),
         Text(
           'વારંવાર\nપૂછાતા પ્રશ્નો',
-          style: const TextStyle(
-              fontSize: 44,
-              fontWeight: FontWeight.w900,
-              color: AppColors.heading, // ✅ અપડેટેડ
-              height: 1.15,
-            ),
+          style: TextStyle(
+            fontSize: 44,
+            fontWeight: FontWeight.w900,
+            color: AppColors.heading,
+            height: 1.15,
           ),
-
+        ),
       ],
     );
   }
@@ -1250,7 +1245,7 @@ class HomeScreen extends GetView<HomeController> {
           expandedIndex: expandedIndex.value,
           stepNumber: '01',
           question: 'ઈ-મેમ્બરશીપ મેળવવાની પ્રક્રિયા શું છે?',
-          answer: 'સરળ 4 પગલાં: 1) મોબાઈલ નંબરથી OTP વેરીફિકેશન, 2) તમારી વ્યક્તિગત વિગતો ભરો, 3) પરિવારના સભ્યોની વિગતો ઉમેરો, 4) મંજૂરી પછી તમારું મેમ્બરશીપ e-Card ડાઉનલોડ કરો.',
+          answer: 'સરળ 4 પગલાં:\n 1) મોબાઈલ નંબરથી OTP વેરીફિકેશન,\n 2) તમારી વ્યક્તિગત વિગતો ભરો,\n 3) પરિવારના સભ્યોની વિગતો ઉમેરો,\n 4) મંજૂરી પછી તમારું મેમ્બરશીપ e-Card ડાઉનલોડ કરો.',
           onTap: (idx) => expandedIndex.value = expandedIndex.value == idx ? -1 : idx,
         )),
         Obx(() => _buildFaqAccordionItem(
@@ -1266,25 +1261,17 @@ class HomeScreen extends GetView<HomeController> {
           expandedIndex: expandedIndex.value,
           stepNumber: '03',
           question: 'મારી માહિતી સુરક્ષિત કેવી રીતે રહેશે?',
-          answer: 'તમારી માહિતી સમાજની સેવાઓ માટે જ ઉપયોગમાં લેવામાં આવશે. અમે ગોપનીયતા નીતિ મુજબ ડેટા સુરક્ષિત રીતે સંગ્રહિત કરીએ છીએ અને ત્રીજા પક્ષ સાથે શેર કરતા નથી.',
+          answer: 'તમારી માહિતી જ્ઞાતની સેવાઓ માટે જ ઉપયોગમાં લેવામાં આવશે. અમે ગોપનીયતા નીતિ મુજબ ડેટા સુરક્ષિત રીતે સંગ્રહિત કરીએ છીએ અને ત્રીજા પક્ષ સાથે શેર કરતા નથી.',
           onTap: (idx) => expandedIndex.value = expandedIndex.value == idx ? -1 : idx,
         )),
-        Obx(() => _buildFaqAccordionItem(
-          index: 3,
-          expandedIndex: expandedIndex.value,
-          stepNumber: '04',
-          question: 'મંજૂરી અને e-Card મળવામાં કેટલો સમય લાગે?',
-          answer: 'OTP વેરીફિકેશન અને વિગતો સબમિટ કર્યા પછી અરજી સમીક્ષા થાય છે. મંજૂરી થયા બાદ e-Card ડાઉનલોડ માટે ઉપલબ્ધ થાય છે અને SMS દ્વારા સૂચના મળે છે.',
-          onTap: (idx) => expandedIndex.value = expandedIndex.value == idx ? -1 : idx,
-        )),
-        Obx(() => _buildFaqAccordionItem(
-          index: 4,
-          expandedIndex: expandedIndex.value,
-          stepNumber: '05',
-          question: 'મોબાઇલ એપ (Android/iOS) ક્યારે મળશે?',
-          answer: 'રાજયગોર ઓનલાઇનની Android અને iOS એપ ટૂંક સમયમાં ઉપલબ્ધ થશે. લોન્ચ બાદ તમે એપમાં પણ OTP વેરીફિકેશન, રજીસ્ટ્રેશન અને e-Card એક્સેસ કરી શકશો.',
-          onTap: (idx) => expandedIndex.value = expandedIndex.value == idx ? -1 : idx,
-        )),
+        // Obx(() => _buildFaqAccordionItem(
+        //   index: 3,
+        //   expandedIndex: expandedIndex.value,
+        //   stepNumber: '04',
+        //   question: 'મંજૂરી અને e-Card મળવામાં કેટલો સમય લાગે?',
+        //   answer: 'OTP વેરીફિકેશન અને વિગતો સબમિટ કર્યા પછી અરજી સમીક્ષા થાય છે. મંજૂરી થયા બાદ e-Card ડાઉનલોડ માટે ઉપલબ્ધ થાય છે અને SMS દ્વારા સૂચના મળે છે.',
+        //   onTap: (idx) => expandedIndex.value = expandedIndex.value == idx ? -1 : idx,
+        // )),
       ],
     );
   }
@@ -1319,48 +1306,43 @@ class HomeScreen extends GetView<HomeController> {
                     width: 40,
                     child: Text(
                       stepNumber,
-                      style:  const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.heading, // ✅ અપડેટેડ
-                        ),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.heading,
                       ),
                     ),
-
+                  ),
                   const SizedBox(width: 15),
-
                   Expanded(
                     child: Text(
                       question,
-                      style:  TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: isOpen ? AppColors.accent : AppColors.heading, // ✅ એક્સેન્ટ અથવા હેડિંગ બ્લુ
-                        ),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: isOpen ? AppColors.accent : AppColors.heading,
                       ),
                     ),
-
+                  ),
                   const SizedBox(width: 20),
-
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     width: 36,
                     height: 36,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: isOpen ? AppColors.accent : Colors.transparent, // ✅ અપડેટેડ
+                      color: isOpen ? AppColors.accent : Colors.transparent,
                       border: isOpen ? null : Border.all(color: Colors.black12, width: 1.5),
                     ),
                     alignment: Alignment.center,
                     child: Icon(
                       isOpen ? Icons.remove : Icons.add,
                       size: 18,
-                      color: isOpen ? Colors.white : AppColors.accent, // ✅ અપડેટેડ
+                      color: isOpen ? Colors.white : AppColors.accent,
                     ),
                   ),
                 ],
               ),
-
               AnimatedCrossFade(
                 firstChild: const SizedBox.shrink(),
                 secondChild: Padding(
@@ -1368,14 +1350,13 @@ class HomeScreen extends GetView<HomeController> {
                   child: Text(
                     answer,
                     style: TextStyle(
-                        fontSize: 15,
-                        color: AppColors.body.withOpacity(0.85), // ✅ અપડેટેડ
-                        fontWeight: FontWeight.w500,
-                        height: 1.5,
-                      ),
+                      fontSize: 15,
+                      color: AppColors.body.withOpacity(0.85),
+                      fontWeight: FontWeight.w500,
+                      height: 1.5,
                     ),
                   ),
-
+                ),
                 crossFadeState: isOpen ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                 duration: const Duration(milliseconds: 250),
               ),
@@ -1386,4 +1367,3 @@ class HomeScreen extends GetView<HomeController> {
     );
   }
 }
-

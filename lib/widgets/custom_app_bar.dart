@@ -6,6 +6,33 @@ import '../screen/home_screen.dart';
 import '../screen/team_screen.dart';
 import '../screen/contact_screen.dart';
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../constant/app_colors.dart';
+import '../screen/home_screen.dart';
+import '../screen/team_screen.dart';
+import '../screen/contact_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../constant/app_colors.dart';
+import '../screen/home_screen.dart';
+import '../screen/team_screen.dart';
+import '../screen/contact_screen.dart';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../constant/app_colors.dart';
+import '../screen/home_screen.dart';
+import '../screen/team_screen.dart';
+import '../screen/contact_screen.dart';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../constant/app_colors.dart';
+import '../screen/home_screen.dart';
+import '../screen/team_screen.dart';
+import '../screen/contact_screen.dart';
+
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
 
@@ -22,8 +49,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.white,
       elevation: 0.5,
       centerTitle: false,
-
-      // ➔ ✅ માત્ર મોબાઈલ વ્યુ હોય તો જ હેમબર્ગર આઈકોન દેખાશે, વેબમાં સાવ ગાયબ!
       leading: isMobile
           ? Builder(
         builder: (innerContext) => IconButton(
@@ -34,25 +59,49 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       )
           : null,
-
-      title: Text(
-        'RAJYAPUROHITONLINE.IN',
-        style: GoogleFonts.cinzel(
-          textStyle: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: AppColors.textMaroon,
-            fontSize: 18,
+      title: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () {
+            if (currentRoute != HomeScreen.pageId) {
+              Get.offAllNamed(HomeScreen.pageId);
+            }
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'જામનગર રાજ્યગોર જ્ઞાતિ',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textMaroon,
+                  fontSize: 24,
+                ),
+              ),
+              const SizedBox(height: 2),
+              // ➔ ⚡ જાદુઈ ફિક્સ: રજીસ્ટ્રેશન લાઈન હવે શુદ્ધ ગુજરાતીમાં ટકાટક ગોઠવી દીધી ભાઈ!
+              Text(
+                'ટ્રસ્ટ રજીસ્ટ્રેશન નંબર: એ-૧૭૦ જામનગર',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textMaroon.withOpacity(0.7),
+                  fontSize: 12, // સહેજ સાઈઝ વધારી જેથી ગુજરાતી અક્ષરો ક્લીન વંચાય ભાઈ
+                  letterSpacing: 0.3,
+                ),
+              ),
+            ],
           ),
         ),
       ),
-
       actions: [
         if (!isMobile) ...[
           _buildNavButton('હોમ', HomeScreen.pageId, currentRoute == HomeScreen.pageId),
-          _buildNavButton('અમારા વિષે', '/AboutScreen', currentRoute == '/AboutScreen'),
-          _buildNavButton('મેમ્બરશીપ', '/MembershipScreen', currentRoute == '/MembershipScreen'),
           _buildNavButton('અમારી ટીમ', TeamScreen.pageId, currentRoute == TeamScreen.pageId),
           _buildNavButton('અમારો ઉદ્દેશ', '/MissionScreen', currentRoute == '/MissionScreen'),
+          _buildNavButton('મેમ્બરશીપ', '/MembershipScreen', currentRoute == '/MembershipScreen'),
+          _buildNavButton('વિવિધ સંસ્થાઓ', '/SansthaScreen', currentRoute == '/SansthaScreen'),
           _buildNavButton('સંપર્ક', ContactScreen.pageId, currentRoute == ContactScreen.pageId),
           const SizedBox(width: 20),
         ]
@@ -67,19 +116,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       },
       child: Text(
         title,
-        style:  TextStyle(
-            color: isActive ? AppColors.textOrange : AppColors.textMaroon,
-            fontWeight: isActive ? FontWeight.bold : FontWeight.w600,
-            fontSize: 14,
-          ),
+        style: TextStyle(
+          color: isActive ? AppColors.textOrange : AppColors.textMaroon,
+          fontWeight: isActive ? FontWeight.bold : FontWeight.w600,
+          fontSize: 14,
         ),
-
+      ),
     );
   }
 }
 
 // ==========================================
-// 🔹 ✅ REUSABLE MOBILE SIDEBAR DRAWER MODULE (ઓવરફ્લો ફ્રી)
+// 🔹 ✅ REUSABLE MOBILE SIDEBAR DRAWER MODULE
 // ==========================================
 class CustomMobileDrawer extends StatelessWidget {
   const CustomMobileDrawer({super.key});
@@ -103,8 +151,8 @@ class CustomMobileDrawer extends StatelessWidget {
                   child: Row(
                     children: [
                       Container(
-                        width: 28,
-                        height: 28,
+                        width: 32,
+                        height: 32,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
@@ -113,19 +161,40 @@ class CustomMobileDrawer extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 10),
                       Expanded(
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'RAJYAPUROHITJAMNAGAR.IN',
-                            style: GoogleFonts.cinzel(
-                              textStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.textMaroon,
-                                fontSize: 13,
-                              ),
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.back(); // ડ્રોઅર બંધ થશે ભાઈ
+                              if (currentRoute != HomeScreen.pageId) {
+                                Get.offAllNamed(HomeScreen.pageId);
+                              }
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text(
+                                  'જામનગર રાજ્યગોર જ્ઞાતિ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.textMaroon,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                const SizedBox(height: 1),
+                                // ➔ ⚡ મોબાઈલ ડ્રોઅર હેડરમાં પણ રજીસ્ટ્રેશન લાઈન ગુજરાતીમાં લોક કરી ભાઈ
+                                Text(
+                                  'રજી. નં: એ-૧૭૦ જામનગર',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.textMaroon.withOpacity(0.6),
+                                    fontSize: 10.5,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -149,15 +218,14 @@ class CustomMobileDrawer extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
               children: [
                 _buildDrawerItem('હોમ', Icons.home_mini_outlined, HomeScreen.pageId, currentRoute == HomeScreen.pageId),
-                _buildDrawerItem('અમારા વિષે', Icons.info_outline_rounded, '/AboutScreen', currentRoute == '/AboutScreen'),
                 _buildDrawerItem('મેમ્બરશીપ', Icons.card_membership_outlined, '/MembershipScreen', currentRoute == '/MembershipScreen'),
                 _buildDrawerItem('અમારી ટીમ', Icons.groups_outlined, TeamScreen.pageId, currentRoute == TeamScreen.pageId),
                 _buildDrawerItem('અમારો ઉદ્દેશ', Icons.assignment_outlined, '/MissionScreen', currentRoute == '/MissionScreen'),
+                _buildDrawerItem('વિવિધ સંસ્થાઓ', Icons.account_balance_outlined, '/SansthaScreen', currentRoute == '/SansthaScreen'),
                 _buildDrawerItem('સંપર્ક', Icons.quick_contacts_mail_outlined, ContactScreen.pageId, currentRoute == ContactScreen.pageId),
               ],
             ),
           ),
-
         ],
       ),
     );
@@ -169,13 +237,12 @@ class CustomMobileDrawer extends StatelessWidget {
       leading: Icon(icon, color: isActive ? AppColors.textOrange : AppColors.textMaroon, size: 20),
       title: Text(
         title,
-        style:  TextStyle(
-            color: isActive ? AppColors.textOrange : AppColors.textMaroon,
-            fontWeight: isActive ? FontWeight.bold : FontWeight.w600,
-            fontSize: 14.5,
-          ),
+        style: TextStyle(
+          color: isActive ? AppColors.textOrange : AppColors.textMaroon,
+          fontWeight: isActive ? FontWeight.bold : FontWeight.w600,
+          fontSize: 14.5,
         ),
-
+      ),
       selected: isActive,
       onTap: () {
         Get.back();

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../constant/app_colors.dart';
-import '../widgets/custom_footer.dart';
-import '../controllers/membership_controller.dart';
-import '../widgets/widgets.dart';
-import 'home_screen.dart';
+import '../../constant/app_colors.dart';
+import '../../widgets/custom_footer.dart';
+import '../../controllers/membership_controller.dart';
+import '../../widgets/widgets.dart';
+import '../home_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../constant/app_colors.dart';
-import '../widgets/custom_app_bar.dart';
-import '../widgets/custom_footer.dart';
+import '../../constant/app_colors.dart';
+import '../../widgets/custom_app_bar.dart';
+import '../../widgets/custom_footer.dart';
 
 class MembershipScreen extends GetView<MembershipController> {
   static const pageId = "/MembershipScreen";

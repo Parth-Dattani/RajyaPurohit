@@ -5,3 +5,5 @@ export 'membership_binding.dart';
 export 'mission_binding.dart';
 export 'contact_binding.dart';
 export 'team_binding.dart';
+export 'registration_binding.dart';
+export 'sanstha_binding.dart';

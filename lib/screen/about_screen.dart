@@ -14,6 +14,15 @@ import '../constant/app_colors.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_footer.dart';
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../constant/app_colors.dart';
+import '../widgets/custom_footer.dart';
+import '../controllers/about_controller.dart';
+import '../widgets/custom_app_bar.dart';
+import '../widgets/widgets.dart';
+
 class AboutScreen extends GetView<AboutController> {
   static const pageId = "/AboutScreen";
   const AboutScreen({super.key});
@@ -30,11 +39,12 @@ class AboutScreen extends GetView<AboutController> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildAboutHeaderBanner(isWeb, screenWidth),   // ૧. મુખ્ય બેનર સેક્શન
-            _buildMergedContentSection(isWeb, screenWidth), // ૨. મર્જડ કન્ટેન્ટ સેક્શન
+            _buildAboutHeaderBanner(isWeb, screenWidth),      // ૧. મુખ્ય બેનર સેક્શન
+            _buildMergedContentSection(isWeb, screenWidth),    // ૨. મર્જડ કન્ટેન્ટ સેક્શન
+            _buildHistorySection(isWeb, screenWidth),          // ⚡ નવીનતમ: જ્ઞાતિનો ગૌરવશાળી ઇતિહાસ સેક્શન ભાઈ!
             _buildMissionVisionValuesSection(isWeb, screenWidth), // ૪. મિશન, વિઝન, વેલ્યુ સેક્શન
             _buildDigitalConnectSection(isWeb, screenWidth),      // ૫. ડિજિટલ કનેક્ટ સેક્શન
-            const CustomFooter(),                           // ૩. કોમન ફૂટર
+            const CustomFooter(),                               // ૩. કોમન ફૂટર
           ],
         ),
       ),
@@ -47,54 +57,30 @@ class AboutScreen extends GetView<AboutController> {
   Widget _buildAboutHeaderBanner(bool isWeb, double screenWidth) {
     return Container(
       width: double.infinity,
-      height: isWeb ? 300 : 200,
+      height: isWeb ? 75 : 60,
+      alignment: Alignment.center,
       decoration: const BoxDecoration(
-        color: AppColors.primary, // ✅ અપડેટેડ: ડાર્ક બ્રાન્ડ કલર
+        color: AppColors.primary,
         image: DecorationImage(
-          image: AssetImage('assets/images/community_bg.jpg'),
+          image: AssetImage('assets/images/team_bg.jpg'),
           fit: BoxFit.cover,
-          opacity: 0.25,
+          opacity: 0.15,
         ),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            'અમારા વિષે',
-            style: TextStyle(
-                fontSize: isWeb ? 54 : 36,
-                fontWeight: FontWeight.w900,
-                color: Colors.white,
-            ),
+      // ⚡ સેન્ટર લોજિક: ગુજરાતી ફોન્ટના કારણે જે નીચે નમતું હતું, એને લાઈન હાઈટથી પ્રોપર વચોવચ ખેંચી લીધું ભાઈ
+      child: Padding(
+        padding: const EdgeInsets.only(top: 4),
+        child: Text(
+          'અમારા વિષે',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: isWeb ? 34 : 26,
+            fontWeight: FontWeight.w900,
+            color: Colors.white,
+            letterSpacing: 0.5,
+            height: 1.0, // ➔ ⚡ મેઈન ફિક્સ: ઊભી લાઈનમાં ટકાટક સેન્ટર!
           ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'હોમ',
-                style: TextStyle(
-                    color: Colors.white.withOpacity(0.6),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text('/', style: TextStyle(color: AppColors.accent, fontSize: 14)), // ✅ અપડેટેડ
-              ),
-              Text(
-                'અમારા વિષે',
-                style:  TextStyle(
-                    color: AppColors.accent, // ✅ અપડેટેડ
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          )
-        ],
+        ),
       ),
     );
   }
@@ -157,48 +143,44 @@ class AboutScreen extends GetView<AboutController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           'અમારા વિષે',
-          style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: AppColors.accent, // ✅ અપડેટેડ
-
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: AppColors.accent, // ✅ અપડેટેડ
           ),
         ),
         const SizedBox(height: 10),
         RichText(
-          text: TextSpan(
-            style: const TextStyle(
-                fontSize: 38,
-                fontWeight: FontWeight.w900,
-                color: AppColors.heading, // ✅ અપડેટેડ
-                height: 1.2,
+          text: const TextSpan(
+            style: TextStyle(
+              fontSize: 38,
+              fontWeight: FontWeight.w900,
+              color: AppColors.heading, // ✅ અપડેટેડ
+              height: 1.2,
             ),
-            children: const [
-              TextSpan(text: 'સમાજને જોડે છે '),
-              TextSpan(text: 'Rajyapurohit', style: TextStyle(color: AppColors.accent)), // ✅ અપડેટેડ
+            children: [
+              TextSpan(text: 'જ્ઞાતને જોડે છે '),
+              TextSpan(text: 'RajyaGor', style: TextStyle(color: AppColors.accent)), // ✅ અપડેટેડ
             ],
           ),
         ),
         const SizedBox(height: 20),
         Text(
-          'ગુજરાત રાજયગોર સમાજનું આ એક અધિકૃત ડિજિટલ પ્લેટફોર્મ છે, જેનો મુખ્ય ઉદ્દેશ્ય સમગ્ર દેશ અને વિદેશમાં વસતા સમાજના પરિવારોને એક તાંતણે બાંધવાનો છે. આ માધ્યમ દ્વારા શૈક્ષણિક, સામાજિક, અને વ્યાપારી પ્રગતિ વેગવંતી બનશે.',
-          style:  TextStyle(
-              fontSize: 15,
-              color: AppColors.body.withOpacity(0.85), // ✅ અપડેટેડ
-              height: 1.6,
-              fontWeight: FontWeight.w500,
+          'ગુજરાત રાજયગોર જ્ઞાતનું આ એક અધિકૃત ડિજિટલ પ્લેટફોર્મ છે, જેનો મુખ્ય ઉદ્દેશ્ય સમગ્ર દેશ અને વિદેશમાં વસતા જ્ઞાતના પરિવારોને એક તાંતણે બાંધવાનો છે. આ માધ્યમ દ્વારા શૈક્ષણિક, સામાજિક, અને વ્યાપારી પ્રગતિ વેગવંતી બનશે.',
+          style: TextStyle(
+            fontSize: 15,
+            color: AppColors.body.withOpacity(0.85), // ✅ અપડેટેડ
+            height: 1.6,
+            fontWeight: FontWeight.w500,
           ),
         ),
-
         const SizedBox(height: 20),
-
         _buildCheckPointRow('ઈ-મેમ્બર_શીપ અને સમુદાય સેવાઓ'),
         const SizedBox(height: 12),
         _buildCheckPointRow('આપત્તિ વેળાએ સેવા-સમર્પણ'),
         const SizedBox(height: 30),
-
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(20),
@@ -210,21 +192,19 @@ class AboutScreen extends GetView<AboutController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'સમાજ સેવા સપોર્ટ',
-                style:const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.heading), // ✅ અપડેટેડ
-                ),
-
+              const Text(
+                'જ્ઞાત સેવા સપોર્ટ',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.heading), // ✅ અપડેટેડ
+              ),
               const SizedBox(height: 6),
               Text(
-                'રાજયગોર સમાજના સર્વાંગી વિકાસ માટે સતત સેવા અને સહકાર.',
-                style:TextStyle(fontSize: 14, color: AppColors.body.withOpacity(0.7), fontWeight: FontWeight.w500), // ✅ અપડેટેડ
-                ),
+                'રાજયગોર જ્ઞાતના સર્વાંગી વિકાસ માટે સતત સેવા અને સહકાર.',
+                style: TextStyle(fontSize: 14, color: AppColors.body.withOpacity(0.7), fontWeight: FontWeight.w500), // ✅ અપડેટેડ
+              ),
             ],
           ),
         ),
         const SizedBox(height: 30),
-
         Wrap(
           spacing: 25.0,
           runSpacing: 20.0,
@@ -238,9 +218,9 @@ class AboutScreen extends GetView<AboutController> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
               ),
               onPressed: () {},
-              child: Text(
+              child: const Text(
                 'અમારી સાથે જોડાઓ  ➔',
-                style:const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
               ),
             ),
             Row(
@@ -311,13 +291,96 @@ class AboutScreen extends GetView<AboutController> {
         const SizedBox(width: 15),
         Text(
           pointText,
-          style:  const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: AppColors.heading, // ✅ અપડેટેડ
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: AppColors.heading, // ✅ અપડેટેડ
           ),
         ),
       ],
+    );
+  }
+
+  // ==========================================
+  // 🔹 ૩. NEW HISTORY SECTION (જ્ઞાતિનો ગૌરવશાળી ઇતિહાસ સેક્શન - પિક્સલ-પરફેક્ટ ભાઈ)
+  // ==========================================
+  Widget _buildHistorySection(bool isWeb, double screenWidth) {
+    final padding = EdgeInsets.symmetric(
+      horizontal: isWeb ? screenWidth * 0.08 : 24.0,
+      vertical: 50.0,
+    );
+
+    return Container(
+      width: double.infinity,
+      color: Colors.white, // ઇતિહાસ વાંચવા માટે મસ્ત ક્લીન વ્હાઇટ બેકગ્રાઉન્ડ ભાઈ
+      padding: padding,
+      child: Center(
+        child: Container(
+          // ⚡ બોક્સ કોન્સ્ટ્રેઇન્ટ ફિક્સ: વેબ વ્યુમાં કન્ટેન્ટને ૧૦૦૦ પિક્સલથી મોટું થવા નહીં દે ભાઈ!
+          constraints: const BoxConstraints(maxWidth: 1000),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'જ્ઞાતિનો ગૌરવશાળી ઇતિહાસ',
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.primary,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Container(
+                width: 70,
+                height: 3,
+                decoration: BoxDecoration(
+                  color: AppColors.accent,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 25),
+
+              _buildHistoryParagraph(
+                'જામનગર રાજ્યપુરોહિત (રાજગોર) બ્રાહ્મણ જ્ઞાતિનો ઇતિહાસ આશરે ૪૮६ વર્ષ જૂનો માનવામાં આવે છે. કચ્છના રાજવી જામ રાવળ, જે કચ્છની તેરા શાખાના પ્રમુખ જામ લાખોજીના પુત્ર હતા, તેમણે ઈ.સ. ૧૫૨૪થી ૧૫૪૮ સુધી કચ્છ પર શાસન કર્યું. બાદમાં આંતરિક વિખવાદો અને રાજકીય પરિસ્થિતિઓને કારણે તેઓ પોતાના ભાયાતો, वફાદાર સૈનિકો તથા કુળગોર રાજ્યપુરોહિત બ્રાહ્મણ પરિવારો સાથે કચ્છ છોડીને સૌરાષ્ટ્ર તરફ પ્રસ્થાન કર્યું. લોકવાયકા મુજબ આશાપુરા માતાની પ્રેરણાથી તેમણે નવા રાજ્યની સ્થાપનાનો સંકલ્પ કર્યો.',
+              ),
+              _buildHistoryParagraph(
+                'સૌપ્રથમ જામ રાવળે બેડ ગામ ખાતે થાણું સ્થાપ્યું અને ત્યારબાદ khંભાળિયા વિસ્તારમાં પોતાનું પ્રભુત્વ સ્થાપિત કર્યું. ખંભાળિયા અને સલાયા દરિયાકાંઠાના વિસ્તારો હોવાથી વેપાર અને બંદર વિકાસ માટે અનુકૂળ હતા. સમય જતાં અનેક સ્થાનિક શાસકો અને જાતિઓ સાથેના સંઘર્ષોમાં વિજય પ્રાપ્ત કરીને તેમણે જોડિયા, આમરણ, ધ્રોલ, નાગનાથ બંદર અને ખંભાળિયા જેવા વિસ્તારો પોતાના રાજ્યમાં સામેલ કર્યા. અંતે ઈ.સ. ૧૫૪૦ આસપાસ નવાનગર (આજનું જામનગર) રાજ્યની સ્થાપના કરી અને જામનગરને રાજધાની તરીકે વિકસાવ્યું.',
+              ),
+              _buildHistoryParagraph(
+                'જામ રાવળ સાથે આવેલા રાજ્યપુરોહિત બ્રાહ્મણ પરિવારોને રાજગોર તરીકે ઓળખવામાં આવ્યા. તેમને વસવાટ માટે જામનગર શહેરમાં રાજગોર ફળીમાં મકાનો તથા જીવનનિર્વાહ માટે ખેતીની જમીનો આપવામાં આવી. ખંભાળિયા, સોડસલા તથા આસપાસના વિસ્તારોમાં પણ રાજગોર પરિવારોને ખેતી અને ધાર્મિક સેવાઓ માટે જમીનો ફાળવવામાં આવી. જાડેજા રાજવીઓએ પોતાના ભાયાતોને વિવિધ ગામો અને પરગણાઓના વહીવટની જવાબદારી સોંપી હતી, અને તે ભાયાતોના ગોર તરીકે રાજગોર બ્રાહ્મણ પરિવારો ગામે ગામ વસ્યા. આજે પણ જામનગર, ખંભાળિયા, ભાટિયા, ભોપલકા, લાલપુર તથા આસપાસના લગભગ ૧૦0થી વધુ ગામોમાં રાજગોર પરિવારો વસવાટ કરે છે અને તેમની ઐતિહાસિક ઓળખ જાળવી રાખે છે.',
+              ),
+              _buildHistoryParagraph(
+                'લાલપુર વિસ્તારના ચેલા ચંગા, હરીપર, મેમાણા, ખીરસરા, ભણગોર સહિતના ગામોમાં પણ રાજગોર પરિવારો રાજના ગોર તરીકે ઓળખાય છે. સમય જતાં આ પરિવારો જામનગર અને ખંભાળિયા ઉપરાંત રાજકોટ, મોરબી, ગોંડલ, જુનાગઢ, મુંબઈ, આફ્રિકા, લંડન અને અન્ય સ્થળોએ સ્થાયી થયા. શિક્ષણ, વેપાર-ઉદ્યોગ, સરકારી સેવા, રાજકારણ અને વિવિધ વ્યવસાયોમાં તેમણે નોંધપાત્ર પ્રગતિ હાંસલ કરી છે.',
+              ),
+              _buildHistoryParagraph(
+                'રાજગોર જ્ઞાતિમાં અનેક શાખાઓ અને અટકો જોવા મળે છે. લોકવાયકા મુજબ કલો, ખેતો, ગોપો અને પુંજો નામના ચાર મુખ્ય વડવાઓના વંશજો ક્રમે કલ્યાણી, ખેતીયા, ગોપિયાણી અને પુંજાણી તરીકે ઓળખાયા. આ ઉપરાંત ભટ્ટ, બારોટ, નાકર, જોશી, લવા, પંડ્યા, આશા, રાવલ, વાસુ, કેશવાણી વગેરે અટકો ધરાવતા પરિવારો પણ જ્ઞાતિમાં મહત્વનું સ્થાન ધરાવે છે. આ સિવાય મોખા, મેતા, મોતા અને કેવલીયા પરિવાર પણ રાજગોર જ્ઞાતિનો અભિન્ન ભાગ છે અને જ્ઞાતિના સામાજિક તથા સાંસ્કૃતિક વિકાસમાં તેમનું પણ મહત્વપૂર્ણ યોગદાન રહ્યું છે.',
+              ),
+              _buildHistoryParagraph(
+                'રાજગોર બ્રાહ્મણોના કેટલાક પરિવારો વિવિધ રાજ્યોના શાસકો સાથે સંકળાયેલા રહ્યા હતા. રાજકોટ અને ગોંડલમાં મુખ્યત્વે ખેતીયા પરિવારો વસ્યા, જ્યારે જુનાગઢમાં ગોપિયાણી પરિવારો અને મોરબીમાં જોશી પરિવારો રાજપરિવારો સાથે જોડાયેલા હોવાનું કહેવાય છે. આ સંબંધોએ જ્ઞાતિના સામાજિક અને વહીવટી પ્રભાવને વધુ મજબૂત બનાવ્યો.',
+              ),
+              _buildHistoryParagraph(
+                'આ રીતે રાજગોર બ્રાહ્મણ જ્ઞાતિએ રાજ્યપુરોહિત, વહીવટી માર્ગદર્શક, ધાર્મિક સેવક અને સમાજનિર્માતા તરીકે સૌરાષ્ટ્ર અને ગુજરાતના ઇતિહાસમાં મહત્વપૂર્ણ યોગદાન આપ્યું છે. આજે પણ જ્ઞાતિના પરિવારો પોતાની પરંપરા, સંસ્કૃતિ અને ઐતિહાસિક વારસાને જાળવી રાખીને વિવિધ ક્ષેત્રોમાં પ્રગતિ કરી રહ્યા છે.',
+                isLast: true,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHistoryParagraph(String text, {bool isLast = false}) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: isLast ? 0.0 : 18.0),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 14.5,
+          color: AppColors.body.withOpacity(0.9), // ✅ અપડેટેડ
+          height: 1.7, // સુંદર પઠન માટે ક્લીન લાઇન સ્પેસિંગ
+          fontWeight: FontWeight.w500,
+        ),
+      ),
     );
   }
 
@@ -332,7 +395,7 @@ class AboutScreen extends GetView<AboutController> {
 
     return Container(
       width: double.infinity,
-      color: Colors.black.withOpacity(0.015), // સોફ્ટ લાઈટ ટોન લાવવા માટે આછો ઓપેસિટી કલર
+      color: Colors.black.withOpacity(0.015),
       padding: padding,
       child: Column(
         children: [
@@ -343,14 +406,14 @@ class AboutScreen extends GetView<AboutController> {
               Expanded(
                 child: _buildValueColumn(
                   title: 'અમારું મિશન',
-                  description: 'ગુજરાતમાં 1,0,000+ રાજયગોર પરિવારોને ઓનલાઇન જોડવા અને સશક્ત બનાવવું.',
+                  description: 'ગુજરાતમાં રાજયગોર પરિવારોને ઓનલાઇન જોડવા અને સશક્ત બનાવવું.',
                 ),
               ),
               _buildVerticalDivider(),
               Expanded(
                 child: _buildValueColumn(
                   title: 'અમારી વિઝન',
-                  description: 'એકતા, પારદર્શિતા અને ટેક્નોલોજીથી સમાજ વિકાસ માટે મજબૂત પ્લેટફોર્મ.',
+                  description: 'એકતા, પારદર્શિતા અને ટેક્નોલોજીથી જ્ઞાત વિકાસ માટે મજબૂત પ્લેટફોર્મ.',
                 ),
               ),
               _buildVerticalDivider(),
@@ -366,12 +429,12 @@ class AboutScreen extends GetView<AboutController> {
             children: [
               _buildValueColumn(
                 title: 'અમારું મિશન',
-                description: 'ગુજરાતમાં 1,0,000+ રાજયગોર પરિવારોને ઓનલાઇન જોડવા અને સશક્ત બનાવવું.',
+                description: 'ગુજરાતમાં  રાજયગોર પરિવારોને ઓનલાઇન જોડવા અને સશક્ત બનાવવું.',
               ),
               _buildHorizontalDivider(),
               _buildValueColumn(
                 title: 'અમારી વિઝન',
-                description: 'એકતા, પારદર્શિતા અને ટેક્નોલોજીથી સમાજ વિકાસ માટે મજબૂત પ્લેટફોર્મ.',
+                description: 'એકતા, પારદર્શિતા અને ટેક્નોલોજીથી જ્ઞાત વિકાસ માટે મજબૂત પ્લેટફોર્મ.',
               ),
               _buildHorizontalDivider(),
               _buildValueColumn(
@@ -381,7 +444,6 @@ class AboutScreen extends GetView<AboutController> {
             ],
           ),
           const SizedBox(height: 50),
-
           Text(
             "You're always welcome here.",
             style: GoogleFonts.alexBrush(
@@ -405,11 +467,11 @@ class AboutScreen extends GetView<AboutController> {
         Text(
           title,
           textAlign: TextAlign.center,
-          style:  const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w900,
-              color: AppColors.heading, // ✅ અપડેટેડ
-              height: 1.2,
+          style: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w900,
+            color: AppColors.heading, // ✅ અપડેટેડ
+            height: 1.2,
           ),
         ),
         const SizedBox(height: 16),
@@ -418,12 +480,11 @@ class AboutScreen extends GetView<AboutController> {
           child: Text(
             description,
             textAlign: TextAlign.center,
-            style:  TextStyle(
-                fontSize: 14.5,
-                color: AppColors.body.withOpacity(0.9), // ✅ અપડેટેડ
-                height: 1.6,
-                fontWeight: FontWeight.w600,
-
+            style: TextStyle(
+              fontSize: 14.5,
+              color: AppColors.body.withOpacity(0.9), // ✅ અપડેટેડ
+              height: 1.6,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -464,28 +525,26 @@ class AboutScreen extends GetView<AboutController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Text(
-          '>ગુજરાત રાજયગોર સમાજ',
-          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.accent), // ✅ અપડેટેડ
+        const Text(
+          '>ગુજરાત રાજયગોર જ્ઞાત',
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.accent), // ✅ અપડેટેડ
         ),
         const SizedBox(height: 12),
         RichText(
-          text: TextSpan(
-            style: const TextStyle(
-                fontSize: 54,
-                fontWeight: FontWeight.w900,
-                color: Colors.white,
-                height: 1.15,
-              ),
-            children: const [
-              TextSpan(text: 'સમાજને\n'),
+          text: const TextSpan(
+            style: TextStyle(
+              fontSize: 54,
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
+              height: 1.15,
+            ),
+            children: [
+              TextSpan(text: 'જ્ઞાતને\n'),
               TextSpan(text: 'ડિજિટલ રીતે જોડીએ', style: TextStyle(color: AppColors.accent)), // ✅ અપડેટેડ
             ],
           ),
         ),
         const SizedBox(height: 40),
-
-        // ઈમેજ બ્લોક
         ClipRRect(
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(4),
@@ -512,15 +571,14 @@ class AboutScreen extends GetView<AboutController> {
       children: [
         Text(
           'ઈ-મેમ્બરશીપ, બિઝનેસ કોમ્યુનિટી સર્ચ, મેટ્રિમોની અને સહાય જેવી સેવાઓને એક પ્લેટફોર્મ પર સુરક્ષિત રીતે ઉપલબ્ધ કરાવવાનું અમારું ધ્યેય છે.',
-          style:  TextStyle(
-              fontSize: 16,
-              color: AppColors.whiteText.withOpacity(0.85), // ✅ અપડેટેડ
-              height: 1.6,
-              fontWeight: FontWeight.w500,
+          style: TextStyle(
+            fontSize: 16,
+            color: AppColors.whiteText.withOpacity(0.85),
+            height: 1.6,
+            fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(height: 45),
-
         isWeb
             ? Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -536,8 +594,8 @@ class AboutScreen extends GetView<AboutController> {
             ),
             Expanded(
               child: Text(
-                'OTP વેરીફિકેશનથી ઝડપી નોંધણી, પરિવારની વિગતો સાથે સચોટ ડેટાબેઝ અને પારદર્શિતાથી સમાજ વિકાસ.',
-                style:  TextStyle(color: AppColors.whiteText.withOpacity(0.65), fontSize: 14, height: 1.5, fontWeight: FontWeight.w500), // ✅ અપડેટેડ
+                'OTP વેરીફિકેશનથી ઝડપી નોંધણી, પરિવારની વિગતો સાથે સચોટ ડેટાબેઝ અને પારદર્શિતાથી જ્ઞાત વિકાસ.',
+                style: TextStyle(color: AppColors.whiteText.withOpacity(0.65), fontSize: 14, height: 1.5, fontWeight: FontWeight.w500),
               ),
             ),
           ],
@@ -554,25 +612,24 @@ class AboutScreen extends GetView<AboutController> {
             const SizedBox(height: 8),
             Text(
               'OTP વેરીફિકેશનથી ઝડપી નોંધણી, પરિવારની વિગતો સાથે સચોટ ડેટાબેઝ અને પારદર્શિતાથી સમાજ વિકાસ.',
-              style:  TextStyle(color: AppColors.whiteText.withOpacity(0.65), fontSize: 14, height: 1.5, fontWeight: FontWeight.w500), // ✅ અપડેટેડ
+              style: TextStyle(color: AppColors.whiteText.withOpacity(0.65), fontSize: 14, height: 1.5, fontWeight: FontWeight.w500),
             ),
           ],
         ),
         const SizedBox(height: 40),
-
         InkWell(
           onTap: () {},
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'અમારી સેવાઓ ',
-                  style:  const TextStyle(color: AppColors.accent, fontWeight: FontWeight.bold, fontSize: 14), // ✅ અપડેટેડ
+                  style: TextStyle(color: AppColors.accent, fontWeight: FontWeight.bold, fontSize: 14), // ✅ અપડેટેડ
                 ),
-                const SizedBox(width: 4),
-                const Icon(Icons.arrow_forward, color: AppColors.accent, size: 14), // ✅ અપડેટેડ
+                SizedBox(width: 4),
+                Icon(Icons.arrow_forward, color: AppColors.accent, size: 14), // ✅ અપડેટેડ
               ],
             ),
           ),
@@ -583,7 +640,7 @@ class AboutScreen extends GetView<AboutController> {
 
     return Container(
       width: double.infinity,
-      color: AppColors.primary, // ✅ અપડેટેડ: ડાર્ક થીમ બેકગ્રાઉન્ડ બ્લોક
+      color: AppColors.primary,
       padding: padding,
       child: isWeb
           ? Row(
