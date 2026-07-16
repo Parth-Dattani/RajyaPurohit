@@ -46,6 +46,10 @@ dependencies:
   url_launcher: any
   google_fonts:
   universal_html: ^2.3.0
+  pdf:
+  printing: any
+  image_picker:
+  sendotp_flutter_sdk: ^0.0.2
 
 
 

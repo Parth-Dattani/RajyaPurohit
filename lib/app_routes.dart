@@ -59,4 +59,23 @@ List<GetPage> appPages = [
     page: () => const SansthaScreen(),
     binding: SansthaBinding(),
   ),
+
+  GetPage(
+    name: EventScreen.pageId,
+    page: () => const EventScreen(),
+    binding:  EventBinding(), // 👈 તમારો નવો બાઈન્ડિંગ ક્લાસ અહીંયા લોક થઈ ગયો ભાઈ!
+  ),
+
+  GetPage(
+    name: '/LoginScreen',
+    page: () => const LoginScreen(),
+    binding: LoginBinding(), // 👈 આપણું નવું બાઈન્ડિંગ અહીંયા લિંક કરી દીધું!
+  ),
+
+// ➔ ⚡ ⚡ અસલી જાદુ: ડેશબોર્ડ ઓપન થતાં જ બાઈન્ડિંગ ઓટોમેટિક કંટ્રોલર ઇન્જેક્ટ કરી દેશે ભાઈ!
+  GetPage(
+    name: '/DashboardScreen',
+    page: () =>  DashboardScreen(),
+    binding: DashboardBinding(), // 👈 આપણું નવું બાઈન્ડિંગ લિંક થઈ ગયું ભાઈ!
+  ),
 ];

@@ -96,17 +96,15 @@ class CustomFooter extends StatelessWidget {
       children: [
         Text(
           'RAJYAPUROHITJAMNAGAR.IN',
-          style: GoogleFonts.cinzel(
-            textStyle: const TextStyle(
+          style:  const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: AppColors.footerHeading,
             ),
-          ),
         ),
         const SizedBox(height: 20),
         const Text(
-          'ગુજરાત રાજયગોર જ્ઞાતિ દ્વારા બનાવાયેલ RAJYAPUROHIJAMNAGAR.IN એક ડિજિટલ સામાજિક પ્લેટફોર્મ છે. અહીં સભ્યના, બિઝનેસ, મે્ટ્રિમોની, હેલ્થ અને એજ્યુકેશન જેવી સેવાઓ ઉપલબ્ધ કરવાનુ આયોજન છે.',
+          'ગુજરાત રાજયગોર જ્ઞાતિ દ્વારા બનાવાયેલ RAJYAPUROHIJAMNAGAR.IN એક ડિજિટલ સામાજિક પ્લેટફોર્મ છે. \nઅહીં સભ્યના બિઝનેસ, મે્ટ્રિમોની, હેલ્થ અને એજ્યુકેશન જેવી સેવાઓ ઉપલબ્ધ કરવાનુ આયોજન છે.',
           textAlign: TextAlign.justify,
           style: TextStyle(
             fontSize: 14,
@@ -177,13 +175,8 @@ class CustomFooter extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'ગૂગલ મેપ',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-        const SizedBox(height: 20),
         Container(
-          height: 180,
+          height: 235,
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
@@ -257,7 +250,7 @@ class CustomFooter extends StatelessWidget {
 
     final content = [
       Text(
-        '© 2026 ગુજરાત રાજયગોર જ્ઞાત | RajyapurohitJamnagar.in',
+        '© 2026 જામનગર રાજ્યગોર જ્ઞાતિ | RajyapurohitJamnagar.in',
         style: textStyle,
       ),
       if (isWeb) const Spacer(),

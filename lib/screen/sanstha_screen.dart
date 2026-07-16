@@ -30,11 +30,15 @@ class SansthaScreen extends GetView<SansthaController> {
     // ➔ ⚡ માત્ર નામ અને સ્થાન ધરાવતી ક્લીન લિસ્ટ ભાઈ
     final List<Map<String, String>> sansthaList = [
       {'name': 'રાજ્યપુરોહિત બ્રાહ્મણ જ્ઞાતિ', 'location': 'જામનગર'},
-      {'name': 'રાજ્યપુરોહિત બ્રાહ્મણ જ્ઞાતિ', 'location': 'મુંબઈ'},
-      {'name': 'રાજ્યપુરોહિત બ્રાહ્મણ જ્ઞાતિ', 'location': 'અમદાવાદ'},
-      {'name': 'રાજ્યપુરોહિત બ્રાહ્મણ જ્ઞાતિ', 'location': 'રાજકોટ'},
+      {'name': 'રાજ્યપુરોહિત બ્રાહ્મણ જ્ઞાતિ', 'location': 'સિક્કા'},
       {'name': 'રાજ્યપુરોહિત બ્રાહ્મણ જ્ઞાતિ', 'location': 'ખંભાળિયા'},
       {'name': 'રાજ્યપુરોહિત બ્રાહ્મણ જ્ઞાતિ', 'location': 'મોરબી'},
+      {'name': 'રાજ્યપુરોહિત બ્રાહ્મણ જ્ઞાતિ', 'location': 'રાજકોટ'},
+
+      {'name': 'રાજ્યપુરોહિત બ્રાહ્મણ જ્ઞાતિ', 'location': 'અમદાવાદ'},
+      {'name': 'રાજ્યપુરોહિત બ્રાહ્મણ જ્ઞાતિ', 'location': 'વાપી'},
+
+      {'name': 'રાજ્યપુરોહિત બ્રાહ્મણ જ્ઞાતિ', 'location': 'મુંબઈ'},
       {'name': 'રાજ્યપુરોહિત બ્રાહ્મણ જ્ઞાતિ', 'location': 'કેન્યા (આફ્રિકા)'},
       {'name': 'રાજ્યપુરોહિત બ્રાહ્મણ જ્ઞાતિ', 'location': 'લંડન (U.K)'},
       {'name': 'રાજ્યપુરોહિત વિદ્યાર્થી ભુવન', 'location': 'જામનગર'},
@@ -63,7 +67,7 @@ class SansthaScreen extends GetView<SansthaController> {
                       Icon(Icons.account_balance_outlined, size: 32, color: AppColors.textMaroon),
                       const SizedBox(width: 12),
                       const Text(
-                        'રાજ્યપુરોહિત બ્રાહ્મણ જ્ઞાતિ ના ઘટકો અને સંસ્થાઓ',
+                        'રાજ્યપુરોહિત (રાજગોર) બ્રાહ્મણ જ્ઞાતિ ના ઘટકો',
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -74,7 +78,7 @@ class SansthaScreen extends GetView<SansthaController> {
                   ),
                   const SizedBox(height: 10),
                   const Text(
-                    'આપણી જ્ઞાતિ હસ્તકના વિવિધ વૈશ્વિક સામાજિક ઘટકો તથા વિદ્યાર્થી ભુવનોની સત્તાવાર યાદી નીચે મુજબ છે ભાઈ.',
+                    'આપણી જ્ઞાતિ હસ્તકના વિવિધ વૈશ્વિક સામાજિક ઘટકો તથા વિદ્યાર્થી ભુવનોની સત્તાવાર યાદી નીચે મુજબ છે.',
                     style: TextStyle(fontSize: 15, color: AppColors.body),
                   ),
                   const SizedBox(height: 40),

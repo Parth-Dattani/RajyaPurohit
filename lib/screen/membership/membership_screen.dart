@@ -94,8 +94,8 @@ class MembershipScreen extends GetView<MembershipController> {
                   height: 1.2,
                 ),
               children: const [
-                TextSpan(text: 'ગુજરાત રાજયગોર\n', style: TextStyle(color: AppColors.heading)), // ✅ અપડેટેડ
-                TextSpan(text: 'સમાજ', style: TextStyle(color: AppColors.accent)), // ✅ અપડેટેડ
+                TextSpan(text: 'સમસ્ત રાજ્યપુરોહિત (રાજગોર)\n', style: TextStyle(color: AppColors.heading)), // ✅ અપડેટેડ
+                TextSpan(text: 'બ્રાહ્મણ જ્ઞાતિ', style: TextStyle(color: AppColors.accent)), // ✅ અપડેટેડ
               ],
             ),
           ),
@@ -155,13 +155,13 @@ class MembershipScreen extends GetView<MembershipController> {
       ),
       const SizedBox(width: 16),
 
-      // ➔ બટન ૩: મોબાઇલ એપ (સેકન્ડરી ગોલ્ડન / પીળો)
-      _buildHeroButton(
-        text: 'મોબાઈલ એપ  ➔',
-        bgColor: AppColors.buttonSecondary, // ✅ અપડેટેડ
-        textColor: AppColors.primary, // ✅ અપડેટેડ: લખાણ ડાર્ક બ્લુ
-        onPressed: () => controller.downloadMobileApp(),
-      ),
+      // // ➔ બટન ૩: મોબાઇલ એપ (સેકન્ડરી ગોલ્ડન / પીળો)
+      // _buildHeroButton(
+      //   text: 'મોબાઈલ એપ  ➔',
+      //   bgColor: AppColors.buttonSecondary, // ✅ અપડેટેડ
+      //   textColor: AppColors.primary, // ✅ અપડેટેડ: લખાણ ડાર્ક બ્લુ
+      //   onPressed: () => controller.downloadMobileApp(),
+      // ),
     ];
   }
 
@@ -219,13 +219,35 @@ class MembershipScreen extends GetView<MembershipController> {
   }
 
   // ==========================================
-  // 🔹 ૨. WHY JOIN SECTION
-  // ==========================================
+// 🔹 ૨. WHY JOIN SECTION (ગુજરાતી સ્પેલિંગ સુધારેલ ભાઈ)
+// ==========================================
   Widget _buildWhyJoinSection(bool isWeb, double screenWidth) {
     final padding = EdgeInsets.symmetric(
-      horizontal: isWeb ? screenWidth * 0.08 : 24.0,
-      vertical: 80.0,
+      horizontal: isWeb ? screenWidth * 0.08 : 16.0,
+      vertical: isWeb ? 80.0 : 40.0,
     );
+
+    final cards = [
+      _buildWhyJoinCard(
+        isWeb: isWeb,
+        title: 'વૈશ્વિક જોડાણ',
+        description: 'વિશ્વભરના રાજયગોર પરિવારો સાથે જોડાઓ અને સમાજને મજબૂત બનાવો.',
+        iconData: Icons.people_alt_outlined,
+      ),
+      _buildWhyJoinCard(
+        isWeb: isWeb,
+        title: 'સુરક્ષિત માહિતી',
+        // ➔ ⚡ ⚡ ટકાટક ફિક્સ: 'khાનગી' માંથી બદલીને શુદ્ધ ગુજરાતીમાં 'ખાનગી' લોક કરી દીધું ભાઈ!
+        description: 'તમારી અને તમારા પરિવારની માહિતી સંપૂર્ણપણે સુરક્ષિત અને ખાનગી રહેશે.',
+        iconData: Icons.gpp_good_outlined,
+      ),
+      _buildWhyJoinCard(
+        isWeb: isWeb,
+        title: 'સમાજ સેવા',
+        description: 'સમાજના વિવિધ પ્રકલ્પો અને સેવા કાર્યોમાં સહભાગી બનો.',
+        iconData: Icons.favorite_border,
+      ),
+    ];
 
     return Container(
       width: double.infinity,
@@ -234,79 +256,58 @@ class MembershipScreen extends GetView<MembershipController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             'શા માટે જોડાવું જોઈએ?',
-            style: const TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.w900,
-                color: AppColors.heading, // ✅ અપડેટેડ
-              ),
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.w900,
+              color: AppColors.heading,
             ),
-
+          ),
           const SizedBox(height: 10),
           Container(
             width: 60,
             height: 4.5,
             decoration: BoxDecoration(
-              color: AppColors.accent, // ✅ અપડેટેડ
+              color: AppColors.accent,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
           const SizedBox(height: 60),
 
           isWeb
-              ? Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(child: _buildWhyJoinCard(
-                title: 'વૈશ્વિક જોડાણ',
-                description: 'વિશ્વભરના રાજયગોર પરિવારો સાથે જોડાઓ અને સમાજને મજબૂત બનાવો.',
-                iconData: Icons.people_alt_outlined,
-              )),
-              const SizedBox(width: 24),
-              Expanded(child: _buildWhyJoinCard(
-                title: 'સુરક્ષિત માહિતી',
-                description: 'તમારી અને તમારા પરિવારની માહિતી સંપૂર્ણપણે સુરક્ષિત અને khangi રહેશે.',
-                iconData: Icons.gpp_good_outlined,
-              )),
-              const SizedBox(width: 24),
-              Expanded(child: _buildWhyJoinCard(
-                title: 'સમાજ સેવા',
-                description: 'સમાજના વિવિધ પ્રકલ્પો અને સેવા કાર્યોમાં સહભાગી બનો.',
-                iconData: Icons.favorite_border,
-              )),
-            ],
+              ? IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: cards
+                  .map((card) => Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: card,
+                ),
+              ))
+                  .toList(),
+            ),
           )
               : Column(
-            children: [
-              _buildWhyJoinCard(
-                title: 'વૈશ્વિક જોડાણ',
-                description: 'વિશ્વભરના રાજયગોર પરિવારો સાથે જોડાઓ અને સમાજને મજબૂત બનાવો.',
-                iconData: Icons.people_alt_outlined,
-              ),
-              const SizedBox(height: 24),
-              _buildWhyJoinCard(
-                title: 'સુરક્ષિત માહિતી',
-                description: 'તમારી અને તમારા પરિવારની માહિતી સંપૂર્ણપણે સુરક્ષિત અને khangi રહેશે.',
-                iconData: Icons.gpp_good_outlined,
-              ),
-              const SizedBox(height: 24),
-              _buildWhyJoinCard(
-                title: 'સમાજ સેવા',
-                description: 'સમાજના વિવિધ પ્રકલ્પો અને સેવા કાર્યોમાં સહભાગી બનો.',
-                iconData: Icons.favorite_border,
-              ),
-            ],
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: cards
+                .map((card) => Padding(
+              padding: const EdgeInsets.only(bottom: 24.0),
+              child: card,
+            ))
+                .toList(),
           ),
         ],
       ),
     );
   }
 
-  // ==========================================
-  // 🔹 ૪. WHY JOIN SINGLE CARD WIDGET (એરર ફિક્સ વર્ઝન)
-  // ==========================================
+// ==========================================
+// 🔹 ૪. WHY JOIN SINGLE CARD WIDGET (FULLY RESPONSIVE)
+// ==========================================
   Widget _buildWhyJoinCard({
+    required bool isWeb, // 👈 નવો પેરામીટર એડ કર્યો ભાઈ
     required String title,
     required String description,
     required IconData iconData,
@@ -314,74 +315,89 @@ class MembershipScreen extends GetView<MembershipController> {
     final RxBool isCardHovered = false.obs;
 
     return MouseRegion(
-      onEnter: (_) => isCardHovered.value = true,
-      onExit: (_) => isCardHovered.value = false,
-      child: Obx(() => AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeOutCubic,
-        // ➔ ✅ અહીંયા બધામાં isCardHovered.value પર્ફેક્ટ સેટ કરી દીધું ભાઈ!
-        transform: Matrix4.identity()..translate(0.0, isCardHovered.value ? -6.0 : 0.0),
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 45.0),
-        decoration: BoxDecoration(
-          color: AppColors.background.withOpacity(0.4),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isCardHovered.value ? AppColors.accent.withOpacity(0.3) : AppColors.cardBorder.withOpacity(0.3),
-            width: 1.5,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: isCardHovered.value ? Colors.black.withOpacity(0.08) : Colors.black.withOpacity(0.02),
-              blurRadius: isCardHovered.value ? 20 : 10,
-              offset: isCardHovered.value ? const Offset(0, 10) : const Offset(0, 4),
-            )
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: AppColors.buttonSecondary.withOpacity(0.35),
-                shape: BoxShape.circle,
-              ),
-              alignment: Alignment.center,
-              child:  Icon(
-                iconData,
-                size: 28,
-                color: AppColors.accent,
-              ),
+        onEnter: (_) => isCardHovered.value = true,
+        onExit: (_) => isCardHovered.value = false,
+        child: Obx(() => AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeOutCubic,
+            transform: Matrix4.identity()..translate(0.0, isCardHovered.value ? -6.0 : 0.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 45.0),
+          // ➔ ⚡ ⚡ હાઇટ ફિક્સ: વેબ હોય તો જ 'double.infinity' લેશે, મોબાઈલમાં કન્ટેન્ટ પ્રમાણે ઓટોમેટીક એડજસ્ટ થશે!
+          height: isWeb ? double.infinity : null,
+          decoration: BoxDecoration(
+            color: AppColors.primary.withOpacity(0.9),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: isCardHovered.value ? AppColors.accent.withOpacity(0.3) : AppColors.cardBorder.withOpacity(0.3),
+              width: 1.5,
             ),
-            const SizedBox(height: 25),
-
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style:  const TextStyle(
+            boxShadow: [
+              BoxShadow(
+                color: isCardHovered.value ? Colors.black.withOpacity(0.08) : Colors.black.withOpacity(0.02),
+                blurRadius: isCardHovered.value ? 20 : 10,
+                offset: isCardHovered.value ? const Offset(0, 10) : const Offset(0, 4),
+              )
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.max, // 👈 Column ને આખી સ્પેસ કવર કરવા દીધી ભાઈ
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: AppColors.buttonSecondary.withOpacity(0.35),
+                  shape: BoxShape.circle,
+                ),
+                alignment: Alignment.center,
+                child: Icon(
+                  iconData,
+                  size: 28,
+                  color: AppColors.card,
+                ),
+              ),
+              const SizedBox(height: 25),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w900,
-                  color: AppColors.heading,
+                  color: AppColors.whiteText,
                 ),
               ),
-            const SizedBox(height: 14),
+              const SizedBox(height: 14),
 
-            Text(
-              description,
-              textAlign: TextAlign.center,
-              style:  TextStyle(
-                  fontSize: 14,
-                  color: AppColors.body.withOpacity(0.8),
-                  fontWeight: FontWeight.w500,
-                  height: 1.6,
+              // ➔ ⚡ ⚡ બીજો મોટો ફિક્સ: વેબ પર ટેક્સ્ટને Expanded માં રાખ્યો, જેથી નાના લખાણ વાળું કાર્ડ પણ આખું છેક નીચે સુધી ખેંચાઈ જાય!
+              if (isWeb)
+                Expanded(
+                  child: Text(
+                    description,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: AppColors.card.withOpacity(0.8),
+                      fontWeight: FontWeight.w500,
+                      height: 1.6,
+                    ),
+                  ),
+                )
+              else
+                Text(
+                  description,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: AppColors.card.withOpacity(0.8),
+                    fontWeight: FontWeight.w500,
+                    height: 1.6,
+                  ),
                 ),
-              ),
-
-          ],
-        ),
-      )),
+            ],
+          ),
+        )),
     );
   }
 }
+

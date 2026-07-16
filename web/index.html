@@ -1,49 +1,160 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="Jamnagar Rajyagor Samaj Portal">
 
-  <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="rajya_purohit">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>rajya_purohit</title>
+  <title>Rajyagor Jamnagar</title>
   <link rel="manifest" href="manifest.json">
-</head>
-<body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
+  <script src="assets/packages/image_picker_for_web/assets/image_picker_for_web.js" type="module"></script>
 
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
-  <script src="flutter_bootstrap.js" async></script>
-  <script>
-    window.flutterWebRenderer = "html";
-  </script>
+  <!-- ➔ ⚡ ૧. ફોન્ટ પ્રી-લોડ સર્વર પાથ લોક ભાઈ -->
+  <link rel="preload" href="assets/assets/fonts/noto_sans_gujarati_regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/assets/fonts/noto_sans_gujarati_bold.ttf" as="font" type="font/ttf" crossorigin>
+
+  <style>
+    @font-face {
+      font-family: 'NotoSansGujarati';
+      src: url('assets/assets/fonts/noto_sans_gujarati_regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    /* ➔ ⚡ ૨. જ્યાં સુધી ફ્લટર અને ફોન્ટ લોડ ન થાય ત્યાં સુધી ફ્લટર વ્યુ સાવ છુપાયેલો રહેશે ભાઈ */
+    flutter-view {
+      display: none !important;
+    }
+
+    /* ➔ ⚡ ૩. પ્યોર HTML/CSS વાળો મસ્ત સ્પ્લેશ સ્ક્રીનનો લોડર જુગાડ ભાઈ */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #FFFDF9; /* તમારો સ્પ્લેશ બેકગ્રાઉન્ડ કલર */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ➔ ⚡ ૪. RAJYAGOR ટેક્સ્ટ માટે આઉટલાઇન સ્ટાઇલ લોક ભાઈ */
+    .splash-text {
+      font-size: 44px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: transparent;
+      -webkit-text-stroke: 1.5px #E65100; /* તમારો ઓરેન્જ/ગોલ્ડન કલર */
+      margin-bottom: 20px;
+    }
+
+    /* ➔ ⚡ ૫. મસ્ત પ્રોફેશનલ ગોળ ફરતું લોડર */
+    .loader {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #E65100;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* જેવો ફ્લટર લોડ થઈ જશે એટલે આ ક્લાસથી સ્પ્લેશ ગાયબ થઈ જશે ભાઈ */
+    .app-loaded .loading-container {
+      display: none !important;
+    }
+    .app-loaded flutter-view {
+      display: block !important;
+    }
+  </style>
+</head>
+
+<body>
+<!-- ➔ ⚡ આ આપણો ઇન્સ્ટન્ટ લોડ થતો સ્પ્લેશ સ્ક્રીન છે ભાઈ, જે પેલા ચોકઠા ક્યારેય દેખાવા નહિ દે -->
+<div class="loading-container" id="splash-screen">
+  <div class="splash-text">RAJYAGOR</div>
+  <div class="loader"></div>
+</div>
+
+<!-- ➔ ⚡ OTP વિજેટ માટેની જગ્યા (આને જ્યાં રાખવું હોય ત્યાં મૂકી શકાય) -->
+<div id="otp-container"></div>
+
+<script>
+  window.flutterWebRenderer = "html";
+
+  // ➔ ⚡ ⚡ સિક્રેટ સુપર જાદુ: ફ્લટરનું એન્જિન લોડ થાય ત્યારે સ્પ્લેશ હટાવવાની સિસ્ટમ
+  window.addEventListener('flutter-first-frame', function () {
+    // ફોન્ટ પણ લોડ થઈ ગયા હોય અને ફ્લટરની પહેલી ફ્રેમ રેડી થાય ત્યારે જ સ્પ્લેશ સ્ક્રીન ઉડશે ભાઈ!
+    document.body.classList.add("app-loaded");
+  });
+
+  // સેફ સાઈડ બેકઅપ: જો ફ્રેમ ઇવેન્ટમાં સેજ વાર લાગે તો ૪ સેકન્ડ પછી ઓટોમેટિક ઓપન કરી દેશે
+  setTimeout(function() {
+    document.body.classList.add("app-loaded");
+  }, 4000);
+</script>
+
+<script src="flutter_bootstrap.js" async></script>
+
+<script type="text/javascript">
+  var configuration = {
+    widgetId: "36676f6d7953383734343736",
+    tokenAuth: "550824Ab1GRHpt6a579145P1",
+    exposeMethods: true,
+    success: function(data) {
+      console.log('success response', data);
+      // ફ્લટર સાથે કમ્યુનિકેશન કરવા માટે અહીંથી આપણે ડેટા પાસ કરી શકીશું
+    },
+    failure: function(error) {
+      console.log('failure reason', error);
+    }
+  };
+</script>
+
+<script type="text/javascript">
+  (function loadOtpScript(urls) {
+    var i = 0;
+    function attempt() {
+      var s = document.createElement('script');
+      s.src = urls[i];
+      s.async = true;
+      s.onload = function() {
+        if (typeof window.initSendOTP === 'function') {
+          window.initSendOTP(configuration);
+        }
+      };
+      s.onerror = function() {
+        i++;
+        if (i < urls.length) attempt();
+      };
+      document.head.appendChild(s);
+    }
+    attempt();
+  })([
+    'https://verify.msg91.com/otp-provider.js',
+    'https://verify.phone91.com/otp-provider.js'
+  ]);
+</script>
 </body>
 </html>

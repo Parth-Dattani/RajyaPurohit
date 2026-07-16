@@ -427,9 +427,8 @@ class TeamScreen extends GetView<TeamController> {
               const SizedBox(width: 4),
               Text(
                 member.phone,
-                style: GoogleFonts.poppins(
-                  textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.body.withOpacity(0.8)),
-                ),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.body.withOpacity(0.8)),
+
               ),
             ],
           ),
@@ -565,9 +564,7 @@ class TeamScreen extends GetView<TeamController> {
                   child: Text(
                     p.duration,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                      textStyle: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13.5, color: AppColors.heading),
-                    ),
+                    style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13.5, color: AppColors.heading),
                   ),
                 ),
                 Padding(padding: const EdgeInsets.all(12.0), child: Text(p.years, textAlign: TextAlign.center, style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.accentDark))),

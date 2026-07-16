@@ -7,3 +7,6 @@ export 'contact_controller.dart';
 export 'team_controller.dart';
 export 'registration_controller.dart';
 export 'sanstha_controller.dart';
+export 'event_controller.dart';
+export 'dashboard_controller.dart';
+export 'login_controller.dart';

@@ -7,9 +7,11 @@ import 'package:rajya_purohit/bindings/splash_binding.dart';
 import 'package:rajya_purohit/screen/screen.dart';
 
 import 'app_routes.dart';
+import 'utils/shared_preferences_helper.dart';
 
-void main() {
+void main()async {
   WidgetsFlutterBinding.ensureInitialized();
+  await sharedPreferencesHelper.init();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   GoogleFonts.config.allowRuntimeFetching = false;
   runApp(const MyApp());
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
         textTheme: Theme.of(context).textTheme.apply(
           fontFamily: 'NotoSansGujarati',
         ),
+        typography: Typography.material2021(platform: TargetPlatform.iOS),
         useMaterial3: true,
         colorSchemeSeed: Colors.teal,
       ),

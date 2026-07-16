@@ -100,6 +100,18 @@ CREATE TABLE IF NOT EXISTS `maternal_details` (
 FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--6. contact_mesag table
+   CREATE TABLE contact_messages (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   name VARCHAR(255) NOT NULL,
+   email VARCHAR(255),
+   city VARCHAR(255),
+   mobile VARCHAR(20) NOT NULL,
+   subject VARCHAR(255),
+   message TEXT NOT NULL,
+   created_at DATETIME
+   );
+
 
 
 હવે આપણે આ ડેટાબેઝને ફ્લટર (Flutter) સાથે કનેક્ટ કરવા માટે PHP API સ્ક્રિપ્ટ્સ તૈયાર કરીએ. આપણે આ આર્કિટેક્ચરને એકદમ ક્લીન રાખવા માટે હોસ્ટિંગરના ફાઈલ મેનેજરમાં એક અલગ ફોલ્ડર બનાવીને ૩ મુખ્ય ફાઈલો મુકીશું:

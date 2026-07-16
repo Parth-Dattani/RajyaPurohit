@@ -7,3 +7,6 @@ export 'contact_binding.dart';
 export 'team_binding.dart';
 export 'registration_binding.dart';
 export 'sanstha_binding.dart';
+export 'event_binding.dart';
+export 'dashboard_binding.dart';
+export 'login_binding.dart';

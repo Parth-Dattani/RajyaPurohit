@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../constant/app_colors.dart';
 import '../widgets/custom_footer.dart';
 import '../controllers/about_controller.dart';
 import '../widgets/widgets.dart';
 import 'home_screen.dart';
 
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../constant/app_colors.dart';
-import '../widgets/custom_app_bar.dart';
-import '../widgets/custom_footer.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../constant/app_colors.dart';
 import '../widgets/custom_footer.dart';
 import '../controllers/about_controller.dart';
@@ -238,11 +230,12 @@ class AboutScreen extends GetView<AboutController> {
                   children: [
                     Text(
                       'Call Us Anytime',
-                      style: GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 12, color: AppColors.subtitle, fontWeight: FontWeight.w500)), // ✅ અપડેટેડ
+                      style:  const TextStyle(fontSize: 12,
+                              color: AppColors.subtitle, fontWeight: FontWeight.w500), // ✅ અપડેટેડ
                     ),
                     Text(
                       '+91 95743-09096',
-                      style: GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 15, color: AppColors.heading, fontWeight: FontWeight.bold)), // ✅ અપડેટેડ
+                      style:  const TextStyle(fontSize: 15, color: AppColors.heading, fontWeight: FontWeight.bold), // ✅ અપડેટેડ
                     ),
                   ],
                 )
@@ -446,13 +439,11 @@ class AboutScreen extends GetView<AboutController> {
           const SizedBox(height: 50),
           Text(
             "You're always welcome here.",
-            style: GoogleFonts.alexBrush(
-              textStyle: const TextStyle(
+            style:  const TextStyle(
                 fontSize: 32,
                 color: AppColors.accent, // ✅ અપડેટેડ
                 letterSpacing: 1,
               ),
-            ),
           ),
         ],
       ),
@@ -587,9 +578,7 @@ class AboutScreen extends GetView<AboutController> {
               width: 140,
               child: Text(
                 'Our Mission',
-                style: GoogleFonts.poppins(
-                  textStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-                ),
+                style:  const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
               ),
             ),
             Expanded(
@@ -605,9 +594,7 @@ class AboutScreen extends GetView<AboutController> {
           children: [
             Text(
               'Our Mission',
-              style: GoogleFonts.poppins(
-                textStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-              ),
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
             ),
             const SizedBox(height: 8),
             Text(

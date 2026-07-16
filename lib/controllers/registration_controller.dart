@@ -2,26 +2,31 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import '../utils/shared_preferences_helper.dart';
+import 'package:image_picker/image_picker.dart';
+import '../utils/shared_preferences_helper.dart';
+import 'package:sendotp_flutter_sdk/sendotp_flutter_sdk.dart';
+import 'dart:js' as js;
 
 class RegistrationController extends GetxController {
   var currentStep = 0.obs;
   var isLoading = false.obs;
 
+  // સિંગલ સ્ક્રીન ફ્લો માટેના રીએક્ટિવ સ્ટેટ્સ
+  var isOldUser = false.obs;
+  var currentReqId = ''.obs;
+  // ➔ ⚡ ✅ પાસવર્ડ શો/હાઇડ કરવા માટેના નવા રીએક્ટિવ સ્ટેટ્સ ભાઈ
+  var isPasswordHidden = true.obs;
+  var isConfirmPasswordHidden = true.obs;
+
   // ==========================================
   // 📝 UNIQUE TEXT EDITING CONTROLLERS
   // ==========================================
-  // Step 1: Mobile verification
+  // Step 1: Mobile & Email verification
   final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
   final otpController = TextEditingController();
 
   // Step 2: Primary Info
@@ -29,8 +34,9 @@ class RegistrationController extends GetxController {
   final fatherHusbandController = TextEditingController();
   final motherNameController = TextEditingController();
   final surnameController = TextEditingController();
+  final gotraController = TextEditingController();
 
-  // Step 2 & Step 3: Address & Locations (Completely Separated)
+  // Step 2 & Step 3: Address & Locations
   final currentAddressController = TextEditingController();
   final currentDistrictController = TextEditingController();
   final currentTalukaController = TextEditingController();
@@ -42,8 +48,11 @@ class RegistrationController extends GetxController {
   final birthDayController = TextEditingController();
   final birthMonthController = TextEditingController();
   final birthYearController = TextEditingController();
+  final bloodGroupController = TextEditingController();       // બ્લડ ગ્રુપ માટે
+  final whatsappController = TextEditingController();
+  final organizationNameController = TextEditingController();
 
-  // Step 3: Maternal / Mosal Details (Completely Separated from Main Profile)
+  // Step 3: Maternal / Mosal Details
   final maternalFatherController = TextEditingController();
   final maternalMotherController = TextEditingController();
   final maternalAddressController = TextEditingController();
@@ -58,28 +67,220 @@ class RegistrationController extends GetxController {
   var selectedRelation = 'Self'.obs;
   var selectedGotraId = '1'.obs;
   var selectedVillageId = '1'.obs;
+  var selectedImagePath = ''.obs;
 
-  // Reactive states for Education and Occupation dropdown selections
   var selectedEducation = 'Select Option'.obs;
   var selectedOccupation = 'Select Option'.obs;
 
-  // Generational Tree Technical Flags
   var isMarriedSon = false.obs;
   var parentFamilyId = 5001.obs;
 
-  // Live Gotras Master Lookup List Array
   var gotrasList = <Map<String, dynamic>>[].obs;
   var isGotrasLoading = false.obs;
 
-  // Dynamic Family Members Logic States
-  var familyCount = 0.obs;
   var familyMembers = <Map<String, dynamic>>[].obs;
+
+  // ➔ ⚡ ✅ આંખના આઇકન પર ક્લિક થતાં ટોગલ કરવાનું લોજિક
+  void togglePasswordVisibility() => isPasswordHidden.value = !isPasswordHidden.value;
+  void toggleConfirmPasswordVisibility() => isConfirmPasswordHidden.value = !isConfirmPasswordHidden.value;
 
   @override
   void onInit() {
     super.onInit();
-    // Fetch live gotras master lookup data automatically on initialization
-    fetchLiveGotras();
+    OTPWidget.initializeWidget('36676f6d7953383734343736', '550824TZwKL7OI4HO46a592818P1');
+    // ➔ ⚡ સ્ક્રીન લોડ થાય ત્યારે arguments ચેક કરો
+    if (Get.arguments == "DIRECT_LOGIN") {
+      isOldUser.value = true;
+    } else {
+      isOldUser.value = false;
+    }
+    passwordController.addListener(() => update());
+  }
+
+  Future<void> sendOtpToUser(String mobileNumber) async {
+    if (mobileNumber.isEmpty) {
+      Get.snackbar("ભૂલ", "મોબાઈલ નંબર લખો ભાઈ!");
+      return;
+    }
+
+    try {
+      isLoading.value = true;
+
+      // ➔ JavaScript માં બનાવેલા window.initSendOTP ફંક્શનને ફ્લટરમાંથી કોલ કરો
+      // આપણે index.html માં જે 'configuration' બનાવ્યું છે,
+      // તેમાં ડાયનેમિક મોબાઈલ નંબર પાસ કરીશું.
+
+      js.context.callMethod('initSendOTP', [
+        js.JsObject.jsify({
+          "widgetId": "36676f6d7953383734343736",
+          "tokenAuth": "{token}",
+          "identifier": mobileNumber, // ➔ યુઝરનો મોબાઈલ નંબર
+          "success": (data) {
+            debugPrint("OTP Success: $data");
+            Get.snackbar("સફળ", "OTP વિજેટ ખુલી ગયું છે!");
+          },
+          "failure": (error) {
+            debugPrint("OTP Failure: $error");
+            Get.snackbar("ભૂલ", "OTP વિજેટમાં એરર આવી!");
+          }
+        })
+      ]);
+
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+      debugPrint("JS Interop Error: $e");
+      Get.snackbar("એરર", "OTP લોડ કરવામાં લોચો છે!");
+    }
+  }
+
+  // RegistrationController.dart માં ઉમેરો
+  Future<void> openOtpWidget(String mobile) async {
+    try {
+      isLoading.value = true;
+      final data = {'identifier': '91$mobile'};
+
+      // OTP મોકલો
+      final response = await OTPWidget.sendOTP(data);
+      debugPrint("OTP Response: $response");
+
+      // અહીં response માંથી reqId મેળવો (તમારા SDK ના ડોક્યુમેન્ટ મુજબ ચેક કરી લેવું)
+      if (response != null && response['reqId'] != null) {
+        currentReqId.value = response['reqId'];
+        isLoading.value = false;
+
+        // ➔ ⚡ મહત્વનું: અહીં nextStep() ન કરો,
+        // પહેલા યુઝર પાસે OTP એન્ટર કરાવો!
+        Get.snackbar("સફળ", "OTP મોકલાઈ ગયો છે, હવે તે દાખલ કરો.");
+      }
+    } catch (e) {
+      isLoading.value = false;
+      Get.snackbar("ભૂલ", "OTP મોકલવામાં નિષ્ફળતા: $e");
+    }
+  }
+
+  Future<void> handleVerifyOtp(String reqId, String otp) async {
+    try {
+      isLoading.value = true;
+      final data = {'reqId': reqId, 'otp': otp};
+      final response = await OTPWidget.verifyOTP(data);
+
+      debugPrint("Verify Response: $response");
+      isLoading.value = false;
+
+      // જો રિસ્પોન્સમાં સફળતા મળે તો જ આગળ વધો
+      if (response != null) {
+        nextStep();
+      } else {
+        Get.snackbar("ભૂલ", "ખોટો OTP છે ભાઈ!");
+      }
+    } catch (e) {
+      isLoading.value = false;
+      Get.snackbar("ભૂલ", "વેરિફિકેશનમાં લોચો: $e");
+    }
+  }
+
+  // ==========================================
+  // 🔍 ⚡ યુઝર સ્ટેટસ ચેક (મોબાઈલ અથવા ઈમેલ - બેમાંથી કોઈ પણ એક ભાઈ!)
+  // ==========================================
+  Future<void> checkUserStatus() async {
+    final String checkUrl = "https://rajyapurohitjamnagar.in/api/check_user.php";
+
+    if (phoneController.text.trim().isEmpty && emailController.text.trim().isEmpty) {
+      Get.snackbar(
+          "વિગત ખૂટે છે ભાઈ",
+          "કૃપા કરીને આગળ વધવા માટે મોબાઈલ નંબર અથવા ઈમેલ આઈડી બેમાંથી કોઈ પણ એક દાખલ કરો.",
+          backgroundColor: Colors.amber.shade800,
+          colorText: Colors.white
+      );
+      return;
+    }
+
+    try {
+      isLoading.value = true;
+      final response = await http.post(
+        Uri.parse(checkUrl),
+        headers: {"Content-Type": "application/json; charset=UTF-8"},
+        body: jsonEncode({
+          "email": emailController.text.trim(),
+          "phone_number": phoneController.text.trim()
+        }),
+      );
+
+      isLoading.value = false;
+      final responseData = jsonDecode(response.body);
+
+      // ➔ ⚡ ⚡ કિલર જુગાડ ફિક્સ: સર્વરનું 'exists' સ્ટેટસ અથવા 'User exists' મેસેજ બંને કન્ડિશન લૉક ભાઈ!
+      if (responseData['status'] == 'exists' || responseData['message'] == 'User exists') {
+        isOldUser.value = true; // પાસવર્ડ ફિલ્ડ્સ ઓપન થશે અને યુઝર અહીં જ રોકાશે
+
+        Get.snackbar(
+            "જૂના સભ્ય 🪪",
+            "તમારું એકાઉન્ટ ઓલરેડી બનેલું છે, કૃપા કરીને લોગિન પાસવર્ડ દાખલ કરો ભાઈ.",
+            backgroundColor: Colors.amber.shade800,
+            colorText: Colors.white,
+            duration: const Duration(seconds: 4)
+        );
+      } else {
+        isOldUser.value = false;
+        nextStep();
+      }
+    } catch (e) {
+      isLoading.value = false;
+      Get.snackbar("કનેક્શન લોચો", "સર્વર ચેકિંગ નિષ્ફળ: $e", backgroundColor: Colors.red, colorText: Colors.white);
+    }
+  }
+
+  // ==========================================
+  // 🔑 ⚡ જૂના સભ્યો માટે ડાયરેક્ટ લોગિન ફ્લો
+  // ==========================================
+  Future<void> directLoginFromStepper() async {
+    final String loginUrl = "https://rajyapurohitjamnagar.in/api/login.php";
+
+    if (passwordController.text.trim().isEmpty) {
+      Get.snackbar("વિગત ખૂટે છે ભાઈ", "કૃપા કરીને તમારો લોગિન પાસવર્ડ દાખલ કરો.",
+          backgroundColor: Colors.amber.shade800, colorText: Colors.white);
+      return;
+    }
+
+    try {
+      isLoading.value = true;
+      debugPrint("Sending Password: '${passwordController.text.trim()}'");
+      final response = await http.post(
+        Uri.parse(loginUrl),
+        headers: {"Content-Type": "application/json; charset=UTF-8"},
+        body: jsonEncode({
+          "email": emailController.text.trim(),
+          "phone_number": phoneController.text.trim(), // 👈 મોબાઇલ સબમિશન પણ મોકલી આપ્યું ભાઈ સેફ્ટી માટે
+          "password": passwordController.text.trim()
+        }),
+      );
+
+      isLoading.value = false;
+      final responseData = jsonDecode(response.body);
+
+      if (response.statusCode == 200 && responseData['status'] == 'success') {
+        try {
+          await sharedPreferencesHelper.storeBoolPrefData('isLoggedIn', true);
+          await sharedPreferencesHelper.storePrefData('cached_user', jsonEncode(responseData['user_data']));
+          await sharedPreferencesHelper.storePrefData('cached_maternal', jsonEncode(responseData['maternal_data']));
+          await sharedPreferencesHelper.storePrefData('cached_family', jsonEncode(responseData['family_members']));
+        } catch (_) {}
+
+        Get.offAllNamed('/DashboardScreen');
+        Get.snackbar("લોગિન સફળ ભાઈ!", "તમારા પરિવારનો આખો ડેટા લાઈવ સિંક થઈ ગયો છે.", backgroundColor: Colors.green, colorText: Colors.white);
+      } else {
+        // ➔ ⚡ હોસ્ટિંગર ModSecurity બાયપાસ પ્રમાણે ગુજરાતી કન્વર્ઝન લોક ભાઈ
+        String errorMsg = "ખોટો પાસવર્ડ! કૃપા કરીને ફરી પ્રયાસ કરો ભાઈ.";
+        if (responseData['message'] == "Account not found") {
+          errorMsg = "આ મોબાઈલ નંબર અથવા ઈમેલ રજીસ્ટર્ડ નથી ભાઈ.";
+        }
+        Get.snackbar("લોગિન નિષ્ફળ ભાઈ", errorMsg, backgroundColor: Colors.red.shade800, colorText: Colors.white);
+      }
+    } catch (e) {
+      isLoading.value = false;
+      Get.snackbar("ने트워크 એરર", "સર્વર કનેક્શન લોચો: $e", backgroundColor: Colors.red, colorText: Colors.white);
+    }
   }
 
   // ==========================================
@@ -96,58 +297,60 @@ class RegistrationController extends GetxController {
         if (decodedData['status'] == 'success' && decodedData['data'] != null) {
           gotrasList.assignAll(List<Map<String, dynamic>>.from(decodedData['data']));
 
-          // Set initial default selection safely if master lookup is not empty
           if (gotrasList.isNotEmpty) {
             selectedGotraId.value = gotrasList.first['id'].toString();
           }
         }
-      } else {
-        Get.snackbar("Master Data Error", "Failed to load gotras lookup list.");
       }
     } catch (e) {
-      Get.snackbar("Network Error", "Gotras fetch connection failed: $e");
+      Get.snackbar("Network Error", "Gotras fetch failed: $e", backgroundColor: Colors.red, colorText: Colors.white);
     } finally {
       isGotrasLoading.value = false;
     }
   }
 
-  // ==========================================
-  // 👥 DYNAMIC FAMILY MEMBERS MAPPING LOGIC
-  // ==========================================
-  void updateFamilyCount(int count) {
-    familyCount.value = count;
-    if (familyMembers.length < count) {
-      int fieldsToAdd = count - familyMembers.length;
-      for (int i = 0; i < fieldsToAdd; i++) {
-        familyMembers.add({
-          'nameController': TextEditingController(),
-          'relation': 'પસંદ કરો',
-          'dayController': TextEditingController(),
-          'monthController': TextEditingController(),
-          'yearController': TextEditingController(),
-          'phoneController': TextEditingController(),
-        });
-      }
-    } else if (familyMembers.length > count) {
-      while (familyMembers.length > count) {
-        var removedMember = familyMembers.removeLast();
-        removedMember['nameController']?.dispose();
-        removedMember['dayController']?.dispose();
-        removedMember['monthController']?.dispose();
-        removedMember['yearController']?.dispose();
-        removedMember['phoneController']?.dispose();
-      }
-    }
+  void addFamilyMember() {
+    familyMembers.add({
+      'nameController': TextEditingController(),
+      'relation': 'પસંદ કરો',
+      'dayController': TextEditingController(),
+      'monthController': TextEditingController(),
+      'yearController': TextEditingController(),
+      'phoneController': TextEditingController(),
+      'bloodGroupController': TextEditingController(),
+      'education': 'Select Option',
+      'maritalStatus': 'Single',
+      'occupation': 'Select Option',
+      'organizationNameController': TextEditingController(),
+
+
+      'maternalFatherController': TextEditingController(),
+      'maternalMotherController': TextEditingController(),
+      'maternalVillageController': TextEditingController(),
+
+    });
   }
 
-  // ==========================================
-  // 🔄 STEP NAVIGATION CONTROLS
-  // ==========================================
+  void removeFamilyMember(int index) {
+    var member = familyMembers[index];
+
+    member['nameController']?.dispose();
+    member['dayController']?.dispose();
+    member['monthController']?.dispose();
+    member['yearController']?.dispose();
+    member['phoneController']?.dispose();
+    member['organizationNameController']?.dispose();
+    member['maternalFatherController']?.dispose();
+    member['maternalMotherController']?.dispose();
+    member['maternalVillageController']?.dispose();
+
+    familyMembers.removeAt(index);
+  }
+
+
+
   void nextStep() {
-    if (currentStep.value == 0) {
-      currentStep.value = 1; // Direct screen bypass for OTP step
-    }
-    else if (currentStep.value < 4) {
+    if (currentStep.value < 4) {
       currentStep.value++;
     }
   }
@@ -158,58 +361,91 @@ class RegistrationController extends GetxController {
     }
   }
 
-  // ==========================================
-  // 💾 SUBMIT NODE DATA TO LIVE SQL DATABASE
-  // ==========================================
-  // ==========================================
-  // 💾 SUBMIT NODE DATA TO LIVE SQL DATABASE
-  // ==========================================
   Future<void> submitMemberToLiveSQL() async {
-    final String apiUrl = "https://rajyapurohitjamnagar.in/api/add_member.php";
+    // ➔ ⚡ પાસવર્ડ વેલિડેશન
+    if (passwordController.text.trim().isEmpty || confirmPasswordController.text.trim().isEmpty) {
+      Get.snackbar("પાસવર્ડ ખૂટે છે", "બંને પાસવર્ડ ફિલ્ડ ભરો.", backgroundColor: Colors.amber.shade800, colorText: Colors.white);
+      return;
+    }
 
+    if (passwordController.text.trim() != confirmPasswordController.text.trim()) {
+      Get.snackbar("પાસવર્ડ ભૂલ ❌", "પાસવર્ડ મેચ નથી થતા!", backgroundColor: Colors.red.shade800, colorText: Colors.white);
+      return;
+    }
+
+    final String apiUrl = "https://rajyapurohitjamnagar.in/api/add_member.php";
+    bool isMarriedRelation(String relation) {
+      return ['પતિ', 'પત્ની', 'પુત્રવધૂ', 'માતા', 'પિતા', 'દાદા', 'દાદી'].contains(relation);
+    }
     try {
       isLoading.value = true;
 
-      // Construct proper YYYY-MM-DD MySQL date standard securely
-      String yyyy = birthYearController.text.trim().isEmpty ? "1995" : birthYearController.text.trim();
-      String mm = birthMonthController.text.trim().isEmpty ? "01" : birthMonthController.text.trim();
-      String dd = birthDayController.text.trim().isEmpty ? "01" : birthDayController.text.trim();
-      String fullBirthDate = "$yyyy-$mm-$dd";
+      // ➔ ડેટા મેપિંગ લોજિક - ફેમિલી મેમ્બર્સ માટે
+      List<Map<String, dynamic>> mappedMembers = [];
 
-      // Structured Payload conforming back to Generational Architecture Design Flow
+      for (var member in familyMembers) {
+        mappedMembers.add({
+          "name": member['nameController'].text.trim(),
+          "relation": member['relation'],
+          "gender": "Male",
+
+          "birth_date":
+          "${member['yearController'].text.trim()}-${member['monthController'].text.trim()}-${member['dayController'].text.trim()}",
+
+          "phone_number": null,
+          "whatsapp_number": member['phoneController'].text.trim(),
+          "blood_group": member['bloodGroupController'].text.trim(),
+          "education": member['education'],
+          "marital_status": isMarriedRelation(member['relation']) ? 'Married' : member['maritalStatus'],
+
+          "occupation": member['occupation'],
+
+          "organization_name":
+          member['organizationNameController'].text.trim(),
+
+          "maternal_father_name":
+          member['maternalFatherController'].text.trim(),
+
+          "maternal_mother_name":
+          member['maternalMotherController'].text.trim(),
+
+          "maternal_village":
+          member['maternalVillageController'].text.trim(),
+        });
+      }
+
+      // ➔ ફાઈનલ પેલોડ
       final Map<String, dynamic> payload = {
-        "is_married_son": isMarriedSon.value,
-        "parent_family_id": isMarriedSon.value ? parentFamilyId.value : null,
         "user_data": {
-          "gotra_id": selectedGotraId.value.isEmpty ? "1" : selectedGotraId.value,
-          "native_village_id": selectedVillageId.value.isEmpty ? "1" : selectedVillageId.value,
           "surname": surnameController.text.trim(),
           "first_name": firstNameController.text.trim(),
           "father_or_husband_name": fatherHusbandController.text.trim(),
-          "gender": selectedGender.value,
-          "birth_date": fullBirthDate,
+          "mother_name": motherNameController.text.trim(),
           "phone_number": phoneController.text.trim(),
+          "whatsapp_number": whatsappController.text.trim(),
+          "email": emailController.text.trim(),
+          "password": passwordController.text.trim(),
+          "gender": selectedGender.value,
+          "birth_date": "${birthYearController.text.trim()}-${birthMonthController.text.trim()}-${birthDayController.text.trim()}",
+          "blood_group": bloodGroupController.text.trim(),
+          "gotra_id": int.tryParse(selectedGotraId.value) ?? 1,
+          "native_village_id": int.tryParse(selectedVillageId.value) ?? 1,
           "marital_status": selectedMaritalStatus.value,
-          "education": selectedEducation.value == 'Select Option' ? 'Graduate' : selectedEducation.value,
-          "occupation": selectedOccupation.value == 'Select Option' ? 'Job' : selectedOccupation.value,
+          "education": selectedEducation.value,
+          "occupation": selectedOccupation.value,
+          "organization_name": organizationNameController.text.trim(),
           "relation_with_head": selectedRelation.value,
-          "address": currentAddressController.text.trim(),
-          "current_city": currentCityVillageController.text.trim(),
+          "current_address": currentAddressController.text.trim(),
           "current_district": currentDistrictController.text.trim(),
           "current_taluka": currentTalukaController.text.trim(),
+          "current_city": currentCityVillageController.text.trim(),
           "pincode": pincodeController.text.trim(),
-          "native_village_name": nativeVillageController.text.trim()
+          "native_village": nativeVillageController.text.trim(),
         },
-        "maternal_data": (selectedMaritalStatus.value == 'Married' || selectedGender.value == 'Female')
-            ? {
-          "maternal_father_name": maternalFatherController.text.trim(),
-          "maternal_mother_name": maternalMotherController.text.trim(),
-          "maternal_address": maternalAddressController.text.trim(),
-          "maternal_surname": maternalSurnameController.text.trim(),
-          "maternal_village_name": maternalVillageController.text.trim()
-        }
-            : null
+        "family_members": mappedMembers,
       };
+
+      debugPrint("Payload: ${jsonEncode(payload)}");
 
       final response = await http.post(
         Uri.parse(apiUrl),
@@ -219,101 +455,63 @@ class RegistrationController extends GetxController {
 
       isLoading.value = false;
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        // ⚡ FIX 2: Beautiful Professional English Success Dialog Box with Safe Navigation Flow
-        Get.defaultDialog(
-            title: "Success!",
-            titleStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
-            middleText: "Your registration form and family record have been successfully submitted to the live secure server.",
-            middleTextStyle: const TextStyle(fontSize: 14, color: Colors.black87),
-            textConfirm: "OK",
-            confirmTextColor: Colors.white,
-            buttonColor: Colors.green,
-            barrierDismissible: false,
-            onConfirm: () {
-              // Close the dialog box first securely
-              Get.back();
-              firstNameController.clear();
-              fatherHusbandController.clear();
-              motherNameController.clear();
-              surnameController.clear();
-              currentAddressController.clear();
-              currentDistrictController.clear();
-              currentTalukaController.clear();
-              currentCityVillageController.clear();
-              pincodeController.clear();
-              nativeVillageController.clear();
-              birthDayController.clear();
-              birthMonthController.clear();
-              birthYearController.clear();
-              maternalFatherController.clear();
-              maternalMotherController.clear();
-              maternalAddressController.clear();
-              currentStep.value = 0;
-              familyCount.value = 0;
-              familyMembers.clear();
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
 
+        debugPrint("Server Response: ${responseData['user_data']}");
 
-              // Get.offAllNamed('/home');
-              }
+        // ➔ ડેટા સેવ કરો જેથી ડેશબોર્ડ પર દેખાય
+        await sharedPreferencesHelper.storePrefData('cached_user', jsonEncode(responseData['user_data']));
+        await sharedPreferencesHelper.storePrefData('cached_family', jsonEncode(responseData['family_members']));
+
+        Get.offAllNamed('/DashboardScreen');
+
+        // ➔ અહીં તમે તમારી ઈચ્છા મુજબ મેસેજ બદલી શકો છો
+        Get.snackbar(
+            "અભિનંદન! 🎉",
+            "તમારા પરિવારની નોંધણી સફળતાપૂર્વક થઈ ગઈ છે.",
+            backgroundColor: Colors.green,
+            colorText: Colors.white
         );
       } else {
-        final responseData = jsonDecode(response.body);
-        String serverMessage = responseData['message'] ?? "";
-
-        // ⚡ FIX 1: User-friendly clean Gujarati translation if database throws a Duplicate phone number constraint exception
-        if (serverMessage.contains("Duplicate entry") && serverMessage.contains("phone_number")) {
-          serverMessage = "આ મોબાઈલ નંબર પહેલેથી રજીસ્ટર્ડ થયેલો છે! કૃપા કરીને બીજો નંબર વાપરો.";
-        } else if (serverMessage.isEmpty) {
-          serverMessage = "સર્વર ટ્રાન્ઝેક્શન એરર. સ્ટેટસ કોડ: ${response.statusCode}";
-        }
-
-        Get.snackbar(
-          "નોંધણી નિષ્ફળ ભાઈ",
-          serverMessage,
-          backgroundColor: Colors.red.shade800,
-          colorText: Colors.white,
-          duration: const Duration(seconds: 5),
-          snackPosition: SnackPosition.TOP,
-          icon: const Icon(Icons.error_outline, color: Colors.white),
-        );
+        debugPrint("Server Error: ${response.body}");
+        Get.snackbar("ભૂલ આવી !", "સર્વર રિસ્પોન્સમાં કંઈક લોચો છે.", backgroundColor: Colors.red);
       }
     } catch (e) {
       isLoading.value = false;
-      Get.snackbar(
-        "નેટવર્ક એરર",
-        "સર્વર કનેક્શન લોચો: $e",
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      Get.snackbar("એરર", "કનેક્શન લોચો: $e");
     }
   }
 
-  // ==========================================
-  // ♻️ DISPOSE INSTANCES SAFELY ON CLOSING
-  // ==========================================
+  Future<void> pickImage(ImageSource source) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: source, imageQuality: 70);
+
+    if (image != null) {
+      selectedImagePath.value = image.path;
+      debugPrint("ફોટો પાથ: ${image.path}");
+    } else {
+      Get.snackbar("ભૂલ", "ફોટો સિલેક્ટ નથી થયો", backgroundColor: Colors.red);
+    }
+  }
+
+
+
+
+
+
+
   @override
   void onClose() {
-    phoneController.dispose();
-    otpController.dispose();
-    firstNameController.dispose();
-    surnameController.dispose();
-    fatherHusbandController.dispose();
-    motherNameController.dispose();
-    birthDayController.dispose();
-    birthMonthController.dispose();
-    birthYearController.dispose();
-    currentAddressController.dispose();
-    currentDistrictController.dispose();
-    currentTalukaController.dispose();
-    currentCityVillageController.dispose();
-    pincodeController.dispose();
-    nativeVillageController.dispose();
-    maternalFatherController.dispose();
-    maternalMotherController.dispose();
-    maternalAddressController.dispose();
-    maternalSurnameController.dispose();
-    maternalVillageController.dispose();
+    phoneController.dispose(); emailController.dispose(); passwordController.dispose(); confirmPasswordController.dispose(); otpController.dispose();
+    firstNameController.dispose(); fatherHusbandController.dispose(); motherNameController.dispose();
+    surnameController.dispose(); gotraController.dispose(); currentAddressController.dispose();
+    bloodGroupController.dispose(); whatsappController.dispose();
+    currentDistrictController.dispose(); currentTalukaController.dispose(); currentCityVillageController.dispose();
+    pincodeController.dispose(); nativeVillageController.dispose(); birthDayController.dispose();
+    birthMonthController.dispose(); birthYearController.dispose(); organizationNameController.dispose();
+    maternalFatherController.dispose(); maternalMotherController.dispose(); maternalAddressController.dispose();
+    maternalSurnameController.dispose(); maternalVillageController.dispose();
 
     for (var member in familyMembers) {
       member['nameController']?.dispose();
@@ -321,6 +519,11 @@ class RegistrationController extends GetxController {
       member['monthController']?.dispose();
       member['yearController']?.dispose();
       member['phoneController']?.dispose();
+      member['organizationNameController']?.dispose();
+      member['maternalFatherController']?.dispose();
+      member['maternalMotherController']?.dispose();
+      member['maternalVillageController']?.dispose();
+      member['bloodGroupController']?.dispose();
     }
     super.onClose();
   }

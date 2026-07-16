@@ -12,6 +12,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:math' as math; // ➔ ✅ મેથ એનિમેશન માટે જરૂરી ઈમ્પોર્ટ ઉમેર્યું ભાઈ
 import '../constant/app_colors.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'dart:math' as math;
+import '../controllers/splash_controller.dart'; // તમારો સાચો કંટ્રોલર પાથ ભાઈ
+import '../constant/app_colors.dart';
+
 class SplashScreen extends GetView<SplashController> {
   static const pageId = "/SplashScreen";
   const SplashScreen({super.key});
@@ -22,13 +29,11 @@ class SplashScreen extends GetView<SplashController> {
       Get.put(SplashController());
     }
 
-    // GoogleFonts વાપરવાથી વેબ અને મોબાઇલ બંનેમાં સેમ પ્રીમિયમ લુક આવશે
-    final textStyle = GoogleFonts.cinzel(
-      textStyle: const TextStyle(
-        fontSize: 44, // Adjusted size to perfectly fit "RAJYAPUROHIT" on all screens
-        fontWeight: FontWeight.w700,
-        letterSpacing: 4.0, // Elegant premium spacing
-      ),
+    // ➔ ⚡ ⚡ ગુગલ ફોન્ટ્સ રીમુવ્ડ: હવે સાદો સિસ્ટમ ડિફોલ્ટ અથવા ગ્લોબલ ફોન્ટ જ ચાલશે ભાઈ!
+    const textStyle = TextStyle(
+      fontSize: 44, // Adjusted size to perfectly fit "RAJYAPUROHIT" on all screens
+      fontWeight: FontWeight.w700,
+      letterSpacing: 4.0, // Elegant premium spacing
     );
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -40,7 +45,7 @@ class SplashScreen extends GetView<SplashController> {
       child: Scaffold(
         body: Container(
           decoration: const BoxDecoration(
-            color: AppColors.background, // ➔ ✅ અપડેટેડ: ગ્લોબલ સરફેસ બેકગ્રાઉન્ડ
+            color: AppColors.background, // ଗ્લોબલ સરફેસ બેકગ્રાઉન્ડ
           ),
           child: Center(
             child: Stack(
@@ -53,7 +58,7 @@ class SplashScreen extends GetView<SplashController> {
                     foreground: Paint()
                       ..style = PaintingStyle.stroke
                       ..strokeWidth = 1.5 // Sharp clean outline
-                      ..color = AppColors.accent, // ➔ ✅ અપડેટેડ: ગ્લોબલ એક્સેન્ટ ગોલ્ડન/ઓરેન્જ
+                      ..color = AppColors.accent, // ગ્લોબલ એક્સેન્ટ ગોલ્ડન/ઓરેન્જ
                   ),
                 ),
 
@@ -69,7 +74,7 @@ class SplashScreen extends GetView<SplashController> {
                       child: Text(
                         'RAJYAGOR',
                         style: textStyle.copyWith(
-                          color: AppColors.accent, // ➔ ✅ અપડેટેડ: ગ્લોબલ એક્સેન્ટ સોલિડ ફિલ
+                          color: AppColors.accent, // ગ્લોબલ એક્સેન્ટ સોલિડ ફિલ
                         ),
                       ),
                     );
