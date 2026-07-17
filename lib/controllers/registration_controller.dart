@@ -15,6 +15,7 @@ class RegistrationController extends GetxController {
   // સિંગલ સ્ક્રીન ફ્લો માટેના રીએક્ટિવ સ્ટેટ્સ
   var isOldUser = false.obs;
   var currentReqId = ''.obs;
+  var isOtpSent = false.obs;
   // ➔ ⚡ ✅ પાસવર્ડ શો/હાઇડ કરવા માટેના નવા રીએક્ટિવ સ્ટેટ્સ ભાઈ
   var isPasswordHidden = true.obs;
   var isConfirmPasswordHidden = true.obs;
@@ -363,10 +364,10 @@ class RegistrationController extends GetxController {
 
   Future<void> submitMemberToLiveSQL() async {
     // ➔ ⚡ પાસવર્ડ વેલિડેશન
-    if (passwordController.text.trim().isEmpty || confirmPasswordController.text.trim().isEmpty) {
-      Get.snackbar("પાસવર્ડ ખૂટે છે", "બંને પાસવર્ડ ફિલ્ડ ભરો.", backgroundColor: Colors.amber.shade800, colorText: Colors.white);
-      return;
-    }
+    // if (passwordController.text.trim().isEmpty || confirmPasswordController.text.trim().isEmpty) {
+    //   Get.snackbar("પાસવર્ડ ખૂટે છે", "બંને પાસવર્ડ ફિલ્ડ ભરો.", backgroundColor: Colors.amber.shade800, colorText: Colors.white);
+    //   return;
+    // }
 
     if (passwordController.text.trim() != confirmPasswordController.text.trim()) {
       Get.snackbar("પાસવર્ડ ભૂલ ❌", "પાસવર્ડ મેચ નથી થતા!", backgroundColor: Colors.red.shade800, colorText: Colors.white);

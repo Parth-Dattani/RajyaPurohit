@@ -284,6 +284,14 @@ class RegistrationStepperScreen extends GetView<RegistrationController> {
 
         const SizedBox(height: 30),
 
+        // બટનની ઉપર આ કોડ ઉમેરો
+        Obx(() => controller.isOtpSent.value
+            ? Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: _buildTextField(label: "OTP દાખલ કરો", controller: controller.otpController),
+        )
+            : const SizedBox.shrink()),
+
         Obx(() => ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.buttonPrimary,
@@ -292,7 +300,8 @@ class RegistrationStepperScreen extends GetView<RegistrationController> {
           ),
           onPressed: controller.isLoading.value
               ? null
-              : () {
+              : () async {
+    if (!controller.isOtpSent.value) {
             // ➔ મોબાઈલ નંબર વેલિડેટ કરો
             if (controller.phoneController.text.trim().length < 10) {
               Get.snackbar("ભૂલ ❌", "સાચો મોબાઈલ નંબર દાખલ કરો!");
@@ -300,7 +309,12 @@ class RegistrationStepperScreen extends GetView<RegistrationController> {
             }
 
             // ➔ OTP વિજેટ ઓપન કરવા માટે JS કોલ કરો
-            controller.openOtpWidget(controller.phoneController.text.trim());
+            await controller.openOtpWidget(controller.phoneController.text.trim());
+            controller.isOtpSent.value = true; // ફિલ્ડ બતાવવા માટે
+    } else {
+      // ➔ ૨. OTP વેરીફાય કરવા માટે
+      await controller.handleVerifyOtp(controller.currentReqId.value, controller.otpController.text.trim());
+    }
             // if (controller.isOldUser.value) {
             //   controller.directLoginFromStepper();
             // } else {
