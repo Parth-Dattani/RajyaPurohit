@@ -66,6 +66,15 @@ class DashboardController extends GetxController {
 
 
     final logoImage = await _loadNetworkImage("https://rajyapurohitjamnagar.in/assets/assets/images/om_logo.png");
+    // ⚡ ઈમેજ લોડ કરવા માટેનું નવું લોજિક
+    pw.MemoryImage? userProfileImage;
+    if (member['profile_photo'] != null && member['profile_photo'].toString().isNotEmpty) {
+      try {
+        userProfileImage = await _loadNetworkImage("https://rajyapurohitjamnagar.in/${member['profile_photo']}");
+      } catch (e) {
+        debugPrint("PDF Image Error: $e");
+      }
+    }
 
     final pdf = pw.Document();
 
@@ -86,7 +95,30 @@ class DashboardController extends GetxController {
               child: pw.Column(
                 mainAxisSize: pw.MainAxisSize.min,
                 children: [
-                  pw.Image(logoImage, width: 80, height: 80),
+                  pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.center,
+                    children: [
+                      pw.ClipOval(child: pw.Container(width: 110, height: 110, child: pw.Image(logoImage))),
+                      pw.Padding(padding: const pw.EdgeInsets.symmetric(horizontal: 10), child: pw.Text("X", style: pw.TextStyle(font: ttf, fontSize: 16, fontWeight: pw.FontWeight.bold))),
+                      if (userProfileImage != null)
+                        pw.Container(
+                          width: 110,
+                          height: 110,
+                          decoration: pw.BoxDecoration(
+                            color: PdfColors.white, // બેકગ્રાઉન્ડ
+                            shape: pw.BoxShape.circle, // ગોળ આકાર
+                          ),
+                          child: pw.Center( // ઈમેજને સેન્ટરમાં લાવવા માટે
+                            child: pw.ClipOval(
+                              child: pw.Image(
+                                userProfileImage,
+                                fit: pw.BoxFit.contain, // આખી ઈમેજ દેખાશે
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                   pw.SizedBox(height: 10),
                   pw.Text("RajyaPurohit (RajyaGor) Cast",
                       textDirection: pw.TextDirection.rtl,

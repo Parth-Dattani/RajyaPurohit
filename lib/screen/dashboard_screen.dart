@@ -234,7 +234,18 @@ class DashboardScreen extends GetView<DashboardController> {
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: Colors.grey.shade200),
             ),
-            child: const Icon(Icons.person, size: 40, color: Colors.grey),
+            child:
+         (user['profile_photo'] != null && user['profile_photo'].toString().isNotEmpty)
+        ? ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.network(
+        "https://rajyapurohitjamnagar.in/${user['profile_photo']}",
+        fit: BoxFit.cover,
+        errorBuilder: (c, o, s) => const Icon(Icons.person, size: 40, color: Colors.grey),
+        ),
+        )
+            :
+            const Icon(Icons.person, size: 40, color: Colors.grey),
           ),
           const SizedBox(height: 12),
 
@@ -365,16 +376,7 @@ class DashboardScreen extends GetView<DashboardController> {
           // Avatar + download
           Row(
             children: [
-              Container(
-                width: 50, height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: Colors.grey.shade200),
-                ),
-                child: const Icon(Icons.person, color: Colors.grey),
-              ),
-              const SizedBox(width: 12),
+
               Expanded(
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(

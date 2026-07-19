@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -313,7 +314,9 @@ class RegistrationStepperScreen extends GetView<RegistrationController> {
             controller.isOtpSent.value = true; // ફિલ્ડ બતાવવા માટે
     } else {
       // ➔ ૨. OTP વેરીફાય કરવા માટે
-      await controller.handleVerifyOtp(controller.currentReqId.value, controller.otpController.text.trim());
+      await controller.handleVerifyOtp(
+          controller.currentReqId.value,
+          controller.otpController.text.trim());
     }
             // if (controller.isOldUser.value) {
             //   controller.directLoginFromStepper();
@@ -345,6 +348,7 @@ class RegistrationStepperScreen extends GetView<RegistrationController> {
   // 🔹 Step 2: Primary Info
   // ==========================================
   Widget _buildPrimaryInfoStep(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width <= 900;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -359,39 +363,25 @@ class RegistrationStepperScreen extends GetView<RegistrationController> {
             children: [
               InkWell(
                 onTap: () {
-                  // નીચેની મેથડથી ડાયલોગ ખુલશે
-                  Get.defaultDialog(
-                    title: "ફોટો પસંદ કરો",
-                    content: Column(
-                      children: [
-                        ListTile(
-                          leading: const Icon(Icons.camera_alt),
-                          title: const Text("કેમેરા"),
-                          onTap: () {
-                            controller.pickImage(ImageSource.camera);
-                            Get.back();
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.photo_library),
-                          title: const Text("ગેલેરી"),
-                          onTap: () {
-                            controller.pickImage(ImageSource.gallery);
-                            Get.back();
-                          },
-                        ),
-                      ],
-                    ),
-                  );
+                  // ➔ અહીંથી Get.defaultDialog કાઢી નાખ્યું,
+                  // અને સીધું ગેલેરી પીકર કોલ કર્યું
+                  controller.pickImage(ImageSource.gallery);
                 },
                 child: Obx(() => Container(
-                  width: 100, height: 100,
+                  width: 150, height: 150,
                   decoration: BoxDecoration(
-                    color: AppColors.background,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: AppColors.primary),
+                    color: Colors.transparent,
+                    shape: BoxShape.rectangle,
+
+                    // તમારા કોડમાં આ બદલી નાખો:
                     image: controller.selectedImagePath.isNotEmpty
-                        ? DecorationImage(image: FileImage(File(controller.selectedImagePath.value)), fit: BoxFit.cover)
+                        ? DecorationImage(
+                      // જો Web હોય તો NetworkImage (blob url સાથે) વાપરો, બાકી FileImage
+                      image: kIsWeb
+                          ? NetworkImage(controller.selectedImagePath.value)
+                          : FileImage(File(controller.selectedImagePath.value)) as ImageProvider,
+                      fit: BoxFit.contain,
+                    )
                         : null,
                   ),
                   child: controller.selectedImagePath.isEmpty
@@ -400,7 +390,7 @@ class RegistrationStepperScreen extends GetView<RegistrationController> {
                 )),
               ),
               const SizedBox(height: 8),
-              const Text("સભ્યનો ફોટો અપલોડ કરો", style: TextStyle(fontSize: 12, color: AppColors.subtitle)),
+              const Text("સભ્યનો ફોટો અપલોડ કરો (Max 50KB)", style: TextStyle(fontSize: 12, color: AppColors.subtitle)),
             ],
           ),
         ),
@@ -414,42 +404,69 @@ class RegistrationStepperScreen extends GetView<RegistrationController> {
         const SizedBox(height: 16),
 
         // Row 2: ૩ સેટ
-        Row(
-          children: [
+        // Mobile: અટક full width, pachhi Gender+Gotra side by side
+        Builder(builder: (context) {
+          final isMobile = MediaQuery.of(context).size.width <= 900;
+          if (isMobile) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildTextField(label: "અટક *", controller: controller.surnameController),
+                const SizedBox(height: 16),
+                Row(children: [
+                  Expanded(child: _buildGenderDropdown()),
+                  const SizedBox(width: 12),
+                  Expanded(child: _buildTextField(label: "ગોત્ર *", controller: controller.gotraController)),
+                ]),
+              ],
+            );
+          }
+          return Row(children: [
             Expanded(child: _buildTextField(label: "અટક *", controller: controller.surnameController)),
             const SizedBox(width: 16),
-            Expanded(child: _buildGenderDropdown()), // મેથડ બનાવી લેવી
+            Expanded(child: _buildGenderDropdown()),
             const SizedBox(width: 16),
             Expanded(child: _buildTextField(label: "ગોત્ર *", controller: controller.gotraController)),
-          ],
-        ),
+          ]);
+        }),
 
 
 
         // સરનામું: અહીં Expanded વાપરવું ફરજિયાત છે
-        Row(
-          children: [
-            Expanded(
-              flex: 2, // સરનામું થોડું મોટું રાખવા માટે
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: _buildTextField(label: "હાલનું પૂરું સરનામું *", controller: controller.currentAddressController, maxLines: 2),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              flex: 1,
-              child: _buildTextField(label: "જિલ્લો *", controller: controller.currentDistrictController),
-            ),
-          ],
-        ),
+        // ૩. સરનામું અને જિલ્લો
+        isMobile
+            ? Column(children: [
+          _buildTextField(label: "હાલનું પૂરું સરનામું *", controller: controller.currentAddressController, maxLines: 2),
+          const SizedBox(height: 16),
+          Row(children: [
+            Expanded(child: _buildTextField(label: "જિલ્લો *", controller: controller.currentDistrictController)),
+            const SizedBox(width: 12),
+            Expanded(child: _buildTextField(label: "તાલુકો *", controller: controller.currentTalukaController)),
+          ]),
+        ])
+            : Row(children: [
+          Expanded(flex: 2, child: _buildTextField(label: "હાલનું પૂરું સરનામું *", controller: controller.currentAddressController, maxLines: 2)),
+          const SizedBox(width: 16),
+          Expanded(flex: 1, child: _buildTextField(label: "જિલ્લો *", controller: controller.currentDistrictController)),
+
+          Visibility(
+              visible: isMobile,
+              child: const SizedBox(width: 16)),
+          Visibility(
+              visible: isMobile,
+              child: Expanded(flex: 1, child: _buildTextField(label: "તાલુકો *", controller: controller.currentTalukaController))),
+        ]),
         const SizedBox(height: 16),
 
         // Row 3: ૩ સેટ
         Row(
           children: [
-            Expanded(child: _buildTextField(label: "તાલુકો *", controller: controller.currentTalukaController)),
-            const SizedBox(width: 16),
+            Visibility(
+                visible: !isMobile,
+                child: Expanded(child: _buildTextField(label: "તાલુકો *", controller: controller.currentTalukaController))),
+            Visibility(
+                visible: !isMobile,
+                child: const SizedBox(width: 16)),
             Expanded(child: _buildTextField(label: "ગામ/શહેર *", controller: controller.currentCityVillageController)),
             const SizedBox(width: 16),
             Expanded(child: _buildTextField(label: "પીનકોડ *", controller: controller.pincodeController)),
@@ -660,13 +677,11 @@ class RegistrationStepperScreen extends GetView<RegistrationController> {
         }),
 
         // નાનાનું નામ અને મોસાળ ગામ
-        Row(
-          children: [
-            Expanded(child: _buildTextField(label: "નાનાનું પૂરું નામ", controller: controller.maternalSurnameController)),
-            const SizedBox(width: 16),
-            Expanded(child: _buildTextField(label: "મોસાળનું ગામ", controller: controller.maternalVillageController)),
-          ],
-        ),
+
+        _buildResponsiveRow([
+    _buildTextField(label: "નાનાનું પૂરું નામ", controller: controller.maternalSurnameController),
+          _buildTextField(label: "મોસાળનું ગામ", controller: controller.maternalVillageController)
+        ], context),
       ],
     );
   }

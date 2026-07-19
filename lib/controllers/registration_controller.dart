@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -76,7 +78,7 @@ class RegistrationController extends GetxController {
   var isMarriedSon = false.obs;
   var parentFamilyId = 5001.obs;
 
-  var gotrasList = <Map<String, dynamic>>[].obs;
+
   var isGotrasLoading = false.obs;
 
   var familyMembers = <Map<String, dynamic>>[].obs;
@@ -135,28 +137,33 @@ class RegistrationController extends GetxController {
     }
   }
 
-  // RegistrationController.dart માં ઉમેરો
   Future<void> openOtpWidget(String mobile) async {
     try {
       isLoading.value = true;
       final data = {'identifier': '91$mobile'};
 
-      // OTP મોકલો
       final response = await OTPWidget.sendOTP(data);
       debugPrint("OTP Response: $response");
 
-      // અહીં response માંથી reqId મેળવો (તમારા SDK ના ડોક્યુમેન્ટ મુજબ ચેક કરી લેવું)
-      if (response != null && response['reqId'] != null) {
-        currentReqId.value = response['reqId'];
-        isLoading.value = false;
+      // IPBlocked એરર ચેક
+      if (response != null && response['type'] == 'error' && response['message'] == 'IPBlocked') {
+        Get.snackbar("સાવધાન! ⚠️", "તમારો IP બ્લોક છે, કૃપા કરીને નેટવર્ક બદલીને ફરી પ્રયાસ કરો.");
+        return;
+      }
 
-        // ➔ ⚡ મહત્વનું: અહીં nextStep() ન કરો,
-        // પહેલા યુઝર પાસે OTP એન્ટર કરાવો!
-        Get.snackbar("સફળ", "OTP મોકલાઈ ગયો છે, હવે તે દાખલ કરો.");
+      // ➔ ફેરફાર: response['reqId'] ને બદલે response['message'] ચેક કરો
+      if (response != null && response['message'] != null) {
+        currentReqId.value = response['message'].toString(); // ➔ અહીં ID સેવ થશે
+        isOtpSent.value = true;
+        Get.snackbar("સફળ", "OTP મોકલાઈ ગયો છે.");
+      } else {
+        Get.snackbar("ભૂલ", "સર્વરથી રિસ્પોન્સ નથી મળ્યો!");
       }
     } catch (e) {
+      debugPrint("Error: $e");
+      Get.snackbar("ભૂલ", "OTP મોકલવામાં નિષ્ફળતા!");
+    } finally {
       isLoading.value = false;
-      Get.snackbar("ભૂલ", "OTP મોકલવામાં નિષ્ફળતા: $e");
     }
   }
 
@@ -167,17 +174,16 @@ class RegistrationController extends GetxController {
       final response = await OTPWidget.verifyOTP(data);
 
       debugPrint("Verify Response: $response");
-      isLoading.value = false;
 
-      // જો રિસ્પોન્સમાં સફળતા મળે તો જ આગળ વધો
-      if (response != null) {
+      if (response != null && response['type'] == 'success') {
         nextStep();
       } else {
-        Get.snackbar("ભૂલ", "ખોટો OTP છે ભાઈ!");
+        Get.snackbar("ભૂલ", "ખોટો OTP છે!");
       }
     } catch (e) {
-      isLoading.value = false;
-      Get.snackbar("ભૂલ", "વેરિફિકેશનમાં લોચો: $e");
+      Get.snackbar("ભૂલ", "વેરિફિકેશનમાં લોચો!");
+    } finally {
+      isLoading.value = false; // ➔ ⚡ ગમે તે થાય લોડર અટકશે જ
     }
   }
 
@@ -284,31 +290,7 @@ class RegistrationController extends GetxController {
     }
   }
 
-  // ==========================================
-  // 🌐 FETCH LIVE GOTRAS MASTER LOOKUP DATA
-  // ==========================================
-  Future<void> fetchLiveGotras() async {
-    final String gotraApiUrl = "https://rajyapurohitjamnagar.in/api/get_gotras.php";
-    try {
-      isGotrasLoading.value = true;
-      final response = await http.get(Uri.parse(gotraApiUrl));
 
-      if (response.statusCode == 200) {
-        final decodedData = jsonDecode(response.body);
-        if (decodedData['status'] == 'success' && decodedData['data'] != null) {
-          gotrasList.assignAll(List<Map<String, dynamic>>.from(decodedData['data']));
-
-          if (gotrasList.isNotEmpty) {
-            selectedGotraId.value = gotrasList.first['id'].toString();
-          }
-        }
-      }
-    } catch (e) {
-      Get.snackbar("Network Error", "Gotras fetch failed: $e", backgroundColor: Colors.red, colorText: Colors.white);
-    } finally {
-      isGotrasLoading.value = false;
-    }
-  }
 
   void addFamilyMember() {
     familyMembers.add({
@@ -363,6 +345,24 @@ class RegistrationController extends GetxController {
   }
 
   Future<void> submitMemberToLiveSQL() async {
+    String base64Image = "";
+    if (selectedImagePath.value.isNotEmpty) {
+      // વેબ અને મોબાઈલ બંને માટે કામ કરે તેવું લોજિક
+      try {
+        if (kIsWeb) {
+          // વેબ માટે bytes મેળવો
+          final bytes = await XFile(selectedImagePath.value).readAsBytes();
+          base64Image = base64Encode(bytes);
+        } else {
+          // મોબાઈલ માટે File માંથી bytes મેળવો
+          File imageFile = File(selectedImagePath.value);
+          List<int> imageBytes = await imageFile.readAsBytes();
+          base64Image = base64Encode(imageBytes);
+        }
+      } catch (e) {
+        debugPrint("Base64 Conversion Error: $e");
+      }
+    }
     // ➔ ⚡ પાસવર્ડ વેલિડેશન
     // if (passwordController.text.trim().isEmpty || confirmPasswordController.text.trim().isEmpty) {
     //   Get.snackbar("પાસવર્ડ ખૂટે છે", "બંને પાસવર્ડ ફિલ્ડ ભરો.", backgroundColor: Colors.amber.shade800, colorText: Colors.white);
@@ -412,6 +412,7 @@ class RegistrationController extends GetxController {
 
           "maternal_village":
           member['maternalVillageController'].text.trim(),
+          "is_family_head": 0,
         });
       }
 
@@ -429,7 +430,7 @@ class RegistrationController extends GetxController {
           "gender": selectedGender.value,
           "birth_date": "${birthYearController.text.trim()}-${birthMonthController.text.trim()}-${birthDayController.text.trim()}",
           "blood_group": bloodGroupController.text.trim(),
-          "gotra_id": int.tryParse(selectedGotraId.value) ?? 1,
+          "gotra_": gotraController.text.trim(),
           "native_village_id": int.tryParse(selectedVillageId.value) ?? 1,
           "marital_status": selectedMaritalStatus.value,
           "education": selectedEducation.value,
@@ -442,6 +443,8 @@ class RegistrationController extends GetxController {
           "current_city": currentCityVillageController.text.trim(),
           "pincode": pincodeController.text.trim(),
           "native_village": nativeVillageController.text.trim(),
+          "profile_photo_base64": base64Image,
+          "is_family_head":1,
         },
         "family_members": mappedMembers,
       };
@@ -485,19 +488,31 @@ class RegistrationController extends GetxController {
   }
 
   Future<void> pickImage(ImageSource source) async {
+    // ➔ કેમેરા ઓપ્શન કાઢી નાખવા માટે અહીં ફક્ત gallery જ વાપરો
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: source, imageQuality: 70);
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
-      selectedImagePath.value = image.path;
-      debugPrint("ફોટો પાથ: ${image.path}");
+      // ➔ સાઈઝ ચેક કરવા માટે (bytes માં)
+      final bytes = await image.length();
+      final kb = bytes / 1024;
+
+      // ➔ 50KB થી વધુ હોય તો એરર આપો
+      if (kb > 50) {
+        Get.snackbar(
+            "મોટી ફાઇલ ❌",
+            "ફોટો 50KB થી ઓછી સાઈઝનો હોવો જોઈએ! (તમારો ફોટો: ${kb.toStringAsFixed(1)} KB)",
+            backgroundColor: Colors.red,
+            colorText: Colors.white
+        );
+      } else {
+        selectedImagePath.value = image.path;
+        debugPrint("ફોટો પાથ: ${image.path} (સાઇઝ: ${kb.toStringAsFixed(2)} KB)");
+      }
     } else {
       Get.snackbar("ભૂલ", "ફોટો સિલેક્ટ નથી થયો", backgroundColor: Colors.red);
     }
   }
-
-
-
 
 
 
