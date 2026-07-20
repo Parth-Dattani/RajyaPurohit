@@ -196,9 +196,9 @@ class RegistrationStepperScreen extends GetView<RegistrationController> {
     }
   }
 
-  // ==========================================
-  // 📱 Step 1: Mobile & Email Verification
-  // ==========================================
+// ==========================================
+// 📱 Step 1: Mobile & Email Verification (Final Fixed)
+// ==========================================
   Widget _buildMobileStep(BuildContext context) {
     return Column(
       children: [
@@ -209,170 +209,133 @@ class RegistrationStepperScreen extends GetView<RegistrationController> {
         const Text("લૉગિન અથવા નવી નોંધણી માટે વિગતો ભરો", style: TextStyle(fontSize: 13, color: Colors.grey)),
         const SizedBox(height: 30),
 
+        // ૧. મોબાઈલ નંબર (પહેલા નંબર પર)
         _buildTextField(label: "મોબાઈલ નંબર *", controller: controller.phoneController, prefix: "+91 "),
         const SizedBox(height: 16),
 
-        _buildTextField(label: "ઈમેલ આઈડી *", controller: controller.emailController, icon: Icons.email_outlined),
+        // ૨. OTP નું ફિલ્ડ (મોબાઈલની નીચે)
+        _buildTextField(label: "OTP દાખલ કરો *", controller: controller.otpController),
+        const SizedBox(height: 16),
 
-        // ➔ ⚡ ⚡ જૂના સભ્ય માટેનું લોગિન પાસવર્ડ બોક્સ (શો/હાઇડ સાથે)
+        // ➔ ⚡ સરસ મજાની "અથવા" (OR) લાઇન
+        Row(
+          children: const [
+            Expanded(child: Divider(thickness: 1, color: Colors.grey)),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text("અથવા", style: TextStyle(color: Colors.grey, fontSize: 12)),
+            ),
+            Expanded(child: Divider(thickness: 1, color: Colors.grey)),
+          ],
+        ),
+        const SizedBox(height: 16),
+
+        // ૩. ઈમેલ આઈડી
+        _buildTextField(label: "ઈમેલ આઈડી *", controller: controller.emailController, icon: Icons.email_outlined),
+        const SizedBox(height: 16),
+
+        // ૪. ➔ ⚡ ફિક્સ: જો યુઝરે OTP ફિલ્ડ ખાલી રાખ્યું હોય અને ઈમેલથી લોગિન કરવું હોય તો જ પાસવર્ડ બતાવવો
         Obx(() {
+          // જો OTP નાખ્યો હોય તો પાસવર્ડ હાઈડ જ રહેશે
+          if (controller.otpController.text.trim().isNotEmpty) {
+            return const SizedBox.shrink();
+          }
+
           if (controller.isOldUser.value) {
             return Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: Column( // ➔ Padding ની અંદર Column લીધું જેથી બટન નીચે આવે
-                children: [
-                  TextField(
-                    controller: controller.passwordController,
-                    obscureText: controller.isPasswordHidden.value,
-                    style: const TextStyle(color: Colors.black87),
-                    decoration: InputDecoration(
-                      labelText: "તમારો લોગિન પાસવર્ડ દાખલ કરો *",
-                      prefixIcon: const Icon(Icons.lock_outline),
-                      suffixIcon: IconButton(
-                        icon: Icon(controller.isPasswordHidden.value ? Icons.visibility_off_outlined : Icons.visibility_outlined),
-                        onPressed: () => controller.togglePasswordVisibility(),
-                      ),
-                      filled: true,
-                      fillColor: AppColors.background,
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
-                    ),
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: TextField(
+                controller: controller.passwordController,
+                obscureText: controller.isPasswordHidden.value,
+                style: const TextStyle(color: Colors.black87),
+                decoration: InputDecoration(
+                  labelText: "તમારો લોગિન પાસવર્ડ દાખલ કરો *",
+                  prefixIcon: const Icon(Icons.lock_outline),
+                  suffixIcon: IconButton(
+                    icon: Icon(controller.isPasswordHidden.value ? Icons.visibility_off_outlined : Icons.visibility_outlined),
+                    onPressed: () => controller.togglePasswordVisibility(),
                   ),
-
-                  // ➔ ⚡ અહીં OTP લોગિનનું બટન ઉમેરો
-                  const SizedBox(height: 10),
-                  TextButton.icon(
-                    onPressed: () {
-                      // 1. મોબાઈલ નંબર ચેક કરો
-                      if (controller.phoneController.text.trim().length >= 10) {
-                        // 2. OTP મોકલો
-                        controller.openOtpWidget(controller.phoneController.text.trim());
-                        controller.isOtpSent.value = true;
-                        Get.snackbar("સફળ", "OTP મોકલાઈ ગયો છે, કૃપા કરીને નીચેના બોક્સમાં નાખો!");
-                      } else {
-                        Get.snackbar("ભૂલ", "સાચો મોબાઈલ નંબર દાખલ કરો.");
-                      }
-                    },
-                    icon: const Icon(Icons.sms, size: 16),
-                    label: const Text("પાસવર્ડ નથી યાદ? OTP દ્વારા લોગિન કરો"),
-                  ),
-                ],
+                  filled: true,
+                  fillColor: AppColors.background,
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
+                ),
               ),
             );
-          }
-          return const SizedBox.shrink();
-        }),
-
-        // ➔ ⚡ ⚡ નવા સભ્ય માટે પાસવર્ડ સેટિંગ બોક્સ (શો/હાઇડ સાથે)
-        Obx(() {
-          if (!controller.isOldUser.value && controller.currentStep.value == 0) {
+          } else if (!controller.isOldUser.value && controller.currentStep.value == 0) {
             return Padding(
-              padding: const EdgeInsets.only(top: 16.0),
+              padding: const EdgeInsets.only(bottom: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 10),
                   const Row(
                     children: [
                       Icon(Icons.lock_open_rounded, color: Colors.orange, size: 18),
-                      const SizedBox(width: 6),
+                      SizedBox(width: 6),
                       Text("નવો લોગિન પાસવર્ડ સેટ કરો *", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppColors.heading)),
                     ],
                   ),
                   const Divider(height: 16),
-              _buildResponsiveRow([
-                TextField(
-                  controller: controller.passwordController,
-                  obscureText: controller.isPasswordHidden.value,
-                  decoration: InputDecoration(
-                    labelText: "પાસવર્ડ બનાવો *",
-                    prefixIcon: const Icon(Icons.lock_outline),
-                    suffixIcon: IconButton(
-                      icon: Icon(controller.isPasswordHidden.value ? Icons.visibility_off_outlined : Icons.visibility_outlined),
-                      onPressed: () => controller.togglePasswordVisibility(),
+                  _buildResponsiveRow([
+                    TextField(
+                      controller: controller.passwordController,
+                      obscureText: controller.isPasswordHidden.value,
+                      decoration: InputDecoration(
+                        labelText: "પાસવર્ડ બનાવો *",
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        suffixIcon: IconButton(
+                          icon: Icon(controller.isPasswordHidden.value ? Icons.visibility_off_outlined : Icons.visibility_outlined),
+                          onPressed: () => controller.togglePasswordVisibility(),
+                        ),
+                        filled: true,
+                        fillColor: AppColors.background,
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
+                      ),
                     ),
-                    filled: true,
-                    fillColor: AppColors.background,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
-                  ),
-                ),
-                TextField(
-                  controller: controller.confirmPasswordController,
-                  obscureText: controller.isConfirmPasswordHidden.value,
-                  decoration: InputDecoration(
-                    labelText: "કન્ફર્મ પાસવર્ડ *",
-                    prefixIcon: const Icon(Icons.lock_clock_outlined),
-                    suffixIcon: IconButton(
-                      icon: Icon(controller.isConfirmPasswordHidden.value ? Icons.visibility_off_outlined : Icons.visibility_outlined),
-                      onPressed: () => controller.toggleConfirmPasswordVisibility(),
+                    TextField(
+                      controller: controller.confirmPasswordController,
+                      obscureText: controller.isConfirmPasswordHidden.value,
+                      decoration: InputDecoration(
+                        labelText: "કન્ફર્મ પાસવર્ડ *",
+                        prefixIcon: const Icon(Icons.lock_clock_outlined),
+                        suffixIcon: IconButton(
+                          icon: Icon(controller.isConfirmPasswordHidden.value ? Icons.visibility_off_outlined : Icons.visibility_outlined),
+                          onPressed: () => controller.toggleConfirmPasswordVisibility(),
+                        ),
+                        filled: true,
+                        fillColor: AppColors.background,
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
+                      ),
                     ),
-                    filled: true,
-                    fillColor: AppColors.background,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
-                  ),
-                ),
-              ], context),
+                  ], context),
                 ],
-
               ),
             );
           }
           return const SizedBox.shrink();
         }),
 
-        const SizedBox(height: 30),
-
-        // બટનની ઉપર આ કોડ ઉમેરો
-        Obx(() => controller.isOtpSent.value
-            ? Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: _buildTextField(label: "OTP દાખલ કરો", controller: controller.otpController),
-        )
-            : const SizedBox.shrink()),
-
+        // ૫. ફાઈનલ સબમિટ બટન
         Obx(() => ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.buttonPrimary,
             minimumSize: const Size(double.infinity, 50),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),
-    //       onPressed: controller.isLoading.value
-    //           ? null
-    //           : () async {
-    // if (!controller.isOtpSent.value) {
-    //         // ➔ મોબાઈલ નંબર વેલિડેટ કરો
-    //         if (controller.phoneController.text.trim().length < 10) {
-    //           Get.snackbar("ભૂલ ❌", "સાચો મોબાઈલ નંબર દાખલ કરો!");
-    //           return;
-    //         }
-    //
-    //         // ➔ OTP વિજેટ ઓપન કરવા માટે JS કોલ કરો
-    //         await controller.openOtpWidget(controller.phoneController.text.trim());
-    //         controller.isOtpSent.value = true; // ફિલ્ડ બતાવવા માટે
-    // } else {
-    //   // ➔ ૨. OTP વેરીફાય કરવા માટે
-    //   await controller.handleVerifyOtp(
-    //       controller.currentReqId.value,
-    //       controller.otpController.text.trim());
-    // }
-    //         // if (controller.isOldUser.value) {
-    //         //   controller.directLoginFromStepper();
-    //         // } else {
-    //         //   if (controller.passwordController.text.trim().isEmpty) {
-    //         //     controller.checkUserStatus();
-    //         //   } else {
-    //         //     if (controller.passwordController.text.trim() != controller.confirmPasswordController.text.trim()) {
-    //         //       Get.snackbar("પાસવર્ડ ભૂલ ❌", "બંને પાસવર્ડ એકબીજા સાથે મેચ થતા નથી!",
-    //         //           backgroundColor: Colors.red.shade800, colorText: Colors.white);
-    //         //       return;
-    //         //     }
-    //         //     controller.nextStep();
-    //         //   }
-    //         // }
-    //       },
           onPressed: controller.isLoading.value ? null : () async {
+            // ➔ ૧. જો યુઝરે મોબાઈલ નંબર નાખ્યો હોય અને OTP મોકલવો હોય અથવા વેરિફાઈ કરવો હોય
+            if (controller.phoneController.text.trim().length >= 10 && controller.otpController.text.trim().isEmpty) {
+              if (!controller.isOtpSent.value) {
+                await controller.openOtpWidget(controller.phoneController.text.trim());
+                controller.isOtpSent.value = true;
+                Get.snackbar("સફળ", "OTP મોકલાઈ ગયો છે!");
+              } else {
+                Get.snackbar("ભૂલ ❌", "કૃપા કરીને OTP દાખલ કરો!");
+              }
+              return;
+            }
 
-            // ➔ ૧. જો OTP મોકલેલ હોય અને યુઝર OTP ફિલ્ડમાં કંઈક નાખ્યું હોય (OTP લોગિન મોડ)
-            if (controller.isOtpSent.value && controller.otpController.text.trim().isNotEmpty) {
+            // ➔ ૨. જો યુઝરે OTP નાખી દીધો હોય તો વેરિફાઈ કરો
+            if (controller.otpController.text.trim().isNotEmpty) {
               await controller.handleVerifyOtp(
                   controller.currentReqId.value,
                   controller.otpController.text.trim()
@@ -380,27 +343,26 @@ class RegistrationStepperScreen extends GetView<RegistrationController> {
               return;
             }
 
-            // ➔ ૨. જો જૂનો યુઝર પાસવર્ડથી લોગિન કરવા માંગતો હોય
+            // ➔ ૩. જો ઈમેલ અને પાસવર્ડથી લોગિન કરવું હોય
             if (controller.isOldUser.value) {
               await controller.directLoginFromStepper();
-            }
-            // ➔ ૩. જો નવો યુઝર હોય
-            else {
-              if (!controller.isOtpSent.value) {
-                await controller.openOtpWidget(controller.phoneController.text.trim());
-                controller.isOtpSent.value = true;
+            } else {
+              if (controller.passwordController.text.trim().isEmpty) {
+                controller.checkUserStatus();
               } else {
-                await controller.handleVerifyOtp(
-                    controller.currentReqId.value,
-                    controller.otpController.text.trim()
-                );
+                if (controller.passwordController.text.trim() != controller.confirmPasswordController.text.trim()) {
+                  Get.snackbar("પાસવર્ડ ભૂલ ❌", "બંને પાસવર્ડ એકબીજા સાથે મેચ થતા નથી!",
+                      backgroundColor: Colors.red.shade800, colorText: Colors.white);
+                  return;
+                }
+                controller.nextStep();
               }
             }
           },
           child: controller.isLoading.value
               ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5))
               : Text(
-              controller.isOldUser.value ? "લોગિન કરો" : (controller.passwordController.text.trim().isEmpty ? "ચકાસણી કરો" : "આગળ વધો ➔"),
+              controller.otpController.text.trim().isNotEmpty ? "OTP વેરિફાઈ કરો ➔" : (controller.isOldUser.value ? "લોગિન કરો" : "આગળ વધો ➔"),
               style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)
           ),
         )),
