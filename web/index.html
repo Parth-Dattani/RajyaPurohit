@@ -22,50 +22,79 @@
   <link rel="preload" href="assets/assets/fonts/noto_sans_gujarati_regular.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="assets/assets/fonts/noto_sans_gujarati_bold.ttf" as="font" type="font/ttf" crossorigin>
 
+  <!--
+    🔧 FIX #1: Renderer config.
+    `window.flutterWebRenderer = "html"` is the OLD pre-3.22 API and is
+    silently ignored by flutter_bootstrap.js. This is why CanvasKit was
+    still downloading (the ~3 second delay + the OffscreenCanvas /
+    surface.dart errors you saw in DevTools). The correct API for
+    flutter_bootstrap.js is `window.flutterConfiguration`. MUST be set
+    before the flutter_bootstrap.js <script> tag runs — placing it in
+    <head> guarantees that.
+  -->
+  <script>
+    window.flutterConfiguration = {
+      renderer: "html"
+    };
+  </script>
+
   <style>
+    /*
+      🔧 FIX #2: bold weight font-face added.
+      Previously only the regular weight was registered here, so any
+      bold/heavy Gujarati text had no matching face for the browser to
+      use — resulting in the tofu boxes (▯▯▯) you saw on headline text.
+    */
     @font-face {
       font-family: 'NotoSansGujarati';
       src: url('assets/assets/fonts/noto_sans_gujarati_regular.ttf') format('truetype');
       font-weight: normal;
       font-style: normal;
     }
-
-    /* ➔ ⚡ ૨. જ્યાં સુધી ફ્લટર અને ફોન્ટ લોડ ન થાય ત્યાં સુધી ફ્લટર વ્યુ સાવ છુપાયેલો રહેશે ભાઈ */
-    flutter-view {
-      display: none !important;
+    @font-face {
+      font-family: 'NotoSansGujarati';
+      src: url('assets/assets/fonts/noto_sans_gujarati_bold.ttf') format('truetype');
+      font-weight: bold;
+      font-style: normal;
     }
 
-    /* ➔ ⚡ ૩. પ્યોર HTML/CSS વાળો મસ્ત સ્પ્લેશ સ્ક્રીનનો લોડર જુગાડ ભાઈ */
     body {
       margin: 0;
       padding: 0;
       background-color: #FFFDF9; /* તમારો સ્પ્લેશ બેકગ્રાઉન્ડ કલર */
+      font-family: sans-serif;
+    }
+
+    /*
+      🔧 FIX #3: overlay-based splash instead of hiding `flutter-view`.
+      The new flutter_bootstrap.js loader doesn't reliably create a
+      `<flutter-view>` element to hide — that selector may match
+      nothing, meaning the old splash trick wasn't actually hiding
+      anything. This version instead draws the splash as a fixed
+      full-screen overlay ON TOP of everything (high z-index), which
+      works no matter how/where Flutter injects its DOM underneath.
+    */
+    #splash-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      overflow: hidden;
-      font-family: sans-serif;
+      background-color: #FFFDF9;
+      transition: opacity 0.25s ease;
     }
 
-    .loading-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* ➔ ⚡ ૪. RAJYAGOR ટેક્સ્ટ માટે આઉટલાઇન સ્ટાઇલ લોક ભાઈ */
     .splash-text {
       font-size: 44px;
       font-weight: 700;
       letter-spacing: 4px;
       color: transparent;
-      -webkit-text-stroke: 1.5px #E65100; /* તમારો ઓરેન્જ/ગોલ્ડન કલર */
+      -webkit-text-stroke: 1.5px #E65100;
       margin-bottom: 20px;
     }
 
-    /* ➔ ⚡ ૫. મસ્ત પ્રોફેશનલ ગોળ ફરતું લોડર */
     .loader {
       width: 40px;
       height: 40px;
@@ -80,36 +109,29 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* જેવો ફ્લટર લોડ થઈ જશે એટલે આ ક્લાસથી સ્પ્લેશ ગાયબ થઈ જશે ભાઈ */
-    .app-loaded .loading-container {
-      display: none !important;
-    }
-    .app-loaded flutter-view {
-      display: block !important;
+    /* Fade out + remove from layout once Flutter's first frame is ready */
+    body.app-loaded #splash-screen {
+      opacity: 0;
+      pointer-events: none;
     }
   </style>
 </head>
 
 <body>
-<!-- ➔ ⚡ આ આપણો ઇન્સ્ટન્ટ લોડ થતો સ્પ્લેશ સ્ક્રીન છે ભાઈ, જે પેલા ચોકઠા ક્યારેય દેખાવા નહિ દે -->
-<div class="loading-container" id="splash-screen">
+<div id="splash-screen">
   <div class="splash-text">RAJYAGOR</div>
   <div class="loader"></div>
 </div>
 
-<!-- ➔ ⚡ OTP વિજેટ માટેની જગ્યા (આને જ્યાં રાખવું હોય ત્યાં મૂકી શકાય) -->
+<!-- ➔ ⚡ OTP વિજેટ માટેની જગ્યા -->
 <div id="otp-container"></div>
 
 <script>
-  window.flutterWebRenderer = "html";
-
-  // ➔ ⚡ ⚡ સિક્રેટ સુપર જાદુ: ફ્લટરનું એન્જિન લોડ થાય ત્યારે સ્પ્લેશ હટાવવાની સિસ્ટમ
   window.addEventListener('flutter-first-frame', function () {
-    // ફોન્ટ પણ લોડ થઈ ગયા હોય અને ફ્લટરની પહેલી ફ્રેમ રેડી થાય ત્યારે જ સ્પ્લેશ સ્ક્રીન ઉડશે ભાઈ!
     document.body.classList.add("app-loaded");
   });
 
-  // સેફ સાઈડ બેકઅપ: જો ફ્રેમ ઇવેન્ટમાં સેજ વાર લાગે તો ૪ સેકન્ડ પછી ઓટોમેટિક ઓપન કરી દેશે
+  // સેફ સાઈડ બેકઅપ: ૪ સેકન્ડ પછી ઓટોમેટિક હટાવી દેશે, ભલે ઈવેન્ટ ચૂકી જાય
   setTimeout(function() {
     document.body.classList.add("app-loaded");
   }, 4000);
@@ -124,7 +146,6 @@
     exposeMethods: true,
     success: function(data) {
       console.log('success response', data);
-      // ફ્લટર સાથે કમ્યુનિકેશન કરવા માટે અહીંથી આપણે ડેટા પાસ કરી શકીશું
     },
     failure: function(error) {
       console.log('failure reason', error);

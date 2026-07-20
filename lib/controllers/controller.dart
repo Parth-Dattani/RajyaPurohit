@@ -10,3 +10,4 @@ export 'sanstha_controller.dart';
 export 'event_controller.dart';
 export 'dashboard_controller.dart';
 export 'login_controller.dart';
+export 'admin_controller.dart';

@@ -10,3 +10,4 @@ export 'sanstha_binding.dart';
 export 'event_binding.dart';
 export 'dashboard_binding.dart';
 export 'login_binding.dart';
+export 'admin_binding.dart';

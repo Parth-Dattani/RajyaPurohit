@@ -49,7 +49,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // 📱 ૧. મોબાઈલ લેઆઉટ (લોગો સ્વેપ કર્યા ભાઈ: ડાબે જ્ઞાતિ લોગો અને જમણે ઓમ લોગો)
+  // 📱 ૧. મોબાઈલ લેઆઉટ — હવે વેબ જેવો જ સિંગલ rajyagor_header.png ઈમેજ વાપરે છે.
+  // પહેલા અલગ logo_icon.png + text + om_logo.png (૩ અલગ widgets) હતું, જે
+  // load થવામાં વાર લેતું હતું અને web sાથે અસંગત દેખાતું હતું. હવે web ની
+  // જેમ એક જ combined હેડર ઈમેજ વપરાય છે — ઝડપી ane consistent.
   Widget _buildMobileLayout(BuildContext context, String currentRoute) {
     return Center(
       child: Row(
@@ -64,59 +67,30 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           const SizedBox(width: 8),
-
-          // ➔ ⚡ અદલા-બદલી: ડાબી બાજુ હવે જ્ઞાતિ લોગો આઈકોન ભાઈ
-          SizedBox(
-            width: 42,
-            height: 42,
-            child: Image.asset(
-              'assets/images/logo_icon.png',
-              fit: BoxFit.contain,
-              errorBuilder: (c, e, s) => const SizedBox.shrink(),
-            ),
-          ),
-          const SizedBox(width: 8),
-
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  'જામનગર રાજ્યગોર જ્ઞાતિ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textMaroon,
-                    fontSize: 15,
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () {
+                  if (currentRoute != HomeScreen.pageId) {
+                    Get.offAllNamed(HomeScreen.pageId);
+                  }
+                },
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Image.asset(
+                    'assets/images/rajyagor_header.png',
+                    height: 56,
+                    fit: BoxFit.contain,
+                    // 🔧 Loading feels slow mainly because this same image
+                    // also renders large (height: 160) on the web layout.
+                    // If it's a big/high-res PNG, consider adding a smaller
+                    // pre-resized version (e.g. rajyagor_header_sm.png) just
+                    // for mobile to cut load time further.
+                    errorBuilder: (c, e, s) => const SizedBox.shrink(),
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 1),
-                Text(
-                  'રજી. નં: એ-૧૭０ જામનગર',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.textMaroon.withOpacity(0.7),
-                    fontSize: 10.5,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 6),
-
-          // ➔ ⚡ અદલા-બદલી: જમણી બાજુ હવે ઓમ લોગો ભાઈ
-          SizedBox(
-            width: 42,
-            height: 42,
-            child: Image.asset(
-              'assets/images/om_logo.png',
-              fit: BoxFit.contain,
-              errorBuilder: (c, e, s) => const SizedBox.shrink(),
+              ),
             ),
           ),
         ],
@@ -146,61 +120,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-
-                  // ૧. ડાબી બાજુનો જ્ઞાતિ લોગો આઈકોન (કસ્ટમ પેડિંગ હટાવી દીધું ભાઈ)
                   SizedBox(
-                    width: 65,
-                    height: 65,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 12.0),
                       child: Image.asset(
-                        'assets/images/logo_icon.png',
+                        'assets/images/rajyagor_header.png',
+                        height: 160,
                         fit: BoxFit.contain,
                         errorBuilder: (c, e, s) => const SizedBox.shrink(),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 18),
-
-                  // ૨. મધ્યમાં આવેલું જ્ઞાતિનું લખાણ બ્લોક
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text(
-                        'જામનગર રાજ્યગોર જ્ઞાતિ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.textMaroon,
-                          fontSize: 26,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'ટ્રસ્ટ રજીસ્ટ્રેશન નંબર: એ-૧૭૦ જામનગર',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textMaroon.withOpacity(0.8),
-                          fontSize: 13,
-                          letterSpacing: 0.2,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(width: 18),
-
-                  // ૩. જમણી બાજુનો ઓમ લોગો (ડાબા લોગો જેટલી જ પર્ફેક્ટ ૬૫ સાઈઝ લોક ભાઈ!)
-                  SizedBox(
-                    width: 65,
-                    height: 65,
-                    child: Image.asset(
-                      'assets/images/om_logo.png',
-                      fit: BoxFit.contain,
-                      errorBuilder: (c, e, s) => const SizedBox.shrink(),
-                    ),
-                  ),
-
                 ],
               ),
             ),
@@ -275,52 +205,12 @@ class CustomMobileDrawer extends StatelessWidget {
                           Get.offAllNamed(HomeScreen.pageId);
                         }
                       },
-                      child: Row(
-                        children: [
-                          // ➔ ⚡ અદલા-બદલી: ડ્રોઅરમાં પણ ડાબે જ્ઞાતિ લોગો ભાઈ
-                          Image.asset(
-                            'assets/images/logo_icon.png',
-                            width: 28,
-                            height: 28,
-                            fit: BoxFit.contain,
-                            errorBuilder: (c, e, s) => const SizedBox.shrink(),
-                          ),
-                          const SizedBox(width: 6),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text(
-                                  'જામનગર રાજ્યગોર જ્ઞાતિ',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.textMaroon,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                                const SizedBox(height: 1),
-                                Text(
-                                  'રજી. નં: એ-૧૭０ જામનગર',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.textMaroon.withOpacity(0.6),
-                                    fontSize: 9.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          // ➔ ⚡ અદલા-બદલી: ડ્રોઅરમાં જમણે ઓમ લોગો ભાઈ
-                          Image.asset(
-                            'assets/images/om_logo.png',
-                            width: 30,
-                            height: 30,
-                            fit: BoxFit.contain,
-                            errorBuilder: (c, e, s) => const SizedBox.shrink(),
-                          ),
-                        ],
+                      child: Image.asset(
+                        'assets/images/rajyagor_header.png',
+                        height: 40,
+                        fit: BoxFit.contain,
+                        alignment: Alignment.centerLeft,
+                        errorBuilder: (c, e, s) => const SizedBox.shrink(),
                       ),
                     ),
                   ),

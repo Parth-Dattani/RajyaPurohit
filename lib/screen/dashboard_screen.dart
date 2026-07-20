@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rajya_purohit/screen/screen.dart';
 import '../controllers/dashboard_controller.dart';
 
 import 'package:flutter/material.dart';
@@ -56,8 +57,8 @@ class DashboardScreen extends GetView<DashboardController> {
       backgroundColor: Colors.white,
       elevation: 1,
       title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // ➔ ડાબી બાજુ: લોગો અને ડેશબોર્ડ ટેક્સ્ટ
           Row(
             children: [
               const Icon(Icons.account_balance_rounded, color: Colors.amber, size: 28),
@@ -65,8 +66,7 @@ class DashboardScreen extends GetView<DashboardController> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("સભ્ય ડેશબોર્ડ",
-                      style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16)),
+                  const Text("સભ્ય ડેશબોર્ડ", style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16)),
                   Obx(() => Text(
                     "+91 ${controller.loggedInUserData['phone_number'] ?? ''}",
                     style: const TextStyle(color: Colors.grey, fontSize: 12),
@@ -75,16 +75,30 @@ class DashboardScreen extends GetView<DashboardController> {
               ),
             ],
           ),
+
+          // ➔ ⚡ આ Spacer વચ્ચેની બધી ખાલી જગ્યા લઈ લેશે, જેથી બાકીના બટનો જમણી બાજુ આવી જશે
+          const Spacer(),
+
+          // ➔ જમણી બાજુના બટનો (એડમિન + રિફ્રેશ + લોગઆઉટ)
+          Obx(() => controller.isAdmin.value
+              ? TextButton.icon(
+            onPressed: () => Get.toNamed(AdminScreen.pageId),
+            icon: const Icon(Icons.admin_panel_settings, color: Colors.blue, size: 18),
+            label: const Text("એડમિન", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+          )
+              : const SizedBox.shrink()
+          ),
+
           IconButton(
             icon: const Icon(Icons.refresh, color: Color(0xFF800020)),
-            onPressed: () => controller.loadSessionData(),
+            onPressed: () => controller.refreshFromServer(),
             tooltip: 'Refresh',
           ),
+
           TextButton.icon(
             onPressed: () => controller.logout(),
             icon: const Icon(Icons.logout, color: Colors.redAccent, size: 18),
-            label: const Text("લોગઆઉટ",
-                style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+            label: const Text("લોગઆઉટ", style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
           ),
         ],
       ),

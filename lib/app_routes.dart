@@ -78,4 +78,10 @@ List<GetPage> appPages = [
     page: () =>  DashboardScreen(),
     binding: DashboardBinding(), // 👈 આપણું નવું બાઈન્ડિંગ લિંક થઈ ગયું ભાઈ!
   ),
+
+  GetPage(
+    name: AdminScreen.pageId,
+    page: () => const AdminScreen(),
+    binding: AdminBinding(), // ➔ આ બાઈન્ડિંગનો ઉપયોગ કરો
+  ),
 ];

@@ -176,7 +176,15 @@ class RegistrationController extends GetxController {
       debugPrint("Verify Response: $response");
 
       if (response != null && response['type'] == 'success') {
-        nextStep();
+        // ➔ ⚡ જો જૂનો યુઝર OTP થી લોગિન કરે તો ડાયરેક્ટ ડેશબોર્ડ પર મોકલો
+        if (isOldUser.value) {
+          // અહિયાં તમારે તમારા લોગિન API જેવું જ કામ કરવું પડશે
+          await loginByOtpOnly(phoneController.text.trim());
+          // Get.offAllNamed('/DashboardScreen');
+          // Get.snackbar("સફળ", "OTP થી લોગિન થઈ ગયું!");
+        } else {
+          nextStep(); // નવો યુઝર હોય તો સ્ટેપર આગળ વધારો
+        }
       } else {
         Get.snackbar("ભૂલ", "ખોટો OTP છે!");
       }
@@ -184,6 +192,41 @@ class RegistrationController extends GetxController {
       Get.snackbar("ભૂલ", "વેરિફિકેશનમાં લોચો!");
     } finally {
       isLoading.value = false; // ➔ ⚡ ગમે તે થાય લોડર અટકશે જ
+    }
+  }
+
+  Future<void> loginByOtpOnly(String phone) async {
+    final String loginUrl = "https://rajyapurohitjamnagar.in/api/login.php";
+
+    try {
+      isLoading.value = true;
+      // OTP દ્વારા લોગિન કરવા માટે આપણે પાસવર્ડ ખાલી રાખીને અથવા
+      // અલગ ફ્લેગ સાથે રિક્વેસ્ટ મોકલી શકીએ છીએ
+      final response = await http.post(
+        Uri.parse(loginUrl),
+        headers: {"Content-Type": "application/json; charset=UTF-8"},
+        body: jsonEncode({
+          "phone_number": phone,
+          "is_otp_login": true // ➔ સર્વરમાં આ ફ્લેગ ચેક કરજો
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        if (responseData['status'] == 'success') {
+          // ડેટા સેવ કરો
+          await sharedPreferencesHelper.storeBoolPrefData('isLoggedIn', true);
+          await sharedPreferencesHelper.storePrefData('cached_user', jsonEncode(responseData['user_data']));
+          await sharedPreferencesHelper.storePrefData('cached_family', jsonEncode(responseData['family_members']));
+
+          Get.offAllNamed('/DashboardScreen');
+          Get.snackbar("સફળ", "OTP થી લોગિન થઈ ગયું!");
+        }
+      }
+    } catch (e) {
+      debugPrint("Login Error: $e");
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -223,7 +266,7 @@ class RegistrationController extends GetxController {
 
         Get.snackbar(
             "જૂના સભ્ય 🪪",
-            "તમારું એકાઉન્ટ ઓલરેડી બનેલું છે, કૃપા કરીને લોગિન પાસવર્ડ દાખલ કરો ભાઈ.",
+            "તમારું એકાઉન્ટ ઓલરેડી બનેલું છે, તમે પાસવર્ડ દાખલ કરો અથવા નીચે OTP દ્વારા લોગિન કરો.",
             backgroundColor: Colors.amber.shade800,
             colorText: Colors.white,
             duration: const Duration(seconds: 4)
@@ -277,12 +320,13 @@ class RegistrationController extends GetxController {
         Get.offAllNamed('/DashboardScreen');
         Get.snackbar("લોગિન સફળ ભાઈ!", "તમારા પરિવારનો આખો ડેટા લાઈવ સિંક થઈ ગયો છે.", backgroundColor: Colors.green, colorText: Colors.white);
       } else {
-        // ➔ ⚡ હોસ્ટિંગર ModSecurity બાયપાસ પ્રમાણે ગુજરાતી કન્વર્ઝન લોક ભાઈ
-        String errorMsg = "ખોટો પાસવર્ડ! કૃપા કરીને ફરી પ્રયાસ કરો ભાઈ.";
+        passwordController.clear();
+        // ➔ ⚡ હોસ્ટિંગર ModSecurity બાયપાસ પ્રમાણે ગુજરાતી કન્વર્ઝન લોક
+        String errorMsg = "ખોટો પાસવર્ડ! કૃપા કરીને ફરી પ્રયાસ કરો .";
         if (responseData['message'] == "Account not found") {
           errorMsg = "આ મોબાઈલ નંબર અથવા ઈમેલ રજીસ્ટર્ડ નથી ભાઈ.";
         }
-        Get.snackbar("લોગિન નિષ્ફળ ભાઈ", errorMsg, backgroundColor: Colors.red.shade800, colorText: Colors.white);
+        Get.snackbar("લોગિન નિષ્ફળ", errorMsg, backgroundColor: Colors.red.shade800, colorText: Colors.white);
       }
     } catch (e) {
       isLoading.value = false;
@@ -291,6 +335,58 @@ class RegistrationController extends GetxController {
   }
 
 
+  // RegistrationController.dart માં
+  void fillEditData(Map<String, dynamic> data) {
+    // 1. Text Controllers
+    firstNameController.text = data['first_name'] ?? '';
+    surnameController.text = data['surname'] ?? '';
+    fatherHusbandController.text = data['father_or_husband_name'] ?? '';
+    motherNameController.text = data['mother_name'] ?? '';
+    phoneController.text = data['phone_number'] ?? '';
+    emailController.text = data['email'] ?? '';
+    gotraController.text = data['gotra_'] ?? '';
+
+    // 2. Address & Location
+    currentAddressController.text = data['current_address'] ?? '';
+    currentDistrictController.text = data['current_district'] ?? '';
+    currentTalukaController.text = data['current_taluka'] ?? '';
+    currentCityVillageController.text = data['current_city'] ?? '';
+    pincodeController.text = data['pincode'] ?? '';
+    nativeVillageController.text = data['native_village'] ?? '';
+
+    // 3. Birth Date Splitting (જો તમારી પાસે ડેટા YYYY-MM-DD ફોર્મેટમાં હોય)
+    if (data['birth_date'] != null) {
+      List<String> dateParts = data['birth_date'].toString().split('-');
+      if (dateParts.length == 3) {
+        birthYearController.text = dateParts[0];
+        birthMonthController.text = dateParts[1];
+        birthDayController.text = dateParts[2];
+      }
+    }
+
+    // 4. Other Details
+    whatsappController.text = data['whatsapp_number'] ?? '';
+    bloodGroupController.text = data['blood_group'] ?? '';
+    organizationNameController.text = data['organization_name'] ?? '';
+
+    // 5. Maternal Details
+    maternalFatherController.text = data['maternal_father_name'] ?? '';
+    maternalMotherController.text = data['maternal_mother_name'] ?? '';
+    maternalAddressController.text = data['maternal_address'] ?? ''; // આ ચેક કરી લેજો
+    maternalSurnameController.text = data['maternal_surname'] ?? ''; // જો ડેટાબેઝમાં હોય તો
+    maternalVillageController.text = data['maternal_village'] ?? '';
+
+    // 6. Reactive Values (Dropdowns)
+    selectedGender.value = data['gender'] ?? 'Male';
+    selectedMaritalStatus.value = data['marital_status'] ?? 'Single';
+    selectedEducation.value = data['education'] ?? 'Select Option';
+    selectedOccupation.value = data['occupation'] ?? 'Select Option';
+
+    // 7. Profile Photo
+    if (data['profile_photo'] != null) {
+      selectedImagePath.value = data['profile_photo'];
+    }
+  }
 
   void addFamilyMember() {
     familyMembers.add({

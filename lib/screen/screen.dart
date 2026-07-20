@@ -12,3 +12,4 @@ export 'sanstha_screen.dart';
 export 'event_screen.dart';
 export 'dashboard_screen.dart';
 export 'login_screen.dart';
+export 'admin/admin_screen.dart';

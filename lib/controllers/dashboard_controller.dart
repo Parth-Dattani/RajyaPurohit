@@ -30,6 +30,7 @@ class DashboardController extends GetxController {
   var loggedInUserData = <String, dynamic>{}.obs;
   var loggedInUserMaternalData = <String, dynamic>{}.obs;
   var loggedInFamilyMembers = <Map<String, dynamic>>[].obs;
+  var isAdmin = false.obs;
 
   @override
   void onInit() {
@@ -41,19 +42,22 @@ class DashboardController extends GetxController {
     try {
       String? userStr = sharedPreferencesHelper.getPrefData('cached_user');
       if (userStr != null && userStr != "null") {
-        loggedInUserData.value = jsonDecode(userStr);
+        // ➔ ⚡ અહિયાં `userData` નામનો વેરીએબલ બનાવી લો
+        Map<String, dynamic> userData = jsonDecode(userStr);
 
-        var data = jsonDecode(userStr);
-        loggedInUserData.value = data;
-        debugPrint("User ID Debug: ${loggedInUserData['id']}");
+        // ➔ ⚡ હવે આ વેરીએબલનો ઉપયોગ `loggedInUserData` માં અને એડમિન ચેકમાં કરો
+        loggedInUserData.value = userData;
+        debugPrint("User ID Loaded: ${loggedInUserData['id']}");
+
+        // હવે આ લાઈન કામ કરશે
+        if (userData.containsKey('role')) {
+          isAdmin.value = userData['role'] == 'admin';
+        }
       }
 
       String? famStr = sharedPreferencesHelper.getPrefData('cached_family');
       if (famStr != null && famStr != "null") {
-        var decodedList = jsonDecode(famStr);
-        debugPrint("કેશ્ડ ફેમિલી ડેટા: $decodedList");
         loggedInFamilyMembers.assignAll(List<Map<String, dynamic>>.from(jsonDecode(famStr)));
-        debugPrint("Loaded Members: $loggedInFamilyMembers");
       }
     } catch (e) {
       debugPrint("ડેટા લોડિંગ એરર: $e");
@@ -169,9 +173,41 @@ class DashboardController extends GetxController {
 
   // DashboardController ma add karo
   Future<void> refreshFromServer() async {
-    // Cached phone/email thi re-login karo
-    // Ya simply logout → login redirect karo
-    await logout();
+    try {
+      // 1. લોગિન ડેટામાંથી ફોન અથવા ઈમેલ મેળવો
+      String? phone = loggedInUserData['phone_number'];
+      String? email = loggedInUserData['email'];
+      String? password = loggedInUserData['password']; // જો તમે પાસવર્ડ કેશમાં રાખ્યો હોય તો
+
+      if (phone == null && email == null) return;
+
+      // 2. ફરીથી લોગિન API કોલ કરો (આનાથી લેટેસ્ટ ડેટા આવશે)
+      final response = await http.post(
+        Uri.parse("https://rajyapurohitjamnagar.in/api/login.php"),
+        headers: {"Content-Type": "application/json; charset=UTF-8"},
+        body: jsonEncode({
+          "email": email ?? '',
+          "phone_number": phone ?? '',
+          "password": password ?? '' // અહીં પાસવર્ડ સિક્યોરલી હેન્ડલ કરજો
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+
+        // 3. નવો ડેટા સ્ટોરેજમાં અપડેટ કરો
+        await sharedPreferencesHelper.storePrefData('cached_user', jsonEncode(responseData['user_data']));
+        await sharedPreferencesHelper.storePrefData('cached_family', jsonEncode(responseData['family_members']));
+
+        // 4. કંટ્રોલરના વેરીએબલ્સ અપડેટ કરો
+        loadSessionData();
+
+        Get.snackbar("સફળ", "ડેટા અપડેટ થઈ ગયો છે!", backgroundColor: Colors.green, colorText: Colors.white);
+      }
+    } catch (e) {
+      debugPrint("Refresh Error: $e");
+      Get.snackbar("ભૂલ", "ડેટા અપડેટ કરવામાં નિષ્ફળતા.");
+    }
   }
 
   Future<void> logout() async {
