@@ -17,8 +17,6 @@ class AdminController extends GetxController {
   Future<void> fetchAllUsers() async {
     try {
       isLoading.value = true;
-      // લોગિન થયેલ યુઝરની ID ડેશબોર્ડમાંથી અથવા સ્ટોરેજમાંથી મેળવો
-      // લાઇન ૨૧ માં આ ફેરફાર કરો:
       final cachedData = sharedPreferencesHelper.getPrefData('cached_user') ?? '{}';
       final adminData = jsonDecode(cachedData);
 
@@ -41,12 +39,13 @@ class AdminController extends GetxController {
     }
   }
 
-  Future<void> verifyUser(int userId, int status) async {
+  // ➔ ⚡ ફેરફાર અહીં કર્યો છે: userId ને dynamic કરી દીધી છે જેથી String ID (જેમ કે '00001') બરાબર જાય
+  Future<void> verifyUser(dynamic userId, int status) async {
     try {
       final response = await http.post(
         Uri.parse("https://rajyapurohitjamnagar.in/api/verify_user.php"),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({'user_id': userId, 'status': status}),
+        body: jsonEncode({'user_id': userId.toString(), 'status': status}),
       );
 
       if (response.statusCode == 200) {

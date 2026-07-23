@@ -22,7 +22,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize {
     final double width = WidgetsBinding.instance.platformDispatcher.views.first.physicalSize.width /
         WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
-    return Size.fromHeight(width <= 900 ? 70.0 : 90.0);
+    return Size.fromHeight(width <= 900 ? 70.0 : 100.0);
   }
 
   @override
@@ -34,7 +34,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.white,
       elevation: 0.5,
       automaticallyImplyLeading: false,
-      toolbarHeight: isMobile ? 70.0 : 90.0,
+      toolbarHeight: isMobile ? 70.0 : 100.0,
       flexibleSpace: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -80,13 +80,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   alignment: Alignment.centerLeft,
                   child: Image.asset(
                     'assets/images/rajyagor_header.png',
-                    height: 56,
-                    fit: BoxFit.contain,
-                    // 🔧 Loading feels slow mainly because this same image
-                    // also renders large (height: 160) on the web layout.
-                    // If it's a big/high-res PNG, consider adding a smaller
-                    // pre-resized version (e.g. rajyagor_header_sm.png) just
-                    // for mobile to cut load time further.
+                    height: 72,
+                    fit: BoxFit.fitHeight,
+
                     errorBuilder: (c, e, s) => const SizedBox.shrink(),
                   ),
                 ),
@@ -125,7 +121,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       padding: const EdgeInsets.only(top: 12.0),
                       child: Image.asset(
                         'assets/images/rajyagor_header.png',
-                        height: 160,
+                        height: 230,
                         fit: BoxFit.contain,
                         errorBuilder: (c, e, s) => const SizedBox.shrink(),
                       ),
@@ -176,7 +172,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 // ============================================================
-// 👥 REUSABLE MOBILE SIDEBAR DRAWER MODULE (અહીંયા પણ સ્વેપ મેચ ભાઈ)
+// 👥 REUSABLE MOBILE SIDEBAR DRAWER MODULE (અહીં હાઇટ મોટી કરી દીધી ભાઈ)
 // ============================================================
 class CustomMobileDrawer extends StatelessWidget {
   const CustomMobileDrawer({super.key});
@@ -191,7 +187,7 @@ class CustomMobileDrawer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 12.0, right: 4.0, top: 25.0, bottom: 20.0),
+            padding: const EdgeInsets.only(left: 16.0, right: 8.0, top: 30.0, bottom: 20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -205,9 +201,10 @@ class CustomMobileDrawer extends StatelessWidget {
                           Get.offAllNamed(HomeScreen.pageId);
                         }
                       },
+                      // ➔ ⚡ અહીં હાઇટ 40 થી વધારીને 58 કરી દીધી જેથી લોગો એકદમ સરસ અને મોટો દેખાય!
                       child: Image.asset(
                         'assets/images/rajyagor_header.png',
-                        height: 40,
+                        height: 58,
                         fit: BoxFit.contain,
                         alignment: Alignment.centerLeft,
                         errorBuilder: (c, e, s) => const SizedBox.shrink(),
@@ -216,7 +213,7 @@ class CustomMobileDrawer extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.close_rounded, color: AppColors.textMaroon, size: 22),
+                  icon: const Icon(Icons.close_rounded, color: AppColors.textMaroon, size: 24),
                   onPressed: () => Get.back(),
                 ),
               ],

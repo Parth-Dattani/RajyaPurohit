@@ -73,11 +73,12 @@ import '../widgets/custom_footer.dart';
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Text(
-                            'જામનગર રાજ્યપુરોહિત (રાજગોર) બ્રાહ્મણ જ્ઞાતિ',
+                            'જામનગર રાજગોર (રાજ્યપુરોહિત) બ્રાહ્મણ જ્ઞાતિ',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.heading,
+
+                              color: AppColors.volcanoDarkRed,
                               letterSpacing: 0.5,
                             ),
                           ),
@@ -103,7 +104,7 @@ import '../widgets/custom_footer.dart';
                           ),
                           const SizedBox(height: 20),
                           const Text(
-                            'જામનગર રાજ્યપુરોહિત (રાજગોર) બ્રાહ્મણ જ્ઞાતિનો ઇતિહાસ આશરે ૪૮૬ વર્ષ જૂનો માનવામાં આવે છે. કચ્છના રાજવી જામ રાવળ, જે કચ્છની તેરા શાખાના પ્રમુખ જામ લાખોજીના પુત્ર હતા, તેમણે ઈ.સ. ૧૫૨૪ થી ૧૫૪૮ સુધી કચ્છ પર શાસન કર્યું. બાદમાં આંતરિક વિખવાદો અને રાજકીય પરિસ્થિતિઓને કારણે તેઓ પોતાના ભાયાતો, વફાદાર સૈનિકો તથા કુળગોર રાજ્યપુરોહિત બ્રાહ્મણ પરિવારો સાથે કચ્છ છોડીને સૌરાષ્ટ્ર તરફ પ્રસ્થાન કર્યું. લોકવાયકા મુજબ આશાપુરા માતાની પ્રેરણાથી તેમણે નવા રાજ્યની સ્થાપનાનો સંકલ્પ કર્યો.',
+                            'જામનગર રાજગોર (રાજ્યપુરોહિત) બ્રાહ્મણ જ્ઞાતિનો ઇતિહાસ આશરે ૪૮૬ વર્ષ જૂનો માનવામાં આવે છે. કચ્છના રાજવી જામ રાવળ, જે કચ્છની તેરા શાખાના પ્રમુખ જામ લાખોજીના પુત્ર હતા, તેમણે ઈ.સ. ૧૫૨૪ થી ૧૫૪૮ સુધી કચ્છ પર શાસન કર્યું. બાદમાં આંતરિક વિખવાદો અને રાજકીય પરિસ્થિતિઓને કારણે તેઓ પોતાના ભાયાતો, વફાદાર સૈનિકો તથા કુળગોર રાજ્યપુરોહિત બ્રાહ્મણ પરિવારો સાથે કચ્છ છોડીને સૌરાષ્ટ્ર તરફ પ્રસ્થાન કર્યું. લોકવાયકા મુજબ આશાપુરા માતાની પ્રેરણાથી તેમણે નવા રાજ્યની સ્થાપનાનો સંકલ્પ કર્યો.',
                             textAlign: TextAlign.justify,
                             style: TextStyle(fontSize: 15.5, color: AppColors.body, fontWeight: FontWeight.w500, height: 1.6),
                           ),
@@ -232,7 +233,7 @@ import '../widgets/custom_footer.dart';
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'જામનગર રાજ્યપુરોહિત (રાજગોર) જ્ઞાતિ',
+            'જામનગર રાજગોર (રાજ્યપુરોહિત) જ્ઞાતિ',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -263,7 +264,7 @@ import '../widgets/custom_footer.dart';
 
           // ➔ ૧. પહેલો પેરેગ્રાફ ભાઈ
           const Text(
-            'જામનગર રાજ્યપુરોહિત (રાજગોર) બ્રાહ્મણ જ્ઞાતિનો ઇતિહાસ આશરે ૪૮૬ વર્ષ જૂનો છે. ઈ.સ. ૧base૦ આસપાસ કચ્છના રાજવી જામ રાવળ પોતાના કુળગોર રાજ્યપુરોહિત પરિવારો સાથે સૌરાષ્ટ્રમાં નવાનગર (આજનું જામનગર) રાજ્યની સ્થાપના કરી હતી. જાડેજા રાજવીઓ દ્વારા ગામેગામ વસેલા આ પરિવારો આજે પણ ગૌરવશાળી પરંપરા જાળવી વિવિધ ક્ષેત્રોમાં પ્રગતિ કરી રહ્યા છે.',
+            'જામનગર રાજગોર (રાજ્યપુરોહિત) બ્રાહ્મણ જ્ઞાતિનો ઇતિહાસ આશરે ૪૮૬ વર્ષ જૂનો માનવામાં આવે છે. કચ્છના રાજવી જામ રાવળ, જે કચ્છની તેરા શાખાના પ્રમુખ જામ લાખોજીના પુત્ર હતા, તેમણે ઈ.સ. ૧૫૨૪ થી ૧૫૪૮ સુધી કચ્છ પર શાસન કર્યું. બાદમાં આંતરિક વિખવાદો અને રાજકીય પરિસ્થિતિઓને કારણે તેઓ પોતાના ભાયાતો, વફાદાર સૈનિકો તથા કુળગોર રાજ્યપુરોહિત બ્રાહ્મણ પરિવારો સાથે કચ્છ છોડીને સૌરાષ્ટ્ર તરફ પ્રસ્થાન કર્યું. લોકવાયકા મુજબ આશાપુરા માતાની પ્રેરણાથી તેમણે નવા રાજ્યની સ્થાપનાનો સંકલ્પ કર્યો.',
             textAlign: TextAlign.justify,
             style: TextStyle(
               fontSize: 14,
@@ -276,8 +277,8 @@ import '../widgets/custom_footer.dart';
 
           // ➔ ⚡ ⚡ મેઈન ફિક્સ: તમારો ગુમ થયેલો બીજો પેરેગ્રાફ અહીંયા મોબાઈલ કન્ટેન્ટમાં લાઈવ લોક કરી દીધો ભાઈ!
           const Text(
-            'સૌપ્રથમ જામ રાવળે બેડ ગામ ખાતે થાણું સ્થાપ્યું અને ત્યારબાદ ખંભાળિયા વિસ્તારમાં પોતાનું પ્રભુત્વ સ્થાપિત કર્યું. ખંભાળિયા અને સલાયા દરિયાકાંઠાના વિસ્તારો હોવાથી વેપાર અને બંદર વિકાસ માટે અનુકૂળ હતા. સમય જતાં અનેક સ્થાનિક શાસકો અને જાતિઓ સાથેના સંઘર્ષોમાં વિજય પ્રાપ્ત કરીને તેમણે જોડિયા, આમરણ, ધ્રોલ, નાગનાથ બંદર અને ખંભાળિયા જેવા વિસ્તારો પોતાના રાજ્યમાં સામેલ કર્યા. અંતે ઈ.સ. ૧base૦ આસપાસ નવાનગર (આજનું જામનગર) રાજ્યની સ્થાપના કરી અને જામનગરને રાજધાની તરીકે વિકસાવ્યું.',
-            textAlign: TextAlign.justify,
+      'સૌપ્રથમ જામ રાવળે બેડ ગામ ખાતે થાણું સ્થાપ્યું અને ત્યારબાદ ખંભાળિયા વિસ્તારમાં પોતાનું પ્રભુત્વ સ્થાપિત કર્યું. ખંભાળિયા અને સલાયા દરિયાકાંઠાના વિસ્તારો હોવાથી વેપાર અને બંદર વિકાસ માટે અનુકૂળ હતા. સમય જતાં અનેક સ્થાનિક શાસકો અને જાતિઓ સાથેના સંઘર્ષોમાં વિજય પ્રાપ્ત કરીને તેમણે જોડિયા, આમરણ, ધ્રોલ, નાગનાથ બંદર અને ખંભાળિયા જેવા વિસ્તારો પોતાના રાજ્યમાં સામેલ કર્યા. અંતે ઈ.સ. ૧૫૪૦ આસપાસ નવાનગર (આજનું જામનગર) રાજ્યની સ્થાપના કરી અને જામનગરને રાજધાની તરીકે વિકસાવ્યું.',
+      textAlign: TextAlign.justify,
             style: TextStyle(
               fontSize: 14,
               color: AppColors.body,
@@ -294,11 +295,11 @@ import '../widgets/custom_footer.dart';
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 12),
-                _buildExtendedHistoryText('જામ રાવળ સાથે આવેલા રાજ્યપુરોહિત બ્રાહ્મણ પરિવારોને રાજગોર તરીકે ઓળખવામાં આવ્યા. તેમને વસવાટ માટે જામનગર શહેરમાં રાજગોર ફળીમાં મકાનો તથા જીવનનિર્વાહ માટે ખેતીની જમીનો આપવામાં આવી. ખંભાળિયા, સોડસલા તથા આસપાસના વિસ્તારોમાં પણ રાજગોર પરિવારોને ખેતી અને ધાર્મિક સેવાઓ માટે જમીનો ફાળવવામાં આવી. જાડેજા રાજવીઓએ પોતાના ભાયાતોને વિવિધ ગામો અને પરગણાઓના વહીવટની જવાબદારી સોંપી હતી, અને તે ભાયાતોના ગોર તરીકે રાજગોર બ્રાહ્મણ પરિવારો ગામે ગામ વસ્યા. આજે પણ જામનગર, ખંભાળિયા, ભાટિયા, ભોપલકા, લાલપુર તથા આસપાસના લગભગ ૧૦૦થી વધુ ગામોમાં રાજગોર પરિવારો વસવાટ કરે છે અને તેમની ઐતિહાસિક ઓળખ જાળવી રાખે છે.', isMobile: true),
+                _buildExtendedHistoryText('જામ રાવળ સાથે આવેલા રાજ્યપુરોહિત બ્રાહ્મણ પરિવારોને રાજગોર તરીકે ઓળખવામાં આવ્યા. તેમને વસવાટ માટે જામનગર શહેરમાં રાજગોર ફળીમાં મકાનો તથા જીવનનિર્વાહ માટે ખેતીની જમીનો આપવામાં આવી. ખંભાળિયા, સોડસલા તથા આસપાસના વિસ્તારોમાં પણ રાજગોર પરિવારોને ખેતી અને ધાર્મિક સેવાઓ માટે જમીનો ફાળવવામાં આવી. જાડેજા રાજવીઓએ પોતાના ભાયાતોને વિવિધ ગામો અને પરગણાઓના વહીવટની જવાબદારી સોંપી હતી, અને તે ભાયાતોના ગોર તરીકે રાજગોર બ્રાહ્મણ પરિવારો ગામે ગામ વસ્યા. આજે પણ જામનગર, ખંભાળિયા, ભાટિયા, ભોપલકા, લાલપુર તથા આસપાસના લગભગ ૧૦0થી વધુ ગામોમાં રાજગોર પરિવારો વસવાટ કરે છે અને તેમની ઐતિહાસિક ઓળખ જાળવી રાખે છે.', isMobile: true),
                 const SizedBox(height: 12),
-                _buildExtendedHistoryText('લાલપુર વિસ્તારના ચેલા ચંગા, હરીપર, મેમાણા, ખીરસરા, ભણગોર સહિતના ગામોમાં પણ રાજગોર પરિવારો રાજના ગોર તરીકે ઓળખાય છે. સમય જતાં આ પરિવારો જામનગર અને ખંભાળિયા ઉપરાંત રાજકોટ, મોરબી, ગોંડલ, જુનાગઢ, મુંબઈ, આફ્રિકા, લંડન અને અન્ય સ્થળોએ સ્થાયી થયા. શિક્ષણ, વેપાર-ઉદ્યોગ, સરકારી સેવા, રાજકારણ અને વિવિધ વ્યવસાયોમાં તેમણે નોંધપાત્ર પ્રગતિ હાંસલ કરી છે.', isMobile: true),
+                _buildExtendedHistoryText('લાલપુર વિસ્તારના ચેલા ચંગા, હરિપર, મેમાણા, ખીરસરા, ભણગોર સહિતના ગામોમાં પણ રાજગોર પરિવારો રાજના ગોર તરીકે ઓળખાય છે. સમય જતાં આ પરિવારો જામનગર અને ખંભાળિયા ઉપરાંત રાજકોટ, મોરબી, ગોંડલ, જુનાગઢ, મુંબઈ, આફ્રિકા, લંડન અને અન્ય સ્થળોએ સ્થાયી થયા. શિક્ષણ, વેપાર-ઉદ્યોગ, સરકારી સેવા, રાજકારણ અને વિવિધ વ્યવસાયોમાં તેમણે નોંધપાત્ર પ્રગતિ હાંસલ કરી છે.', isMobile: true),
                 const SizedBox(height: 12),
-                _buildExtendedHistoryText('...અનેક શાખાઓ અને અટકો જોવા મળે છે. લોકવાયકા મુજબ કલો, ખેતો, ગોપો અને પુંજો નામના ચાર મુખ્ય વડવાઓના વંશજો ક્રમે કલ્યાણી, ખેતીયા, ગોપિયાણી અને પુંજાણી તરીકે ઓળખાયા. આ ઉપરાંત ભટ્ટ, બારોટ, નાકર, જોશી, લવા, પંડ્યા, આશા, રાવલ, વાસુ, ખેતાણી, પારાકડા, વીઠા,  કેશવાણી વગેરે અટકો ધરાવતા પરિવારો પણ જ્ઞાતિમાં મહત્વનું સ્થાન ધરાવે છે. આ સિવાય મોખા, મેતા, મોતા અને કેવલીયા પરિવાર પણ રાજગોર જ્ઞાતિનો અભિન્ન ભાગ છે...', isMobile: true),
+                _buildExtendedHistoryText('રાજગોર જ્ઞાતિમાં અનેક શાખાઓ અને અટકો જોવા મળે છે. લોકવાયકા મુજબ કલો, ખેતો, ગોપો અને પુંજો નામના ચાર મુખ્ય વડવાઓના વંશજો ક્રમે કલ્યાણી, ખેતીયા, ગોપિયાણી અને પુંજાણી તરીકે ઓળખાયા. આ ઉપરાંત ભટ્ટ, બારોટ, નાકર, જોશી, લવા, પંડ્યા, આશા, રાવલ, વાસુ, ખેતાણી, પારાકડા, વીઠા, કેશવાણી વગેરે અટકો ધરાવતા પરિવારો પણ જ્ઞાતિમાં મહત્વનું સ્થાન ધરાવે છે. આ સિવાય મોખા, મેતા, મોતા અને કેવલીયા પરિવાર પણ રાજગોર જ્ઞાતિનો અભિન્ન ભાગ છે અને જ્ઞાતિના સામાજિક તથા સાંસ્કૃતિક વિકાસમાં તેમનું પણ મહત્વપૂર્ણ યોગદાન રહ્યું છે.', isMobile: true),
                 const SizedBox(height: 12),
                 _buildExtendedHistoryText('રાજગોર બ્રાહ્મણોના કેટલાક પરિવારો વિવિધ રાજ્યોના શાસકો સાથે સંકળાયેલા રહ્યા હતા. રાજકોટ અને ગોંડલમાં મુખ્યત્વે ખેતીયા પરિવારો વસ્યા, જ્યારે જુનાગઢમાં ગોપિયાણી પરિવારો અને મોરબીમાં જોશી પરિવારો રાજપરિવારો સાથે જોડાયેલા હોવાનું કહેવાય છે. આ સંબંધોએ જ્ઞાતિના સામાજિક અને વહીવટી પ્રભાવને વધુ મજબૂત બનાવ્યો.', isMobile: true),
                 const SizedBox(height: 12),
@@ -625,6 +626,9 @@ import '../widgets/custom_footer.dart';
       );
     }
 
+    // ===========================================================================
+// 💻 WEB MISSION LAYOUT
+// ===========================================================================
     Widget _buildMissionWebLayout() {
       final RxBool isBtnHovered = false.obs;
 
@@ -642,7 +646,7 @@ import '../widgets/custom_footer.dart';
               left: 40,
               top: 40,
               child: Obx(() => _buildAnimatedProfile(
-                imagePath: 'assets/images/user1.png',
+                txt: 'સેવા',
                 size: 110,
                 isHovered: isP1Hovered.value,
                 onHover: (v) => isP1Hovered.value = v,
@@ -652,7 +656,7 @@ import '../widgets/custom_footer.dart';
               left: 140,
               bottom: 20,
               child: Obx(() => _buildAnimatedProfile(
-                imagePath: 'assets/images/user2.png',
+                txt: 'સહયોગ',
                 size: 120,
                 isHovered: isP2Hovered.value,
                 onHover: (v) => isP2Hovered.value = v,
@@ -662,7 +666,7 @@ import '../widgets/custom_footer.dart';
               right: 60,
               top: 80,
               child: Obx(() => _buildAnimatedProfile(
-                imagePath: 'assets/images/user3.png',
+                txt: 'શિક્ષણ',
                 size: 115,
                 isHovered: isP3Hovered.value,
                 onHover: (v) => isP3Hovered.value = v,
@@ -672,7 +676,7 @@ import '../widgets/custom_footer.dart';
               right: 110,
               bottom: 40,
               child: Obx(() => _buildAnimatedProfile(
-                imagePath: 'assets/images/user4.png',
+                txt: 'સંગઠન',
                 size: 125,
                 isHovered: isP4Hovered.value,
                 onHover: (v) => isP4Hovered.value = v,
@@ -698,7 +702,7 @@ import '../widgets/custom_footer.dart';
                   ),
                   const SizedBox(height: 15),
                   const Text(
-                    'સમસ્ત રાજ્યપુરોહિત (રાજગોર) બ્રાહ્મણ જ્ઞાતિની ઈ-મેમ્બરશીપમાં જોડાઓ\nઅને જ્ઞાતિના સકારાત્મક બદલાવમાં ભાગ બનો.',
+                    'સમસ્ત રાજગોર (રાજ્યપુરોહિત) બ્રાહ્મણ જ્ઞાતિની ઈ-મેમ્બરશીપમાં જોડાઓ\nઅને જ્ઞાતિના સકારાત્મક બદલાવમાં ભાગ બનો.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 32,
@@ -760,34 +764,49 @@ import '../widgets/custom_footer.dart';
       );
     }
 
+// ===========================================================================
+// 📱 MOBILE MISSION LAYOUT (પરફેક્ટ સ્પેસિંગ સાથે)
+// ===========================================================================
     Widget _buildMissionMobileLayout() {
+      final RxBool isBtnHovered = false.obs;
+
+      final RxBool isP1Hovered = false.obs;
+      final RxBool isP2Hovered = false.obs;
+      final RxBool isP3Hovered = false.obs;
+      final RxBool isP4Hovered = false.obs;
+
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
         color: AppColors.background,
         child: Column(
           children: [
             const Text(
               'અમારું મિશન',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.accent, letterSpacing: 0.8),
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: AppColors.accent,
+                letterSpacing: 0.8,
+              ),
             ),
-            const SizedBox(height: 35),
+            const SizedBox(height: 15),
 
-            // ➔ ⚡ ⚡ જાદુઈ મોબાઈલ સ્ટેક: '1,00,000+' હટાવીને વેબની જેમ જ સચોટ લખાણ સેન્ટરમાં સેટ કર્યું ભાઈ!
+            // ➔ ⚡ મોબાઈલ સ્ટેક: હાઇટ અને માર્જિન વ્યવસ્થિત સેટ કર્યું જેથી લખાણ પર ઓવરલેપ ન થાય
             SizedBox(
-              height: 160,
+              height: 260, // હાઇટ થોડી વધારી જેથી બબલ્સ અને ટેક્સ્ટ છૂટા છવાયા દેખાય
               width: double.infinity,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  // સેન્ટરમાં વેબ વાળું જ ઓફિશિયલ ડિસ્ક્રિપ્શન લોક કર્યું ભાઈ
+                  // સેન્ટરનું મુખ્ય લખાણ
                   Positioned(
                     child: Container(
                       constraints: const BoxConstraints(maxWidth: 280),
                       child: const Text(
-                        'સમસ્ત રાજયગોર જ્ઞાતિની ઈ-મેમ્બરશીપમાં જોડાઓ અને જ્ઞાતિના સકારાત્મક બદલાવમાં ભાગ બનો.',
+                        'સમસ્ત રાજગોર (રાજ્યપુરોહિત) બ્રાહ્મણ જ્ઞાતિની ઈ-મેમ્બરશીપમાં જોડાઓ અને જ્ઞાતિના સકારાત્મક બદલાવમાં ભાગ બનો.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 16, // મોબાઈલ સ્ક્રીન પ્રમાણે ફોન્ટ સાઈઝ પરફેક્ટ કરી ભાઈ
+                          fontSize: 14.5,
                           fontWeight: FontWeight.bold,
                           color: AppColors.heading,
                           height: 1.4,
@@ -796,41 +815,95 @@ import '../widgets/custom_footer.dart';
                     ),
                   ),
 
-                  // ચારેય આલ્બમ પ્રોફાઈલો આ લખાણની આજુબાજુ મસ્ત હવામાં તરતી (Float) દેખાશે ભાઈ!
-                  Positioned(left: 0, top: 0, child: _buildCircularProfile('assets/images/user1.png', 52)),
-                  Positioned(left: 30, bottom: 0, child: _buildCircularProfile('assets/images/user2.png', 48)),
-                  Positioned(right: 0, top: 5, child: _buildCircularProfile('assets/images/user3.png', 50)),
-                  Positioned(right: 35, bottom: 0, child: _buildCircularProfile('assets/images/user4.png', 54)),
+                  // ➔ ⚡ ચારેય ખૂણા પર બબલ્સને થોડા બહાર અને પ્રોપર અંતરે સેટ કર્યા ભાઈ
+                  Positioned(
+                    left: 0,
+                    top: 10,
+                    child: Obx(() => _buildAnimatedProfile(
+                      txt: 'સેવા',
+                      size: 68,
+                      isHovered: isP1Hovered.value,
+                      onHover: (v) => isP1Hovered.value = v,
+                    )),
+                  ),
+                  Positioned(
+                    left: 0,
+                    bottom: 10,
+                    child: Obx(() => _buildAnimatedProfile(
+                      txt: 'સહયોગ',
+                      size: 72,
+                      isHovered: isP2Hovered.value,
+                      onHover: (v) => isP2Hovered.value = v,
+                    )),
+                  ),
+                  Positioned(
+                    right: 0,
+                    top: 10,
+                    child: Obx(() => _buildAnimatedProfile(
+                      txt: 'શિક્ષણ',
+                      size: 70,
+                      isHovered: isP3Hovered.value,
+                      onHover: (v) => isP3Hovered.value = v,
+                    )),
+                  ),
+                  Positioned(
+                    right: 0,
+                    bottom: 10,
+                    child: Obx(() => _buildAnimatedProfile(
+                      txt: 'સંગઠન',
+                      size: 74,
+                      isHovered: isP4Hovered.value,
+                      onHover: (v) => isP4Hovered.value = v,
+                    )),
+                  ),
                 ],
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
 
-            // વધુ જાણો બટન વિથ પરફેક્ટ ગેટએક્સ નેવિગેશન રાઉટ ભાઈ
-            Container(
-              width: 260,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                border: Border.all(color: AppColors.cardBorder, width: 1.2),
-              ),
-              child: InkWell(
-                onTap: () {
-                  Get.toNamed(MembershipScreen.pageId); // 👈 લાઈવ ક્લિક ઈવેન્ટ લોક ભાઈ
-                },
-                borderRadius: BorderRadius.circular(4),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'વધુ જાણો',
-                      style: TextStyle(fontSize: 14, color: AppColors.primary, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(width: 8),
-                    Icon(Icons.arrow_forward, size: 15, color: AppColors.primary),
-                  ],
+            // વધુ જાણો બટન
+            MouseRegion(
+              onEnter: (_) => isBtnHovered.value = true,
+              onExit: (_) => isBtnHovered.value = false,
+              cursor: SystemMouseCursors.click,
+              child: Obx(() => AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                width: 260,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: isBtnHovered.value ? AppColors.primary : Colors.transparent,
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(
+                    color: isBtnHovered.value ? AppColors.primary : AppColors.cardBorder,
+                    width: 1.2,
+                  ),
                 ),
-              ),
+                child: InkWell(
+                  onTap: () {
+                    Get.toNamed(MembershipScreen.pageId);
+                  },
+                  borderRadius: BorderRadius.circular(4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'વધુ જાણો',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: isBtnHovered.value ? Colors.white : AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Icon(
+                        Icons.arrow_forward,
+                        size: 15,
+                        color: isBtnHovered.value ? Colors.white : AppColors.primary,
+                      ),
+                    ],
+                  ),
+                ),
+              )),
             ),
           ],
         ),
@@ -838,7 +911,7 @@ import '../widgets/custom_footer.dart';
     }
 
     Widget _buildAnimatedProfile({
-      required String imagePath,
+      required String txt,
       required double size,
       required bool isHovered,
       required Function(bool) onHover,
@@ -862,22 +935,13 @@ import '../widgets/custom_footer.dart';
                 BoxShadow(
                   color: isHovered ? Colors.black.withOpacity(0.15) : Colors.black.withOpacity(0.05),
                   blurRadius: isHovered ? 15 : 10,
-                  offset: isHovered ? const Offset(0, 8) : const Offset(0, 4),
+                  offset: isHovered ? const Offset(0,6) : const Offset(0, 4),
                 )
               ],
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(size / 2),
-              child: Image.asset(
-                imagePath,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: AppColors.primary.withOpacity(0.2),
-                    child: const Icon(Icons.person, color: AppColors.primary),
-                  );
-                },
-              ),
+              child: Center(child: Text(txt, style: TextStyle(color: AppColors.textOrange, fontSize: 20, fontWeight: FontWeight.bold),)),
             ),
           ),
         ),
@@ -952,7 +1016,7 @@ import '../widgets/custom_footer.dart';
           ),
           const SizedBox(height: 8),
           Text(
-            '4 સરળ પગલાંમાં ઈ-મેમ્બરશીપ',
+            '3 સરળ પગલાંમાં ઈ-મેમ્બરશીપ',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 42,
@@ -1003,17 +1067,17 @@ import '../widgets/custom_footer.dart';
               onHover: (isHovered) => hoveredStep.value = isHovered ? 2 : -1,
             )),
           ),
-          _buildStepArrow(),
-          Expanded(
-            child: Obx(() => _buildHoverableStepItem(
-              stepNumber: '04',
-              title: 'મેમ્બરશીપ CARD ડાઉનલોડ કરો',
-              description: 'અરજી મંજૂર થયા પછી તમારું e-Card ડાઉનલોડ કરો અને શેર કરો.',
-              index: 3,
-              hoveredStep: hoveredStep.value,
-              onHover: (isHovered) => hoveredStep.value = isHovered ? 3 : -1,
-            )),
-          ),
+          // _buildStepArrow(),
+          // Expanded(
+          //   child: Obx(() => _buildHoverableStepItem(
+          //     stepNumber: '04',
+          //     title: 'મેમ્બરશીપ CARD ડાઉનલોડ કરો',
+          //     description: 'અરજી મંજૂર થયા પછી તમારું e-Card ડાઉનલોડ કરો અને શેર કરો.',
+          //     index: 3,
+          //     hoveredStep: hoveredStep.value,
+          //     onHover: (isHovered) => hoveredStep.value = isHovered ? 3 : -1,
+          //   )),
+          // ),
         ],
       );
     }
@@ -1053,16 +1117,16 @@ import '../widgets/custom_footer.dart';
                 title: 'પરિવારની વિગતો ઉમેરો',
                 description: 'જીવનસાથી/બાળકો/વડીલોની માહિતી તમારી પ્રોફાઈલમાં દાખલ કરો.'
             )),
-            const SizedBox(height: 40),
-
-            Obx(() => _buildHoverableStepItem(
-                index: 3,
-                hoveredStep: hoveredStep.value,
-                onHover: (v) => hoveredStep.value = v ? 3 : -1,
-                stepNumber: '04',
-                title: 'મેમ્બરશીપ કૉર્ડ ડાઉનલોડ કરો',
-                description: 'અરજી મંજૂર થયા પછી તમારું e-Card ડાઉનલોડ કરો અને શેર કરો.'
-            )),
+            // const SizedBox(height: 40),
+            //
+            // Obx(() => _buildHoverableStepItem(
+            //     index: 3,
+            //     hoveredStep: hoveredStep.value,
+            //     onHover: (v) => hoveredStep.value = v ? 3 : -1,
+            //     stepNumber: '04',
+            //     title: 'મેમ્બરશીપ કૉર્ડ ડાઉનલોડ કરો',
+            //     description: 'અરજી મંજૂર થયા પછી તમારું e-Card ડાઉનલોડ કરો અને શેર કરો.'
+            // )),
           ],
         ),
       );
@@ -1258,7 +1322,7 @@ import '../widgets/custom_footer.dart';
             expandedIndex: expandedIndex.value,
             stepNumber: '01',
             question: 'ઈ-મેમ્બરશીપ મેળવવાની પ્રક્રિયા શું છે?',
-            answer: 'સરળ 4 પગલાં:\n 1) મોબાઈલ નંબરથી OTP વેરીફિકેશન,\n 2) તમારી વ્યક્તિગત વિગતો ભરો,\n 3) પરિવારના સભ્યોની વિગતો ઉમેરો,\n 4) મંજૂરી પછી તમારું મેમ્બરશીપ e-Card ડાઉનલોડ કરો.',
+            answer: 'સરળ 3 પગલાં:\n 1) મોબાઈલ નંબરથી OTP વેરીફિકેશન,\n 2) તમારી વ્યક્તિગત વિગતો ભરો,\n 3) પરિવારના સભ્યોની વિગતો ઉમેરો.',
             onTap: (idx) => expandedIndex.value = expandedIndex.value == idx ? -1 : idx,
           )),
           Obx(() => _buildFaqAccordionItem(

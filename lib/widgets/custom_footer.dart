@@ -40,6 +40,8 @@ class CustomFooter extends StatelessWidget {
         children: [
           isWeb ? _buildWebLayout() : _buildMobileLayout(),
           const SizedBox(height: 50),
+          _buildVisitorCounterCard(),
+          const SizedBox(height: 25),
           const Divider(color: Colors.white10, height: 1),
           const SizedBox(height: 25), // સેહેજ સ્પેસિંગ બેલેન્સ કર્યું ભાઈ
           _buildBottomBar(isWeb),
@@ -104,7 +106,7 @@ class CustomFooter extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         const Text(
-          'ગુજરાત રાજયગોર જ્ઞાતિ દ્વારા બનાવાયેલ RAJYAPUROHIJAMNAGAR.IN એક ડિજિટલ સામાજિક પ્લેટફોર્મ છે. \nઅહીં સભ્યના બિઝનેસ, મે્ટ્રિમોની, હેલ્થ અને એજ્યુકેશન જેવી સેવાઓ ઉપલબ્ધ કરવાનુ આયોજન છે.',
+          'ગુજરાત રાજયગોર જ્ઞાતિ દ્વારા બનાવાયેલ RAJYAPUROHIJAMNAGAR.IN એક ડિજિટલ સામાજિક પ્લેટફોર્મ છે. \nઅહીં સભ્યના બિઝનેસ, મેટ્રિમોનિયલ, હેલ્થ અને એજ્યુકેશન જેવી સેવાઓ ઉપલબ્ધ કરવાનુ આયોજન છે.',
           textAlign: TextAlign.justify,
           style: TextStyle(
             fontSize: 14,
@@ -202,7 +204,7 @@ class CustomFooter extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'ગુજરાત રાજયગોર જ્ઞાતિ',
+            'જામનગર રાજગોર (રાજ્યપુરોહિત) બ્રાહ્મણ જ્ઞાતિ',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -238,6 +240,43 @@ class CustomFooter extends StatelessWidget {
                 color: AppColors.primary,
                 height: 1.4,
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 👥 વિઝિટર કાઉન્ટ કાર્ડ ડિઝાઇન
+  Widget _buildVisitorCounterCard() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.05),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.white10, width: 1),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.remove_red_eye_rounded, color: AppColors.accent, size: 20),
+          const SizedBox(width: 10),
+          const Text(
+            'No.of Visitors: ',
+            style: TextStyle(
+              fontSize: 14,
+              color: AppColors.footerText,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          // અહી તમે ડાયનેમિક કાઉન્ટ વેરીએબલ અથવા ફિક્સ નંબર મૂકી શકો છો
+          Text(
+            '૮૦', // જો API કે કંટ્રોલરમાંથી ડેટા આવતો હોય તો ત્યાંથી બાઈન્ડ કરી દેજો
+            style: TextStyle(
+              fontSize: 16,
+              color: AppColors.accent,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],

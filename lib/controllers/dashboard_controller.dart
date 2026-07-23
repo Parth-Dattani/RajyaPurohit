@@ -124,7 +124,7 @@ class DashboardController extends GetxController {
                     ],
                   ),
                   pw.SizedBox(height: 10),
-                  pw.Text("RajyaPurohit (RajyaGor) Cast",
+                  pw.Text("RajyaGor (RajyaPurohit) Cast",
                       textDirection: pw.TextDirection.rtl,
                       style: pw.TextStyle(font: ttf, fontSize: 16, fontWeight: pw.FontWeight.bold)),
                   pw.SizedBox(height: 15),
@@ -133,7 +133,7 @@ class DashboardController extends GetxController {
                   pw.Container(
                     padding: const pw.EdgeInsets.symmetric(vertical: 8, horizontal: 15),
                     decoration: pw.BoxDecoration(color: PdfColor.fromHex("#800020"), borderRadius: pw.BorderRadius.circular(5)),
-                    child: pw.Text("RGB-00${member['id'] ?? ''}", style: pw.TextStyle(color: PdfColors.white, fontSize: 14)),
+                    child: pw.Text("RBG-00${member['id'] ?? ''}", style: pw.TextStyle(color: PdfColors.white, fontSize: 14)),
                   ),
                   pw.SizedBox(height: 20),
 

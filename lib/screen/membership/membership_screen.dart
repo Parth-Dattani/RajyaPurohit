@@ -94,7 +94,7 @@ class MembershipScreen extends GetView<MembershipController> {
                   height: 1.2,
                 ),
               children: const [
-                TextSpan(text: 'સમસ્ત રાજ્યપુરોહિત (રાજગોર)\n', style: TextStyle(color: AppColors.heading)), // ✅ અપડેટેડ
+                TextSpan(text: 'સમસ્ત રાજગોર (રાજ્યપુરોહિત)\n', style: TextStyle(color: AppColors.heading)), // ✅ અપડેટેડ
                 TextSpan(text: 'બ્રાહ્મણ જ્ઞાતિ', style: TextStyle(color: AppColors.accent)), // ✅ અપડેટેડ
               ],
             ),

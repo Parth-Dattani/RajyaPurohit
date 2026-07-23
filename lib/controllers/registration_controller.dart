@@ -21,6 +21,8 @@ class RegistrationController extends GetxController {
   // ➔ ⚡ ✅ પાસવર્ડ શો/હાઇડ કરવા માટેના નવા રીએક્ટિવ સ્ટેટ્સ ભાઈ
   var isPasswordHidden = true.obs;
   var isConfirmPasswordHidden = true.obs;
+  // ➔ ⚡ અહીં આ લાઈન ઉમેરી દો ભાઈ:
+  var isIndiaTab = true.obs;
 
   // ==========================================
   // 📝 UNIQUE TEXT EDITING CONTROLLERS
@@ -480,38 +482,68 @@ class RegistrationController extends GetxController {
       // ➔ ડેટા મેપિંગ લોજિક - ફેમિલી મેમ્બર્સ માટે
       List<Map<String, dynamic>> mappedMembers = [];
 
+      // for (var member in familyMembers) {
+      //   mappedMembers.add({
+      //     "name": member['nameController'].text.trim(),
+      //     "relation": member['relation'],
+      //     "gender": "Male",
+      //
+      //     "birth_date":
+      //     "${member['yearController'].text.trim()}-${member['monthController'].text.trim()}-${member['dayController'].text.trim()}",
+      //
+      //     "phone_number": null,
+      //     "whatsapp_number": member['phoneController'].text.trim(),
+      //     "blood_group": member['bloodGroupController'].text.trim(),
+      //     "education": member['education'],
+      //     "marital_status": isMarriedRelation(member['relation']) ? 'Married' : member['maritalStatus'],
+      //
+      //     "occupation": member['occupation'],
+      //
+      //     "organization_name":
+      //     member['organizationNameController'].text.trim(),
+      //
+      //     "maternal_father_name":
+      //     member['maternalFatherController'].text.trim(),
+      //
+      //     "maternal_mother_name":
+      //     member['maternalMotherController'].text.trim(),
+      //
+      //     "maternal_village":
+      //     member['maternalVillageController'].text.trim(),
+      //     "is_family_head": 0,
+      //   });
+      // }
       for (var member in familyMembers) {
         mappedMembers.add({
-          "name": member['nameController'].text.trim(),
-          "relation": member['relation'],
+          "name": member['nameController']?.text?.trim() ?? '',
+          "relation": member['relation'] ?? 'પસંદ કરો',
           "gender": "Male",
 
           "birth_date":
-          "${member['yearController'].text.trim()}-${member['monthController'].text.trim()}-${member['dayController'].text.trim()}",
+          "${member['yearController']?.text?.trim() ?? ''}-${member['monthController']?.text?.trim() ?? ''}-${member['dayController']?.text?.trim() ?? ''}",
 
           "phone_number": null,
-          "whatsapp_number": member['phoneController'].text.trim(),
-          "blood_group": member['bloodGroupController'].text.trim(),
-          "education": member['education'],
-          "marital_status": isMarriedRelation(member['relation']) ? 'Married' : member['maritalStatus'],
+          "whatsapp_number": member['phoneController']?.text?.trim() ?? '',
+          "blood_group": member['bloodGroupController']?.text?.trim() ?? '',
+          "education": member['education'] ?? 'Select Option',
+          "marital_status": isMarriedRelation(member['relation'] ?? '') ? 'Married' : (member['maritalStatus'] ?? 'Single'),
 
-          "occupation": member['occupation'],
+          "occupation": member['occupation'] ?? 'Select Option',
 
           "organization_name":
-          member['organizationNameController'].text.trim(),
+          member['organizationNameController']?.text?.trim() ?? '',
 
           "maternal_father_name":
-          member['maternalFatherController'].text.trim(),
+          member['maternalFatherController']?.text?.trim() ?? '',
 
           "maternal_mother_name":
-          member['maternalMotherController'].text.trim(),
+          member['maternalMotherController']?.text?.trim() ?? '',
 
           "maternal_village":
-          member['maternalVillageController'].text.trim(),
+          member['maternalVillageController']?.text?.trim() ?? '',
           "is_family_head": 0,
         });
       }
-
       // ➔ ફાઈનલ પેલોડ
       final Map<String, dynamic> payload = {
         "user_data": {

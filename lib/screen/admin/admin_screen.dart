@@ -10,11 +10,6 @@ class AdminScreen extends GetView<AdminController> {
 
   // ===========================================================================
   // 🔧 FIX: robust boolean parser.
-  // Some PHP/PDO setups return TINYINT(1) columns as JSON `true`/`false`
-  // instead of "1"/"0" strings — `.toString() == '1'` silently fails in
-  // that case (always false), which is why the switch stayed OFF even
-  // though the database value was correctly updated to 1.
-  // This helper handles bool, int, double, and string ("1", "true", etc).
   // ===========================================================================
   bool _isTrue(dynamic value) {
     if (value == null) return false;
@@ -52,9 +47,12 @@ class AdminScreen extends GetView<AdminController> {
           return _buildEmptyState();
         }
 
-        final verifiedCount =
-            controller.userList.where((u) => _isTrue(u['is_verified'])).length;
+        // ➔ ⚡ કુલ પરિવારો અને વેરિફાઈડની ગણતરી
         final total = controller.userList.length;
+        final verifiedCount = controller.userList.where((u) => _isTrue(u['is_verified'])).length;
+
+        // ➔ ⚡ લિસ્ટમાં માત્ર વેરિફિકેશન બાકી હોય તેવા જ પરિવારો બતાવવા માટેનું ફિલ્ટર
+        final pendingList = controller.userList.where((u) => !_isTrue(u['is_verified'])).toList();
 
         return RefreshIndicator(
           color: Colors.red.shade700,
@@ -64,7 +62,10 @@ class AdminScreen extends GetView<AdminController> {
             children: [
               _buildStatsRow(total: total, verified: verifiedCount),
               const SizedBox(height: 20),
-              ...controller.userList.map((user) => _buildUserCard(context, user)),
+              if (pendingList.isEmpty)
+                _buildEmptyState()
+              else
+                ...pendingList.map((user) => _buildUserCard(context, user)),
             ],
           ),
         );
@@ -80,7 +81,7 @@ class AdminScreen extends GetView<AdminController> {
       children: [
         Expanded(
           child: _statCard(
-            label: "કુલ સભ્યો",
+            label: "કુલ પરિવારો",
             value: "$total",
             icon: Icons.groups_outlined,
             color: Colors.blue.shade600,
@@ -148,6 +149,10 @@ class AdminScreen extends GetView<AdminController> {
         : '?';
     final avatarColor = isAdmin ? Colors.orange : Colors.red;
 
+    // પરિવારના સભ્યોની સંખ્યા કાઉન્ટ કરો
+    final familyList = user['family_members'] as List? ?? [];
+    final familyCount = familyList.length;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
@@ -208,6 +213,13 @@ class AdminScreen extends GetView<AdminController> {
                             user['phone_number'] ?? 'N/A',
                             style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
                           ),
+                          const SizedBox(width: 12),
+                          Icon(Icons.family_restroom, size: 13, color: Colors.blue.shade600),
+                          const SizedBox(width: 4),
+                          Text(
+                            "સભ્યો: $familyCount",
+                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.blue.shade700),
+                          ),
                         ],
                       ),
                     ],
@@ -236,7 +248,7 @@ class AdminScreen extends GetView<AdminController> {
                   activeColor: Colors.green.shade600,
                   onChanged: (bool value) {
                     int newStatus = value ? 1 : 0;
-                    controller.verifyUser(int.parse(user['id'].toString()), newStatus);
+                    controller.verifyUser(user['id'].toString(), newStatus);
                   },
                 ),
               ],
@@ -256,6 +268,7 @@ class AdminScreen extends GetView<AdminController> {
     final initial = (user['first_name'] != null && user['first_name'].toString().isNotEmpty)
         ? user['first_name'].toString()[0].toUpperCase()
         : '?';
+    final familyList = user['family_members'] as List? ?? [];
 
     showDialog(
       context: context,
@@ -264,7 +277,7 @@ class AdminScreen extends GetView<AdminController> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 440),
+            constraints: const BoxConstraints(maxWidth: 500, maxHeight: 650),
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: SingleChildScrollView(
@@ -336,6 +349,49 @@ class AdminScreen extends GetView<AdminController> {
                         ],
                       ),
                     ),
+
+                    // ➔ ⚡ પરિવારના સભ્યોની યાદી ડાયલોગમાં બતાવવા માટે
+                    if (familyList.isNotEmpty) ...[
+                      const SizedBox(height: 20),
+                      const Text(
+                        "પરિવારના સભ્યોની વિગતો:",
+                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black87),
+                      ),
+                      const SizedBox(height: 10),
+                      ...familyList.map((member) => Container(
+                        margin: const EdgeInsets.only(bottom: 8),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.grey.shade200),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  member['name'] ?? 'નામ નથી',
+                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  "સંબંધ: ${member['relation'] ?? '-'}",
+                                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              member['birth_date'] ?? '',
+                              style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+                            ),
+                          ],
+                        ),
+                      )),
+                    ],
+
                     const SizedBox(height: 20),
                     if (!isVerified)
                       SizedBox(
@@ -353,7 +409,7 @@ class AdminScreen extends GetView<AdminController> {
                             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 15),
                           ),
                           onPressed: () {
-                            controller.verifyUser(int.parse(user['id'].toString()), 1);
+                            controller.verifyUser(user['id'].toString(), 1);
                             Navigator.pop(dialogContext);
                           },
                         ),

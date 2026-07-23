@@ -67,7 +67,7 @@ class SansthaScreen extends GetView<SansthaController> {
                       Icon(Icons.account_balance_outlined, size: 32, color: AppColors.textMaroon),
                       const SizedBox(width: 12),
                       const Text(
-                        'રાજ્યપુરોહિત (રાજગોર) બ્રાહ્મણ જ્ઞાતિ ના ઘટકો',
+                        'રાજગોર (રાજ્યપુરોહિત) બ્રાહ્મણ જ્ઞાતિ ના ઘટકો',
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,

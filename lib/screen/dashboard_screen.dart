@@ -196,21 +196,21 @@ class DashboardScreen extends GetView<DashboardController> {
                     fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF800020)),
               ),
               Text(
-                "સભ્ય નંબર: ${user['id'] != null ? 'RGB-00${user['id']}' : '-'}",
+                "સભ્ય નંબર: ${user['id'] != null ? 'RBG-00${user['id']}' : '-'}",
                 style: const TextStyle(color: Colors.grey, fontSize: 13),
               ),
             ],
           ),
-          OutlinedButton.icon(
-            onPressed: () {},
-            icon: const Icon(Icons.edit_outlined, size: 16, color: Color(0xFF800020)),
-            label: const Text("વિગતો સુધારો",
-                style: TextStyle(color: Color(0xFF800020), fontSize: 13)),
-            style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: Color(0xFF800020)),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-            ),
-          ),
+          // OutlinedButton.icon(
+          //   onPressed: () {},
+          //   icon: const Icon(Icons.edit_outlined, size: 16, color: Color(0xFF800020)),
+          //   label: const Text("વિગતો સુધારો",
+          //       style: TextStyle(color: Color(0xFF800020), fontSize: 13)),
+          //   style: OutlinedButton.styleFrom(
+          //     side: const BorderSide(color: Color(0xFF800020)),
+          //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+          //   ),
+          // ),
         ],
       ),
     );
@@ -280,7 +280,7 @@ class DashboardScreen extends GetView<DashboardController> {
             ),
             child: Text(
               // ➔ અહીં આપણે user['id'] નો ઉપયોગ કરીને સભ્ય નંબર બનાવીએ છીએ
-              "RGB-00${user['id'] ?? ''}",
+              "RBG-00${user['id'] ?? ''}",
               style: const TextStyle(
                   color: Color(0xFF800020),
                   fontSize: 12,
@@ -290,18 +290,18 @@ class DashboardScreen extends GetView<DashboardController> {
           ),
           const SizedBox(height: 16),
 
-          // Download button
-          ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFF4500),
-              minimumSize: const Size(double.infinity, 44),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            ),
-            onPressed: () => controller.generateMemberPdf(user, true),
-            icon: const Icon(Icons.download, color: Colors.white, size: 18),
-            label: const Text("કાર્ડ ડાઉનલોડ કરો",
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          ),
+          /// tem Download button
+          // ElevatedButton.icon(
+          //   style: ElevatedButton.styleFrom(
+          //     backgroundColor: const Color(0xFFFF4500),
+          //     minimumSize: const Size(double.infinity, 44),
+          //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          //   ),
+          //   onPressed: () => controller.generateMemberPdf(user, true),
+          //   icon: const Icon(Icons.download, color: Colors.white, size: 18),
+          //   label: const Text("કાર્ડ ડાઉનલોડ કરો",
+          //       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          // ),
         ],
       ),
     );
@@ -347,7 +347,7 @@ class DashboardScreen extends GetView<DashboardController> {
     final relation = member['relation'] ?? member['relation_with_head'] ?? '-';
     final dob = member['birth_date'] ?? '-';
     final phone = member['whatsapp_number'] ?? '-';
-    final memberId = member['id'] != null ? 'RGB-00${member['id']}-A' : '-';
+    final memberId = member['id'] != null ? 'RBG-00${member['id']}-A' : '-';
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -383,29 +383,29 @@ class DashboardScreen extends GetView<DashboardController> {
           Text("જન્મ તારીખ: $dob  |  મોબાઈલ: $phone",
               style: const TextStyle(color: Colors.grey, fontSize: 12)),
           const SizedBox(height: 4),
-          Text("સભ્ય નંબર: RGB-00${member['id'] ?? ''}",
+          Text("સભ્ય નંબર: RBG-00${member['id'] ?? ''}",
               style: const TextStyle(color: Color(0xFF800020), fontSize: 11)),
           const SizedBox(height: 8),
 
-          // Avatar + download
-          Row(
-            children: [
-
-              Expanded(
-                child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFF4500),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                  ),
-                  onPressed: () => controller.generateMemberPdf(member, false),
-                  icon: const Icon(Icons.download, color: Colors.white, size: 16),
-                  label: const Text("કાર્ડ ડાઉનલોડ કરો",
-                      style: TextStyle(color: Colors.white, fontSize: 12)),
-                ),
-              ),
-            ],
-          ),
+          /// Avatar + download
+          // Row(
+          //   children: [
+          //
+          //     Expanded(
+          //       child: ElevatedButton.icon(
+          //         style: ElevatedButton.styleFrom(
+          //           backgroundColor: const Color(0xFFFF4500),
+          //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+          //           padding: const EdgeInsets.symmetric(vertical: 10),
+          //         ),
+          //         onPressed: () => controller.generateMemberPdf(member, false),
+          //         icon: const Icon(Icons.download, color: Colors.white, size: 16),
+          //         label: const Text("કાર્ડ ડાઉનલોડ કરો",
+          //             style: TextStyle(color: Colors.white, fontSize: 12)),
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );

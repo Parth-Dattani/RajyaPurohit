@@ -179,23 +179,23 @@ class MissionScreen extends GetView<MissionController> {
     final gridItems = [
       _buildMissionCard(
         isWeb: isWeb,
-        imagePath: 'assets/images/earth.png',
+        imagePath: 'assets/images/goal_2.jpeg',
         placeholderIcon: Icons.handshake_outlined,
         title: 'સમાજની એકતા - Community Unity',
         description: 'રાજયગોર જ્ઞાતિના દરેક સભ્યોને એક મંચ પર લાવવાનો ઉદ્દેશ છે - Fostering unity, mutual support, and a shared identity among all RajyaGor Families across Gujarat.',
       ),
       _buildMissionCard(
         isWeb: isWeb,
-        imagePath: 'assets/images/earth.png',
+        imagePath: 'assets/images/goal_1.jpeg',
         placeholderIcon: Icons.public,
         title: 'શિક્ષણ અને સહાય - Education & Empowerment',
         description: 'જ્ઞાતિના યુવાનોને ઉચ્ચ શિક્ષણ, માર્ગદર્શન અને રોજગારીના અવસર ઉપલબ્ધ કરાવવાના પ્રયત્નો - empowering our new generation through learning and career support.',
       ),
       _buildMissionCard(
         isWeb: isWeb,
-        imagePath: 'assets/images/earth.png',
+        imagePath: 'assets/images/goal_3.jpeg',
         placeholderIcon: Icons.groups_outlined,
-        title: 'સામાજIC સેવા - Social & Cultural Growth',
+        title: 'સામાજિક સેવા - Social & Cultural Growth',
         description: 'આરોગ્ય, માનવ સેવા અને સાંસ્કૃતિક કાર્યક્રમો દ્વારા જ્ઞાતિનો સર્વાંગી વિકાસ - promoting compassion, service, and cultural pride in every initiative.',
       ),
     ];
@@ -277,15 +277,26 @@ class MissionScreen extends GetView<MissionController> {
           children: [
             AspectRatio(
               aspectRatio: 16 / 11,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-                child: Image.asset(
-                  imagePath,
-                  fit: BoxFit.cover,
-                  errorBuilder: (c, e, s) => Container(
-                    color: AppColors.cardBorder.withOpacity(0.5),
-                    alignment: Alignment.center,
-                    child: Icon(placeholderIcon, size: 45, color: AppColors.subtitle),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.cardBorder.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0), // ➔ ⚡ પેડિંગ સંતુલિત કર્યું
+                    child: Image.asset(
+                      imagePath,
+                      fit: BoxFit.contain, // આખું આઇકન અંદર પરફેક્ટ દેખાશે
+                      width: double.infinity,
+                      height: double.infinity,
+                      alignment: Alignment.center,
+                      errorBuilder: (c, e, s) => Container(
+                        alignment: Alignment.center,
+                        child: Icon(placeholderIcon, size: 45, color: AppColors.subtitle),
+                      ),
+                    ),
                   ),
                 ),
               ),
