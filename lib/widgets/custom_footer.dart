@@ -17,6 +17,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:html' as html; // 👈 Required import to fix the red error line
 import '../../constant/const.dart';
+import '../controllers/controller.dart';
 
 class CustomFooter extends StatelessWidget {
   const CustomFooter({super.key});
@@ -248,7 +249,10 @@ class CustomFooter extends StatelessWidget {
   }
 
   // 👥 વિઝિટર કાઉન્ટ કાર્ડ ડિઝાઇન
+  // 👥 લાઈવ વિઝિટર કાઉન્ટ કાર્ડ ડિઝાઇન
   Widget _buildVisitorCounterCard() {
+    final controller = Get.isRegistered<HomeController>() ? Get.find<HomeController>() : null;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       decoration: BoxDecoration(
@@ -270,15 +274,15 @@ class CustomFooter extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          // અહી તમે ડાયનેમિક કાઉન્ટ વેરીએબલ અથવા ફિક્સ નંબર મૂકી શકો છો
-          Text(
-            '૮૦', // જો API કે કંટ્રોલરમાંથી ડેટા આવતો હોય તો ત્યાંથી બાઈન્ડ કરી દેજો
-            style: TextStyle(
+          // ➔ ⚡ ડેટાબેઝમાંથી આવતો લાઈવ આંકડો અહીં ઓટોમેટિક દેખાશે
+          Obx(() => Text(
+            controller != null ? '${controller.visitorCount.value}' : '૧',
+            style: const TextStyle(
               fontSize: 16,
               color: AppColors.accent,
               fontWeight: FontWeight.bold,
             ),
-          ),
+          )),
         ],
       ),
     );
